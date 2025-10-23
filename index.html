@@ -38,3 +38,185 @@
   <footer>© 2025 StayProud. Todos los derechos reservados.</footer>
 </body>
 </html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StayProud — Oficial</title>
+  <meta name="description" content="StayProud: tu espacio libre, creativo y auténtico.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1115;          /* color fondo principal */
+      --panel:#151926;       /* tarjetas / navbar */
+      --txt:#e9edf1;         /* texto principal */
+      --muted:#9aa4b2;       /* texto secundario */
+      --brand:#00e18f;       /* color StayProud 💚 */
+      --brand-2:#5be0ff;     /* color acento */
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#0d0f14 0%,#0f1115 100%);color:var(--txt);font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
+    /* NAV */
+    header{position:sticky;top:0;z-index:10;background:rgba(15,17,21,.7);backdrop-filter:blur(8px);border-bottom:1px solid #222}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.3px}
+    .logo-badge{width:36px;height:36px;border-radius:50%;background:radial-gradient(60% 60% at 30% 30%, #fff 0%, #b7ffe0 40%, var(--brand) 100%);box-shadow:0 0 0 3px rgba(0,225,143,.2)}
+    .menu{display:flex;gap:18px}
+    .menu a{color:var(--muted);font-weight:500}
+    .menu a:hover{color:#fff}
+    .cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#06171a;padding:10px 16px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+    /* HERO */
+    .hero{padding:64px 0 32px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
+    .tag{display:inline-block;background:rgba(0,225,143,.12);border:1px solid rgba(0,225,143,.35);color:var(--brand);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+    h1{font-size:46px;line-height:1.05;margin:14px 0 10px}
+    .lead{color:var(--muted);font-size:18px}
+    .hero-card{background:linear-gradient(180deg,#141a26 0%,#0f131d 100%);border:1px solid #212532;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .stat{background:var(--panel);border:1px solid #22283a;border-radius:12px;padding:14px;text-align:center}
+    .stat b{font-size:22px;color:#fff}
+    /* SECTIONS */
+    section{padding:48px 0;border-top:1px solid #1a1f2b}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--panel);border:1px solid #202638;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 6px;font-size:20px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;border:1px dashed rgba(91,224,255,.55);color:var(--brand-2);padding:6px 12px;border-radius:999px;font-size:13px}
+    /* CONTACTO */
+    .contact{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    input,textarea{width:100%;background:#0f131d;border:1px solid #2a3145;border-radius:12px;padding:12px 14px;color:#e9edf1;font:inherit}
+    textarea{min-height:120px;resize:vertical}
+    .btn{background:var(--brand);color:#053326;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    /* FOOTER */
+    footer{padding:26px 0;border-top:1px solid #1a1f2b;color:var(--muted);font-size:14px}
+    .foot{display:flex;gap:10px;justify-content:space-between;align-items:center}
+    .social{display:flex;gap:12px}
+    .social a{opacity:.85}
+    .social a:hover{opacity:1}
+    /* RESPONSIVE */
+    @media (max-width:900px){
+      .hero-grid, .grid-3, .contact{grid-template-columns:1fr}
+      h1{font-size:34px}
+      .menu{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header>
+    <div class="container nav">
+      <div class="logo"><span class="logo-badge"></span> StayProud</div>
+      <nav class="menu">
+        <a href="#servicios">Servicios</a>
+        <a href="#sobre">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="cta" href="#contacto">Empezar</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="container hero">
+    <div class="hero-grid">
+      <div>
+        <span class="tag">Bienvenido a StayProud 💚</span>
+        <h1>Construimos experiencias auténticas y creativas</h1>
+        <p class="lead">Tu espacio para expresar, conectar y crecer con estilo propio. Sitios web, contenidos y activaciones con corazón.</p>
+        <p style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+          <a class="cta" href="#contacto">Solicitar propuesta</a>
+          <a class="pill" href="https://wa.me/593000000000" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        </p>
+        <div class="stats">
+          <div class="stat"><b>+25</b><div class="muted">Proyectos</div></div>
+          <div class="stat"><b>5★</b><div class="muted">Valoraciones</div></div>
+          <div class="stat"><b>24/7</b><div class="muted">Soporte</div></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img alt="Preview" src="https://images.unsplash.com/photo-1529336953121-a0ce98f2f4b5?q=80&w=1200&auto=format&fit=crop" style="border-radius:12px;">
+        <p class="muted" style="margin:10px 4px 0">Una vibra limpia, moderna y segura para tu marca.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="container">
+      <h2 style="margin:0 0 14px">Servicios</h2>
+      <p class="muted" style="margin:0 0 22px">Soluciones simples que funcionan.</p>
+      <div class="grid-3">
+        <article class="card">
+          <h3>Web & Landing</h3>
+          <p class="muted">Páginas rápidas, seguras y con diseño premium. Listas para vender o captar clientes.</p>
+        </article>
+        <article class="card">
+          <h3>Branding</h3>
+          <p class="muted">Identidad visual, logos, paleta y tono de voz para tu esencia StayProud.</p>
+        </article>
+        <article class="card">
+          <h3>Contenido</h3>
+          <p class="muted">Piezas para redes, fotos y microvideos verticales con enfoque auténtico.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="container">
+      <h2 style="margin:0 0 14px">Sobre nosotros</h2>
+      <div class="card">
+        <p class="muted">Somos un equipo pequeño con una gran misión: ayudarte a brillar sin perder tu esencia. Trabajamos cercano, claro y con resultados medibles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <h2 style="margin:0 0 14px">Contacto</h2>
+      <div class="contact">
+        <form class="card" action="https://formsubmit.co/YOUR_EMAIL" method="POST">
+          <!-- Reemplaza YOUR_EMAIL por tu correo -->
+          <input type="hidden" name="_captcha" value="false">
+          <label>Nombre<br><input name="name" required></label><br><br>
+          <label>Email<br><input type="email" name="email" required></label><br><br>
+          <label>Mensaje<br><textarea name="message" required></textarea></label><br>
+          <button class="btn">Enviar mensaje</button>
+        </form>
+        <div class="card">
+          <h3>Hablemos</h3>
+          <p class="muted">Cuéntanos tu idea y te enviamos una propuesta en 24h.</p>
+          <p style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="cta" href="mailto:tu-correo@ejemplo.com">Escribir por correo</a>
+            <a class="pill" href="https://wa.me/593000000000" target="_blank">WhatsApp directo</a>
+          </p>
+          <p class="muted">Horarios: Lun–Vie 9:00–18:00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <span>© <span id="y"></span> StayProud. Todos los derechos reservados.</span>
+      <div class="social">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="TikTok">🎵</a>
+        <a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
