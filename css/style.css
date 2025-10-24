@@ -165,3 +165,31 @@ h1,h2,h3{margin:0 0 .6em}
 
   .brand img { height: 30px; }
 }
+/* Header: sombra y tamaño al hacer scroll */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: padding .25s ease, box-shadow .25s ease, background-color .25s ease;
+  box-shadow: none;
+}
+.site-header.scrolled {
+  padding: 8px 0;            /* más compacto al bajar */
+  box-shadow: 0 6px 24px rgba(0,0,0,.08);
+}
+
+/* Navegación: enlace activo */
+.main-nav a.active {
+  background: rgba(255,255,255,.18);
+  border-radius: 8px;
+}
+
+/* Que las secciones no queden ocultas bajo el header al navegar por anclas */
+section, header, main, footer {
+  scroll-margin-top: 96px;    /* ajusta si tu header es más alto */
+}
+
+/* (Opcional) Suaviza el scroll */
+html {
+  scroll-behavior: smooth;
+}
