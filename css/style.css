@@ -1,85 +1,124 @@
-<body>
-  <!-- NAVBAR -->
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="#inicio" class="brand">
-        <img src="img/logo.png" alt="StayProud" />
-        <span>StayProud</span>
-      </a>
+/* ====== Base ====== */
+:root{
+  --bg:#0b0c10;           /* fondo general muy oscuro */
+  --panel:#0fb9b1;        /* turquesa del panel */
+  --text:#ffffff;
+  --muted:#cfd8dc;
+  --brand:#00d1b2;
+}
 
-      <nav class="main-nav">
-        <a href="#inicio">Inicio</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#mision-vision">Misión y Visión</a>
-        <a href="#contacto">Contáctanos</a>
-      </nav>
-    </div>
-  </header>
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #111, #333);
+  color: var(--text);
+  line-height:1.5;
+}
 
-  <!-- HÉROE (la portada como la imagen) -->
-  <section id="inicio" class="hero">
-    <div class="container hero-grid">
-      <div class="hero-left">
-        <!-- LOGO grande -->
-        <img src="img/logo.png" alt="StayProud Logo grande" class="hero-logo" />
-      </div>
+/* ====== Helpers ====== */
+.container{
+  width:min(1100px, 92%);
+  margin:0 auto;
+}
 
-      <div class="hero-right">
-        <h2>VIVE TU ORGULLO EN CADA DESTINO</h2>
-        <p>
-          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.  
-          Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
-        </p>
-        <a class="btn" href="#servicios">EXPLORAR ALOJAMIENTOS</a>
-      </div>
-    </div>
-  </section>
+/* ====== Navbar ====== */
+.site-header{
+  position:sticky; top:0; z-index:100;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.nav-wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 0;
+}
+.brand{
+  display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
+  font-weight:700; letter-spacing:.5px;
+}
+.brand img{ width:34px; height:34px; object-fit:contain; }
+.main-nav{ display:flex; gap:18px; flex-wrap:wrap; }
+.main-nav a{
+  color:var(--text); text-decoration:none; font-weight:600; opacity:.9;
+  padding:8px 10px; border-radius:8px;
+}
+.main-nav a:hover{ background:rgba(255,255,255,.08); }
 
-  <!-- Secciones “placeholder” para que los enlaces del menú funcionen -->
-  <section id="servicios" class="section">
-    <div class="container">
-      <h3>Servicios</h3>
-      <p>(Contenido provisional)</p>
-    </div>
-  </section>
+/* ====== Hero (logo izquierda, panel turquesa derecha) ====== */
+.hero{ padding:48px 0 64px; }
+.hero-grid{
+  display:grid; gap:28px;
+  grid-template-columns: 1.2fr 1fr; /* logo más ancho */
+  align-items:center;
+}
+.hero-left{
+  display:flex; align-items:center; justify-content:center;
+  min-height:360px;
+}
+.hero-logo{
+  width:100%;
+  max-width:540px; /* controla tamaño del logo grande */
+  height:auto;
+  display:block;
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
+}
+.hero-right{
+  background: var(--panel);
+  color:#073b3a;
+  border-radius:16px;
+  padding:28px;
+  box-shadow: 0 10px 30px rgba(15,185,177,.35);
+}
+.hero-right h2{
+  margin:0 0 12px 0;
+  font-size: clamp(26px, 3.2vw, 34px);
+  letter-spacing:.6px;
+}
+.hero-right p{
+  color:#e9fffd;
+  margin:0 0 18px 0;
+}
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  background:#f5f7f7;
+  color:#0a3d3c;
+  font-weight:700;
+  padding:10px 16px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,.08);
+}
+.btn:hover{ filter:brightness(.95); }
 
-  <section id="nosotros" class="section alt">
-    <div class="container">
-      <h3>Nosotros</h3>
-      <p>(Contenido provisional)</p>
-    </div>
-  </section>
+/* ====== Secciones ====== */
+.section{ padding:60px 0; }
+.section.alt{ background: rgba(255,255,255,.04); }
+.section h3{ margin:0 0 10px 0; font-size:26px; }
+.section p{ color:var(--muted); }
 
-  <section id="mision-vision" class="section">
-    <div class="container">
-      <h3>Misión y Visión</h3>
-      <div class="grid-2">
-        <div>
-          <h4>Misión</h4>
-          <p>(Texto provisional)</p>
-        </div>
-        <div>
-          <h4>Visión</h4>
-          <p>(Texto provisional)</p>
-        </div>
-      </div>
-    </div>
-  </section>
+.grid-2{
+  display:grid; gap:22px; grid-template-columns:1fr 1fr;
+}
 
-  <section id="contacto" class="section alt">
-    <div class="container">
-      <h3>Contáctanos</h3>
-      <p>(Contenido provisional)</p>
-    </div>
-  </section>
+/* ====== Footer ====== */
+.site-footer{
+  margin-top:40px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.45);
+}
+.site-footer .container{ padding:16px 0; color:var(--muted); }
 
-  <footer class="site-footer">
-    <div class="container">
-      <span id="year"></span> StayProud. Todos los derechos reservados.
-      <script>
-        document.getElementById('year').textContent = © ${new Date().getFullYear()};
-      </script>
-    </div>
-  </footer>
-</body>
+/* ====== Responsive ====== */
+@media (max-width: 980px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .hero-left{ min-height:unset; }
+  .hero-right{ order:2; }
+  .hero-left{ order:1; }
+  .grid-2{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 620px){
+  .main-nav{ gap:10px; }
+  .brand span{ display:none; } /* deja solo el logo si hay poco ancho */
+}
