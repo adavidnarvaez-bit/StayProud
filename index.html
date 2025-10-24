@@ -118,3 +118,25 @@
   </script>
 </body>
 </html>
+/* ======== Corregir color del menú hamburguesa ======== */
+@media (max-width: 768px) {
+  .site-header,
+  .main-nav,
+  .main-nav ul,
+  .main-nav.active {
+    background-color: #00bfa6 !important; /* el verde turquesa */
+    color: #ffffff !important; /* texto blanco */
+  }
+
+  .main-nav a {
+    color: #ffffff !important; /* asegura que los enlaces se vean bien */
+  }
+
+  .main-nav a:hover {
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  .toggle-menu span {
+    background-color: #ffffff !important; /* líneas blancas del ícono hamburguesa */
+  }
+}
