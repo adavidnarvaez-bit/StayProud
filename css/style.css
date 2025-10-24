@@ -173,7 +173,7 @@ h1,h2,h3{margin:0 0 .6em}
   .main-nav,
   .main-nav ul,
   .main-nav.open {
-    background-color: #00c4b3 !important; /* 💚 Verde turquesa StayProud exacto */
+    background-color: hsl(175, 100%, 38%) !important; /* 💚 Verde turquesa StayProud exacto */
     color: #ffffff !important;
   }
 
