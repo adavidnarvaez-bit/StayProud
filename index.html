@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StayProud</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
 </head>
-
 <body>
+
   <!-- NAVBAR -->
-  <header class="site-header">
+  <header class="site-header" id="inicio">
     <div class="container nav-wrap">
       <a href="#inicio" class="brand">
-        <img src="img/logo.png.jpg" alt="StayProud" />
+        <img src="img/logo.png.jpg" alt="StayProud logo" />
         <span>StayProud</span>
       </a>
 
-      <nav class="main-nav">
+      <nav class="main-nav" aria-label="Principal">
         <a href="#inicio">Inicio</a>
         <a href="#servicios">Servicios</a>
         <a href="#nosotros">Nosotros</a>
@@ -26,50 +27,49 @@
     </div>
   </header>
 
-  <!-- HÉROE (la portada como la imagen) -->
-  <section id="inicio" class="hero">
+  <!-- HERO -->
+  <section class="hero">
     <div class="container hero-grid">
       <div class="hero-left">
-        <!-- LOGO grande -->
-        <img src="img/logo.png.jpg" alt="StayProud Logo grande" class="hero-logo" />
+        <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
       </div>
 
       <div class="hero-right">
-        <h2>VIVE TU ORGULLO EN CADA DESTINO</h2>
+        <h1>Vive tu orgullo en<br />cada destino</h1>
         <p>
-          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.  
+          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.
           Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
         </p>
-        <a class="btn" href="#servicios">EXPLORAR ALOJAMIENTOS</a>
+        <a class="btn" href="#servicios">Explorar alojamientos</a>
       </div>
     </div>
   </section>
 
-  <!-- Secciones “placeholder” para que los enlaces del menú funcionen -->
+  <!-- SECCIONES -->
   <section id="servicios" class="section">
     <div class="container">
-      <h3>Servicios</h3>
+      <h2>Servicios</h2>
       <p>(Contenido provisional)</p>
     </div>
   </section>
 
   <section id="nosotros" class="section alt">
     <div class="container">
-      <h3>Nosotros</h3>
+      <h2>Nosotros</h2>
       <p>(Contenido provisional)</p>
     </div>
   </section>
 
   <section id="mision-vision" class="section">
     <div class="container">
-      <h3>Misión y Visión</h3>
+      <h2>Misión y Visión</h2>
       <div class="grid-2">
         <div>
-          <h4>Misión</h4>
+          <h3>Misión</h3>
           <p>(Texto provisional)</p>
         </div>
         <div>
-          <h4>Visión</h4>
+          <h3>Visión</h3>
           <p>(Texto provisional)</p>
         </div>
       </div>
@@ -78,17 +78,20 @@
 
   <section id="contacto" class="section alt">
     <div class="container">
-      <h3>Contáctanos</h3>
+      <h2>Contáctanos</h2>
       <p>(Contenido provisional)</p>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
-      <span id="year"></span> StayProud. Todos los derechos reservados.
-      <script>
-        document.getElementById('year').textContent = © ${new Date().getFullYear()};
-      </script>
+      <p><span id="year"></span> StayProud. Todos los derechos reservados.</p>
     </div>
   </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
+</html>
