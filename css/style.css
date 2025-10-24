@@ -1,83 +1,85 @@
-/* RESET GENERAL */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#inicio" class="brand">
+        <img src="img/logo.png" alt="StayProud" />
+        <span>StayProud</span>
+      </a>
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+      <nav class="main-nav">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#mision-vision">Misión y Visión</a>
+        <a href="#contacto">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
 
-/* SECCIÓN PRINCIPAL */
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: white;
-  width: 90%;
-  max-width: 1100px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
+  <!-- HÉROE (la portada como la imagen) -->
+  <section id="inicio" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <!-- LOGO grande -->
+        <img src="img/logo.png" alt="StayProud Logo grande" class="hero-logo" />
+      </div>
 
-/* LADO IZQUIERDO - LOGO */
-.hero-left {
-  flex: 1;
-  background-color: #ffffff;
-  text-align: center;
-  padding: 40px;
-}
+      <div class="hero-right">
+        <h2>VIVE TU ORGULLO EN CADA DESTINO</h2>
+        <p>
+          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.  
+          Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
+        </p>
+        <a class="btn" href="#servicios">EXPLORAR ALOJAMIENTOS</a>
+      </div>
+    </div>
+  </section>
 
-.hero-left .logo {
-  width: 200px;
-  margin-bottom: 20px;
-}
+  <!-- Secciones “placeholder” para que los enlaces del menú funcionen -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <h3>Servicios</h3>
+      <p>(Contenido provisional)</p>
+    </div>
+  </section>
 
-.hero-left h1 {
-  color: #009688;
-  font-size: 2.5rem;
-  font-weight: bold;
-}
+  <section id="nosotros" class="section alt">
+    <div class="container">
+      <h3>Nosotros</h3>
+      <p>(Contenido provisional)</p>
+    </div>
+  </section>
 
-/* LADO DERECHO - TEXTO */
-.hero-right {
-  flex: 1;
-  background-color: #00bfa5;
-  color: white;
-  padding: 60px 40px;
-}
+  <section id="mision-vision" class="section">
+    <div class="container">
+      <h3>Misión y Visión</h3>
+      <div class="grid-2">
+        <div>
+          <h4>Misión</h4>
+          <p>(Texto provisional)</p>
+        </div>
+        <div>
+          <h4>Visión</h4>
+          <p>(Texto provisional)</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-.hero-right h2 {
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
+  <section id="contacto" class="section alt">
+    <div class="container">
+      <h3>Contáctanos</h3>
+      <p>(Contenido provisional)</p>
+    </div>
+  </section>
 
-.hero-right p {
-  line-height: 1.7;
-  font-size: 1rem;
-  margin-bottom: 30px;
-}
-
-.btn {
-  display: inline-block;
-  background: white;
-  color: #00bfa5;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: #009688;
-  color: white;
-}
+  <footer class="site-footer">
+    <div class="container">
+      <span id="year"></span> StayProud. Todos los derechos reservados.
+      <script>
+        document.getElementById('year').textContent = © ${new Date().getFullYear()};
+      </script>
+    </div>
+  </footer>
+</body>
