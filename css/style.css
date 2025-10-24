@@ -167,3 +167,25 @@ h1,h2,h3{margin:0 0 .6em}
 
   .brand img { height: 30px; }
 }
+/* ======== Colores del menú móvil y encabezado StayProud ======== */
+@media (max-width: 768px) {
+  .site-header,
+  .main-nav,
+  .main-nav ul,
+  .main-nav.open {
+    background-color: #00c4b3 !important; /* 💚 Verde turquesa StayProud exacto */
+    color: #ffffff !important;
+  }
+
+  .main-nav a {
+    color: #ffffff !important;
+  }
+
+  .main-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .nav-toggle span {
+    background-color: #ffffff !important;
+  }
+}
