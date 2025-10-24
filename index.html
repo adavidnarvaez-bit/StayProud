@@ -8,49 +8,24 @@
   <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
 </head>
 <body>
-  <script>
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.getElementById('main-nav');
-
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    toggle.classList.toggle('active', open);
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-
-  // Cierra el menú al hacer clic en un enlace (móvil)
-  nav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      nav.classList.remove('open');
-      toggle.classList.remove('active');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-</script>
 
   <!-- NAVBAR -->
- <header class="site-header">
-  <div class="container nav-wrap">
-    <a href="#inicio" class="brand">
-      <img src="img/favicon.png" alt="StayProud" />
-      <span>StayProud</span>
-    </a>
+  <header class="site-header" id="inicio">
+    <div class="container nav-wrap">
+      <a href="#inicio" class="brand">
+        <img src="img/logo.png.jpg" alt="StayProud logo" />
+        <span>StayProud</span>
+      </a>
 
-    <!-- Botón hamburguesa -->
-    <button class="nav-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú">
-      <span></span><span></span><span></span>
-    </button>
-
-    <!-- Navegación -->
-    <nav id="main-nav" class="main-nav">
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#nosotros">Nosotros</a>
-      <a href="#mision-vision">Misión y Visión</a>
-      <a href="#contacto">Contáctanos</a>
-    </nav>
-  </div>
-</header>
+      <nav class="main-nav" aria-label="Principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#mision-vision">Misión y Visión</a>
+        <a href="#contacto">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- HERO -->
   <section class="hero">
