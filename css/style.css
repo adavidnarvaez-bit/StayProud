@@ -41,7 +41,7 @@ h1,h2,h3{margin:0 0 .6em}
 .brand img{height:34px; width:auto; border-radius:6px;}
 .main-nav{display:flex; gap:22px; font-weight:600;}
 .main-nav a{padding:8px 6px; border-radius:8px; transition:background .25s ease;}
-.main-nav a:hover{background: rgba(255,255,255,.18);}
+.main-nav a:hover{background: #009782;}
 .main-nav a:focus{outline:2px solid #fff; outline-offset:2px;}
 
 /* ====== HERO ====== */
@@ -77,7 +77,7 @@ h1,h2,h3{margin:0 0 .6em}
 .btn{
   display:inline-block;
   background:#fff;
-  color:#073b3a;
+  color:#009782
   padding:12px 16px;
   border-radius:12px;
   font-weight:700;
