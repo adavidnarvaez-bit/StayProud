@@ -7,6 +7,25 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
 </head>
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('main-nav');
+
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.classList.toggle('active', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Cierra el menú al hacer clic en un enlace (móvil)
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 <body>
 
   <!-- NAVBAR -->
