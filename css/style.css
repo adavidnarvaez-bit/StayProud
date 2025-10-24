@@ -113,4 +113,55 @@ h1,h2,h3{margin:0 0 .6em}
   .nav-wrap{flex-wrap:wrap; gap:10px}
   .main-nav{width:100%; justify-content:space-between; flex-wrap:wrap}
   .grid-2{grid-template-columns: 1fr;}
+}/* ====== NAV base ====== */
+.site-header { position: sticky; top: 0; z-index: 100; background: var(--brand, #00b1b2); }
+.site-header .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 700; }
+.brand img { height: 36px; width: auto; border-radius: 8px; }
+
+.main-nav { display: flex; align-items: center; gap: 24px; }
+.main-nav a { color: #fff; text-decoration: none; font-weight: 600; }
+.main-nav a:hover { text-decoration: underline; }
+
+/* Botón hamburguesa (oculto en escritorio) */
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  border: 0; background: transparent; cursor: pointer;
+  position: relative; border-radius: 8px;
+}
+.nav-toggle span {
+  position: absolute; left: 10px; right: 10px; height: 3px; background: #fff; border-radius: 2px;
+  transition: transform .25s ease, opacity .2s ease, top .25s ease;
+}
+.nav-toggle span:nth-child(1) { top: 13px; }
+.nav-toggle span:nth-child(2) { top: 21px; }
+.nav-toggle span:nth-child(3) { top: 29px; }
+
+/* Animación a “X” cuando está activo */
+.nav-toggle.active span:nth-child(1) { top: 21px; transform: rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Menú colapsable */
+  .main-nav {
+    position: absolute; left: 0; right: 0;
+    top: calc(var(--header-h, 72px)); /* alto aprox del header */
+    background: var(--brand, #00b1b2);
+    flex-direction: column; gap: 12px;
+    padding: 14px 18px;
+    max-height: 0; overflow: hidden;
+    opacity: 0; transform: translateY(-10px);
+    transition: max-height .3s ease, opacity .25s ease, transform .25s ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  }
+  .main-nav.open {
+    max-height: 60vh; opacity: 1; transform: translateY(0);
+  }
+
+  .brand img { height: 30px; }
 }
