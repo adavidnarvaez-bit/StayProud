@@ -161,9 +161,7 @@ h1,h2,h3{margin:0 0 .6em}
   }
   .main-nav.open {
     max-height: 60vh; opacity: 1; transform: translateY(0);
-  }
-
-  .brand img { height: 30px; }
+  }  .brand img { height: 30px; }
 }
 /* Header: sombra y tamaño al hacer scroll */
 .site-header {
