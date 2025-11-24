@@ -1,20 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayProud</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosotros | StayProud</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="site-header">
+  <header class="site-header">
     <div class="container nav-wrap">
-        <a href="index.html" class="brand">
-            <img src="img/logo.png.jpg" alt="StayProud logo" />
-            StayProud
-        </a>
-        
-        <nav class="main-nav">
+      <a href="index.html" class="brand">
+        <img src="img/logo.png.jpg" alt="StayProud" />
+        <span>StayProud</span>
+      </a>
+      <nav class="main-nav">
   <a href="index.html">Inicio</a>
   <a href="servicios.html">Servicios</a>
   <a href="nosotros.html">Nosotros</a>
@@ -22,27 +22,17 @@
   <a href="contacto.html">Contáctanos</a>
 </nav>
     </div>
-</header>
- <section class="section">
-        <div class="container">
-            <h1>Servicios</h1>
-            <p>
-                En StayProud ofrecemos una selección de alojamientos verificados y seguros  
-                para la comunidad LGTBI+. Nuestro objetivo es garantizar espacios  
-                donde cada viajero se sienta libre, respetado y auténtico.
-            </p>
+  </header>
 
-            <ul class="service-list">
-                <li>Alojamientos verificados</li>
-                <li>Reservas rápidas y seguras</li>
-                <li>Recomendaciones personalizadas</li>
-                <li>Atención al cliente 24/7</li>
-            </ul>
-        </div>
-    </section>
-</main>
-<footer>
+  <main>
+    <h1>Sobre Nosotros</h1>
+    <p>StayProud nace del deseo de crear una red de hospedajes donde la autenticidad, el respeto y la diversidad sean el centro de cada experiencia. 
+    Creemos en un turismo sin prejuicios, donde cada viajero pueda sentirse libre y orgulloso de ser quien es.</p>
+  </main>
+
+  <footer>
     <p>© 2025 StayProud. Todos los derechos reservados.</p>
-</footer>
+  </footer>
+
 </body>
 </html>
