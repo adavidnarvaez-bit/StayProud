@@ -27,3 +27,123 @@
     </nav>
     </div>
   </header>
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas | StayProud</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background: #00b1b2;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: #f8f8f8;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #00b1b2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #009b9c;
+    }
+
+    .resultado {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>Reservas StayProud </header>
+
+<main>
+  <h2>Reserva tu habitación</h2>
+
+  <label for="habitacion">Tipo de habitación:</label>
+  <select id="habitacion">
+    <option value="50">Habitación estándar — 50 €/noche</option>
+    <option value="80">Suite — 80 €/noche</option>
+    <option value="120">Deluxe con terraza — 120 €/noche</option>
+  </select>
+
+  <label for="fechaEntrada">Fecha de entrada:</label>
+  <input type="date" id="fechaEntrada">
+
+  <label for="fechaSalida">Fecha de salida:</label>
+  <input type="date" id="fechaSalida">
+
+  <button onclick="calcular()">Calcular total</button>
+
+  <div class="resultado" id="resultado"></div>
+</main>
+
+<script>
+function calcular() {
+  const precio = parseFloat(document.getElementById("habitacion").value);
+  const entrada = new Date(document.getElementById("fechaEntrada").value);
+  const salida = new Date(document.getElementById("fechaSalida").value);
+
+  if (!entrada || !salida || salida <= entrada) {
+    alert("Por favor selecciona fechas válidas.");
+    return;
+  }
+
+  const noches = (salida - entrada) / (1000 * 60 * 60 * 24);
+  const total = noches * precio;
+
+  document.getElementById("resultado").innerHTML =
+    Tu reserva es de <b>${noches}</b> noches. <br> Total a pagar: <b>${total.toFixed(2)} €</b>;
+}
+</script>
+
+</body>
+</html>
