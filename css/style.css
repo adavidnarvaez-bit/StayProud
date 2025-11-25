@@ -114,3 +114,204 @@ h1,h2,h3{margin:0 0 .6em}
   .main-nav{width:100%; justify-content:space-between; flex-wrap:wrap}
   .grid-2{grid-template-columns: 1fr;}
 }
+
+/* =========================================
+   COLORES OFICIALES STAYPROUD
+========================================= */
+:root {
+    --brand: #00bfa6;
+    --text: #222;
+    --bg: #ffffff;
+    --muted: #666;
+    --panel: #f5f5f5;
+}
+
+/* =========================================
+   BASE
+========================================= */
+{
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* =========================================
+   CONTENEDORES
+========================================= */
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--brand);
+    padding: 12px 0;
+}
+
+.nav-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.brand img {
+    width: 40px;
+    height: auto;
+}
+
+.main-nav {
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ========== MODO MÓVIL ========== */
+.nav-toggle {
+    display: none;
+    background: var(--brand);
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 820px) {
+
+    .main-nav {
+        display: none;
+        position: absolute;
+        right: 20px;
+        top: 70px;
+        background: var(--brand);
+        padding: 15px;
+        flex-direction: column;
+        border-radius: 10px;
+    }
+
+    .main-nav.open {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+}
+
+/* =========================================
+   HERO PRINCIPAL
+========================================= */
+.hero {
+    margin-top: 40px;
+    padding: 40px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.hero-logo {
+    width: 100%;
+    max-width: 460px;
+    margin: auto;
+}
+
+.hero-right h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--brand);
+}
+
+.hero-right p {
+    font-size: 18px;
+    color: var(--muted);
+}
+
+.btn {
+    background: var(--brand);
+    padding: 14px 25px;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover {
+    filter: brightness(0.9);
+}
+
+/* =========================================
+   SECCIONES GENERALES
+========================================= */
+.section {
+    padding: 60px 0;
+    background: var(--bg);
+}
+
+.section h1, .section h2 {
+    color: var(--brand);
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 18px;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #f1f1f1;
+    margin-top: 40px;
+    font-size: 15px;
+    color: var(--muted);
+}
