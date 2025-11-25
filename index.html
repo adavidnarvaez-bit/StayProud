@@ -15,8 +15,8 @@
     }
 
     body {
-      background: #0b0b0b;
-      color: #040d0e;
+      background: #f5f7f8;
+      color: #124045;
       height: 100vh;
       overflow: hidden;
     }
@@ -52,13 +52,12 @@
 
     /* IZQUIERDA – LOGO + TEXTO */
     .left-panel {
-      background-color: #ffffff;
-      color:  #00bfa6;
+      background-color: #00bfa6;
+      color: white;
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding: 60px;
-      text-align: left;
     }
 
     .left-panel img {
@@ -105,7 +104,7 @@
     .form-card p {
       text-align: center;
       font-size: 14px;
-      color: #090909;
+      color: #5a6a6c;
       margin-bottom: 20px;
     }
 
@@ -120,7 +119,7 @@
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid #060606;
+      border: 1px solid #d4dee0;
       font-size: 14px;
       margin-bottom: 15px;
     }
@@ -147,10 +146,76 @@
       filter: brightness(0.95);
     }
 
+    /* SOCIAL BUTTONS */
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .social-btn {
+      width: 100%;
+      border: 1px solid #00bfa6;
+      border-radius: 999px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      color: #00bfa6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .social-btn:hover {
+      background: #00bfa6;
+      color: #fff;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 13px;
+      color: #88989b;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: #d4dee0;
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
     .switch {
       text-align: center;
       font-size: 14px;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     .switch a {
@@ -160,8 +225,17 @@
       text-decoration: none;
     }
 
-    .hidden {
-      display: none;
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+      }
+
+      .left-panel {
+        text-align: center;
+        align-items: center;
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
@@ -183,19 +257,20 @@
 
     <!-- PANEL IZQUIERDO -->
     <div class="left-panel">
-       <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
-      <h1>VIVE TU ORGULLO EN CADA DESINO</h1>
-          En StayProud creemos que viajar es más que moverse, es sentirse libre,
-           auténtico y bienvenido.
-          Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
-
+      <img src="img/logo.png" alt="Logo StayProud">
+      <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
+      <p>
+        En StayProud creemos que viajar es más que moverse, es sentirse libre,
+        auténtico y bienvenido. Encuentra alojamientos donde el respeto y la diversidad
+        son parte del hogar.
+      </p>
     </div>
 
     <!-- PANEL DERECHO -->
     <div class="right-panel">
       <div class="form-card">
 
-        <!-- FORMULARIO LOGIN -->
+        <!-- LOGIN -->
         <div id="loginForm">
           <h2>Iniciar sesión</h2>
           <p>Accede a tu cuenta de huésped para reservar.</p>
@@ -208,12 +283,26 @@
 
           <button class="button" onclick="handleLogin()">INICIAR SESIÓN</button>
 
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">
+              Continuar con Facebook
+            </button>
+
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+              Continuar con Google
+            </button>
+          </div>
+
           <div class="switch">
             ¿No tienes cuenta? <a onclick="showRegister()">Regístrate</a>
           </div>
         </div>
 
-        <!-- FORMULARIO REGISTRO -->
+        <!-- REGISTRO -->
         <div id="registerForm" class="hidden">
           <h2>Crear cuenta</h2>
           <p>Regístrate como huésped para poder reservar.</p>
@@ -228,6 +317,20 @@
           <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
 
           <button class="button" onclick="handleRegister()">CREAR CUENTA</button>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">
+              Registrarse con Facebook
+            </button>
+
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+              Registrarse con Google
+            </button>
+          </div>
 
           <div class="switch">
             ¿Ya tienes cuenta? <a onclick="showLogin()">Iniciar sesión</a>
@@ -253,7 +356,7 @@
     function handleLogin() {
       const email = document.getElementById("loginEmail").value.trim();
       if (!email) {
-        alert("Escribe tu correo.");
+        alert("Por favor escribe tu correo.");
         return;
       }
       localStorage.setItem("stayProudUser", email);
@@ -266,7 +369,7 @@
       const pass = document.getElementById("regPassword").value.trim();
 
       if (!name || !email || pass.length < 6) {
-        alert("Debes llenar todos los campos. La contraseña debe tener mínimo 6 caracteres.");
+        alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
         return;
       }
 
