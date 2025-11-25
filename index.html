@@ -345,42 +345,99 @@
 
   </div>
 
-  <script>
-    function showRegister() {
-      document.getElementById("loginForm").classList.add("hidden");
-      document.getElementById("registerForm").classList.remove("hidden");
+ <script>
+  // --- UTILIDADES PARA GUARDAR USUARIOS EN localStorage ---
+
+  function getUsersFromStorage() {
+    const data = localStorage.getItem("stayProudUsers");
+    if (!data) return [];
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      console.error("Error leyendo usuarios", e);
+      return [];
+    }
+  }
+
+  function saveUsersToStorage(users) {
+    localStorage.setItem("stayProudUsers", JSON.stringify(users));
+  }
+
+  // --- CAMBIO ENTRE LOGIN / REGISTRO ---
+
+  function showRegister() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("registerForm").classList.remove("hidden");
+  }
+
+  function showLogin() {
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+  }
+
+  // --- INICIAR SESIÓN ---
+
+  function handleLogin() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    if (!email || !password) {
+      alert("Por favor escribe tu correo y contraseña.");
+      return;
     }
 
-    function showLogin() {
-      document.getElementById("registerForm").classList.add("hidden");
-      document.getElementById("loginForm").classList.remove("hidden");
+    const users = getUsersFromStorage();
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (!user) {
+      alert("Correo o contraseña incorrectos, o el usuario no está registrado.");
+      return;
     }
 
-    function handleLogin() {
-      const email = document.getElementById("loginEmail").value.trim();
-      if (!email) {
-        alert("Por favor escribe tu correo.");
-        return;
-      }
-      localStorage.setItem("stayProudUser", email);
-      window.location.href = "reservas.html";
+    // Guardamos el usuario conectado
+    localStorage.setItem("stayProudUser", user.email);
+    window.location.href = "reservas.html";
+  }
+
+  // --- REGISTRO ---
+
+  function handleRegister() {
+    const name = document.getElementById("regName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const pass = document.getElementById("regPassword").value.trim();
+
+    if (!name || !email || pass.length < 6) {
+      alert("Completa todos los campos. La contraseña debe tener al menos 6 caracteres.");
+      return;
     }
 
-    function handleRegister() {
-      const name = document.getElementById("regName").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const pass = document.getElementById("regPassword").value.trim();
+    const users = getUsersFromStorage();
 
-      if (!name || !email || pass.length < 6) {
-        alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
-        return;
-      }
-
-      localStorage.setItem("stayProudUser", email);
-      alert("Cuenta creada. ¡Bienvenido a StayProud!");
-      window.location.href = "reservas.html";
+    // Verificar si ya existe ese correo
+    const existing = users.find(u => u.email === email);
+    if (existing) {
+      alert("Ya existe una cuenta con ese correo. Intenta iniciar sesión.");
+      showLogin();
+      return;
     }
-  </script>
+
+    // Crear nuevo usuario
+    const newUser = {
+      name: name,
+      email: email,
+      password: pass  // Para algo serio se debería guardar cifrada, esto es solo demo
+    };
+
+    users.push(newUser);
+    saveUsersToStorage(users);
+
+    // Guardar usuario conectado
+    localStorage.setItem("stayProudUser", email);
+
+    alert("Cuenta creada y guardada. ¡Bienvenido a StayProud!");
+    window.location.href = "reservas.html";
+  }
+</script>
 
 </body>
 </html>
