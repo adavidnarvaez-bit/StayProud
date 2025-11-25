@@ -27,7 +27,7 @@
     </nav>
     </div>
   </header>
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -81,13 +81,58 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
 
+        /* HEADER + ANFITRIÓN */
+
         .servicios-header {
             margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: flex-start;
         }
 
-        .servicios-header p {
+        .servicios-header-text p {
             margin: 8px 0 0;
             color: var(--text-muted);
+        }
+
+        .host-container {
+            width: 170px;
+            flex-shrink: 0;
+        }
+
+        .host-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-align: right;
+        }
+
+        .host-preview {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 6px;
+            margin-bottom: 6px;
+        }
+
+        .host-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .host-file {
+            width: 100%;
+            font-size: 11px;
         }
 
         /* GALERÍA DE FOTOS */
@@ -103,6 +148,16 @@
         }
 
         @media (max-width: 768px) {
+            .servicios-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .host-container {
+                width: 140px;
+                align-self: flex-end;
+            }
+
             .galeria-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -246,6 +301,7 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 8px;
+            margin-bottom: 24px;
         }
 
         .btn-guardar {
@@ -270,18 +326,112 @@
             transform: translateY(0);
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
+
+        /* RESEÑAS + ESTRELLAS */
+
+        .reviews-container {
+            border-top: 1px solid var(--border-soft);
+            padding-top: 20px;
+            margin-top: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .review-block label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .review-block textarea {
+            width: 100%;
+            min-height: 90px;
+            resize: vertical;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-soft);
+            font-family: inherit;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .review-block textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0,191,166,0.12);
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .rating-label {
+            white-space: nowrap;
+        }
+
+        .rating-stars {
+            display: inline-flex;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .rating-stars span {
+            font-size: 20px;
+            line-height: 1;
+            user-select: none;
+            transition: transform 0.1s ease-in-out;
+        }
+
+        .rating-stars span:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-stars span.active {
+            color: #f5b301;
+        }
+
+        .rating-stars span.inactive {
+            color: #ccc;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="page-wrapper">
     <div class="card">
-        <div class="servicios-header">
-            <h1>Servicios y habitaciones</h1>
-            <p>Sube las fotos de la habitación, escribe una descripción y selecciona los servicios que ofrece.</p>
-        </div>
-
         <form id="form-servicios">
+            <div class="servicios-header">
+                <div class="servicios-header-text">
+                    <h1>Servicios y habitaciones</h1>
+                    <p>Sube las fotos de la habitación, escribe una descripción y selecciona los servicios que ofrece.</p>
+                </div>
+
+                <!-- FOTO DEL ANFITRIÓN -->
+                <div class="host-container">
+                    <div class="host-title">Foto del anfitrión</div>
+                    <div class="host-preview" id="host-preview">
+                        Sube aquí la foto<br>del anfitrión
+                    </div>
+                    <input
+                        class="host-file"
+                        type="file"
+                        id="host-photo"
+                        accept="image/*">
+                </div>
+            </div>
+
             <!-- GALERÍA DE 6 FOTOS -->
             <div class="galeria-container">
                 <h2>Galería de fotos (máx. 6)</h2>
@@ -408,12 +558,49 @@
             <div class="acciones-form">
                 <button type="submit" class="btn-guardar">Guardar habitación</button>
             </div>
+
+            <!-- RESEÑAS Y ESTRELLAS -->
+            <div class="reviews-container">
+                <!-- Reseña del huésped -->
+                <div class="review-block">
+                    <label for="review-huesped">Reseña del huésped</label>
+                    <textarea id="review-huesped" name="review_huesped" placeholder="Comentarios del huésped sobre la habitación, el anfitrión, la experiencia..."></textarea>
+                    <div class="rating-row">
+                        <span class="rating-label">Valoración huésped:</span>
+                        <div class="rating-stars" data-target="rating-huesped">
+                            <span data-value="1" class="inactive">★</span>
+                            <span data-value="2" class="inactive">★</span>
+                            <span data-value="3" class="inactive">★</span>
+                            <span data-value="4" class="inactive">★</span>
+                            <span data-value="5" class="inactive">★</span>
+                        </div>
+                        <input type="hidden" id="rating-huesped" name="rating_huesped" value="0">
+                    </div>
+                </div>
+
+                <!-- Reseña del anfitrión -->
+                <div class="review-block">
+                    <label for="review-anfitrion">Reseña del anfitrión</label>
+                    <textarea id="review-anfitrion" name="review_anfitrion" placeholder="Comentarios del anfitrión sobre el huésped, limpieza, comunicación..."></textarea>
+                    <div class="rating-row">
+                        <span class="rating-label">Valoración huésped por el anfitrión:</span>
+                        <div class="rating-stars" data-target="rating-anfitrion">
+                            <span data-value="1" class="inactive">★</span>
+                            <span data-value="2" class="inactive">★</span>
+                            <span data-value="3" class="inactive">★</span>
+                            <span data-value="4" class="inactive">★</span>
+                            <span data-value="5" class="inactive">★</span>
+                        </div>
+                        <input type="hidden" id="rating-anfitrion" name="rating_anfitrion" value="0">
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
-    // Vista previa de las 6 fotos
+    // Vista previa de las 6 fotos de la habitación
     document.querySelectorAll('.foto-input').forEach((input, index) => {
         input.addEventListener('change', function () {
             const file = this.files[0];
@@ -436,10 +623,56 @@
         });
     });
 
-    // Aquí luego puedes manejar el envío del formulario
+    // Vista previa de la foto del anfitrión
+    const hostInput = document.getElementById('host-photo');
+    const hostPreview = document.getElementById('host-preview');
+
+    hostInput.addEventListener('change', function () {
+        const file = this.files[0];
+
+        if (!file) {
+            hostPreview.innerHTML = 'Sube aquí la foto<br>del anfitrión';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            hostPreview.innerHTML = "";
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            hostPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Estrellas de valoración (huésped y anfitrión)
+    document.querySelectorAll('.rating-stars').forEach(group => {
+        const targetId = group.getAttribute('data-target');
+        const hiddenInput = document.getElementById(targetId);
+
+        group.querySelectorAll('span').forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.getAttribute('data-value'), 10);
+                hiddenInput.value = value;
+
+                group.querySelectorAll('span').forEach(s => {
+                    const starValue = parseInt(s.getAttribute('data-value'), 10);
+                    if (starValue <= value) {
+                        s.classList.add('active');
+                        s.classList.remove('inactive');
+                    } else {
+                        s.classList.add('inactive');
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+
+    // Manejo del envío de formulario
     document.getElementById('form-servicios').addEventListener('submit', function (e) {
         e.preventDefault();
-        alert('Aquí puedes programar cómo guardar los datos (en base de datos, archivo, etc.)');
+        alert('Aquí puedes programar cómo guardar los datos (descripción, servicios, fotos, reseñas y valoraciones) en tu backend o base de datos.');
     });
 </script>
 
