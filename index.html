@@ -19,13 +19,7 @@
 
           <nav class="main-nav">
   <a href="index.html">Inicio</a>
-  <a href="servicios.html">Servicios</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="alojamientos.html">Alojamientos</a>
-  <a href="reservas">Reservas</a>
-  <a href="contacto.html">Contáctanos</a>
-    </nav>
-    </div>
+  
   </header>
   <section class="hero">
     <div class="container hero-grid">
@@ -44,4 +38,376 @@
     </div>
   </section>
 
- 
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>StayProud - Iniciar sesión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f5f7f8;
+      color: #124045;
+    }
+
+    /* BARRA SUPERIOR (igual que tu web) */
+    header {
+      background-color: #00bfa6;
+      color: #fff;
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    header .logo span {
+      font-size: 22px;
+    }
+
+    header nav a {
+      margin-left: 24px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .auth-container {
+      display: flex;
+      min-height: calc(100vh - 70px);
+    }
+
+    /* LADO IZQUIERDO (imagen / mensaje) */
+    .auth-hero {
+      flex: 1;
+      background-image: url("https://images.pexels.com/photos/3738089/pexels-photo-3738089.jpeg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: none;
+    }
+
+    .auth-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,191,166,0.85), rgba(0,120,150,0.85));
+      color: #fff;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .auth-hero-overlay h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .auth-hero-overlay p {
+      font-size: 15px;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+
+    /* FORMULARIO */
+    .auth-form-wrapper {
+      flex: 1;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 30px 26px 32px;
+      background: #fff;
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 18px;
+      color: #5a6a6c;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      margin-bottom: 4px;
+      display: block;
+      color: #335052;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 8px;
+      border: 1px solid #d4dee0;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #00bfa6;
+      box-shadow: 0 0 0 2px rgba(0,191,166,0.15);
+    }
+
+    .auth-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 11px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 999px;
+      border: none;
+      background: #00bfa6;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .auth-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .link-row {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .link-row a {
+      color: #00bfa6;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .social-buttons {
+      margin-top: 18px;
+    }
+
+    .social-btn {
+      width: 100%;
+      padding: 9px;
+      margin-top: 8px;
+      border-radius: 999px;
+      border: 1px solid #00bfa6;
+      background: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 12px;
+      color: #88989b;
+      margin-top: 10px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      display: inline-block;
+      width: 30%;
+      height: 1px;
+      background: #d4dee0;
+      vertical-align: middle;
+      margin: 0 6px;
+    }
+
+    .small-note {
+      margin-top: 12px;
+      font-size: 11px;
+      text-align: center;
+      color: #88989b;
+      line-height: 1.4;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (min-width: 900px) {
+      .auth-hero {
+        display: block;
+      }
+      .auth-form-wrapper {
+        flex: 1;
+        padding: 60px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <!-- aquí podrías poner tu logo colibrí -->
+      <span>StayProud</span>
+    </div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+  </header>
+
+  <main class="auth-container">
+    <!-- LADO IZQUIERDO -->
+    <section class="auth-hero">
+      <div class="auth-hero-overlay">
+        <h1>Bienvenido a la comunidad StayProud </h1>
+        <p>
+          Únete a una red global de viajeros LGBT+ y aliados. Regístrate para
+          descubrir alojamientos seguros, diversos y llenos de orgullo.
+        </p>
+      </div>
+    </section>
+
+    <!-- FORMULARIOS -->
+    <section class="auth-form-wrapper">
+      <div class="auth-card">
+
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <h2 class="auth-title">Inicia sesión</h2>
+          <p class="auth-subtitle">Accede a tu cuenta de huésped para reservar.</p>
+
+          <div class="form-group">
+            <label for="loginEmail">Correo electrónico</label>
+            <input type="email" id="loginEmail" placeholder="tucorreo@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+
+          <button class="auth-btn" onclick="handleLogin()">INICIAR SESIÓN</button>
+
+          <div class="link-row">
+            ¿No tienes cuenta?
+            <a onclick="showRegister()">Regístrate</a>
+          </div>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn">Continuar con Facebook</button>
+            <button class="social-btn">Continuar con Google</button>
+          </div>
+
+          <p class="small-note">
+            * Botones sociales de ejemplo. Para que funcionen de verdad habría que
+            conectarlos con un servicio como Firebase, Auth0, etc.
+          </p>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="registerForm" class="hidden">
+          <h2 class="auth-title">Crea tu cuenta</h2>
+          <p class="auth-subtitle">Regístrate como huésped para poder reservar.</p>
+
+          <div class="form-group">
+            <label for="regName">Nombre completo</label>
+            <input type="text" id="regName" placeholder="Tu nombre" required>
+          </div>
+
+          <div class="form-group">
+            <label for="regEmail">Correo electrónico</label>
+            <input type="email" id="regEmail" placeholder="tucorreo@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword">Contraseña</label>
+            <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required>
+          </div>
+
+          <button class="auth-btn" onclick="handleRegister()">CREAR CUENTA</button>
+
+          <div class="link-row">
+            ¿Ya tienes cuenta?
+            <a onclick="showLogin()">Inicia sesión</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showRegister() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("registerForm").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    //  Esto es un "login" sencillo solo para tu prototipo.
+    // Guarda el email en localStorage y redirige a reservas.html.
+    function handleLogin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      if (!email) {
+        alert("Por favor escribe tu correo.");
+        return;
+      }
+      localStorage.setItem("stayProudUser", email);
+      window.location.href = "reservas.html";
+    }
+
+    function handleRegister() {
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPassword").value.trim();
+
+      if (!name || !email || pass.length < 6) {
+        alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+      // Aquí podrías enviar los datos a tu backend o a un servicio externo.
+      localStorage.setItem("stayProudUser", email);
+      alert("Cuenta creada. ¡Bienvenido a StayProud! ");
+      window.location.href = "reservas.html";
+    }
+  </script>
+</body>
+</html>
