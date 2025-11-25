@@ -27,4 +27,362 @@
     </nav>
     </div>
   </header>
-  
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reservas | StayProud</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg">
+  <style>
+    /* Estilos específicos de la página de reservas */
+    .form-card{
+      background:#fff; border:1px solid #eee; border-radius:14px; padding:24px;
+      box-shadow:0 10px 20px rgba(0,0,0,.04); margin: 24px 0;
+    }
+    .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    .grid-3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:18px; }
+    .grid-4{ display:grid; grid-template-columns: repeat(4, 1fr); gap:18px; }
+    @media (max-width:900px){
+      .grid-2,.grid-3,.grid-4{ grid-template-columns: 1fr; }
+    }
+    label{ font-weight:600; color:#333; margin-bottom:6px; display:block; }
+    input[type="date"], input[type="number"], input[type="text"], input[type="email"], select{
+      width:100%; padding:12px 14px; border:1px solid #ddd; border-radius:10px; font-size:16px; background:#fff;
+    }
+    .pill{
+      display:inline-block; background:#f1fffd; border:1px solid #ccf6ef; color:var(--brand);
+      padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+    }
+    .muted{ color:#666; font-size:14px; }
+    .total-box{
+      background:#f7fffe; border:1px dashed var(--brand); padding:16px; border-radius:12px;
+    }
+    .admin-toggle{ cursor:pointer; color:var(--brand); font-weight:700; text-decoration:underline; }
+    .admin-panel{ display:none; margin-top:12px; }
+    .btn-secondary{
+      background:#fff; color:var(--brand); border:2px solid var(--brand); padding:12px 18px;
+      border-radius:10px; font-weight:700; cursor:pointer;
+    }
+    .btn-secondary:hover{ background:#eafffb; }
+    .error{ color:#b00020; font-weight:600; margin-top:6px; }
+    .ok{ color:#0a8f5a; font-weight:700; }
+    .resumen{
+      background:#fff; border:1px solid #eee; border-radius:14px; padding:18px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png.jpg" alt="StayProud logo">
+      StayProud
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+    <nav class="main-nav" id="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="vision.html">Misión y Visión</a>
+      <a href="contacto.html">Contáctanos</a>
+      <a href="reservas.html" class="active">Reservas</a>
+    </nav>
+  </div>
+</header>
+
+<!-- CONTENIDO -->
+<section class="section">
+  <div class="container">
+    <h1>Reserva tu habitación</h1>
+    <p class="muted">Elige fechas, tipo de habitación y completa tus datos. Calculamos el total automáticamente.</p>
+
+    <!-- Configuración de precios (Admin simple) -->
+    <div class="form-card">
+      <span class="admin-toggle"> Configurar precios por noche (admin)</span>
+      <div class="admin-panel" id="admin-panel">
+        <div class="grid-3">
+          <div>
+            <label>Hab. individual (€ / noche)</label>
+            <input type="number" id="price-individual" min="0" step="1" value="60">
+          </div>
+          <div>
+            <label>Hab. pareja (€ / noche)</label>
+            <input type="number" id="price-pareja" min="0" step="1" value="80">
+          </div>
+          <div>
+            <label>Alojamiento entero (€ / noche)</label>
+            <input type="number" id="price-entero" min="0" step="1" value="120">
+          </div>
+        </div>
+        <div style="margin-top:14px; display:flex; gap:10px;">
+          <button class="btn-secondary" id="save-prices">Guardar precios</button>
+          <span class="muted">Se guardan en este navegador (localStorage).</span>
+        </div>
+        <div id="admin-msg" class="ok" style="display:none; margin-top:8px;">Precios guardados </div>
+      </div>
+    </div>
+
+    <!-- Formulario de reserva -->
+    <form class="form-card" id="booking-form" novalidate>
+      <div class="grid-2">
+        <div>
+          <label for="checkin">Fecha de entrada</label>
+          <input type="date" id="checkin" required>
+        </div>
+        <div>
+          <label for="checkout">Fecha de salida</label>
+          <input type="date" id="checkout" required>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:14px;">
+        <div>
+          <label for="room">Tipo de habitación</label>
+          <select id="room" required>
+            <option value="individual">Hab. individual</option>
+            <option value="pareja">Hab. pareja</option>
+            <option value="entero">Alojamiento entero</option>
+          </select>
+          <div class="muted" id="room-price-text">Precio: <span class="pill" id="room-price-pill">60 €/noche</span></div>
+        </div>
+        <div>
+          <label for="guests">Huéspedes</label>
+          <input type="number" id="guests" min="1" max="6" value="1" required>
+          <div class="muted">Capacidad sujeta al tipo de habitación.</div>
+        </div>
+        <div>
+          <label for="promo">Código promocional (opcional)</label>
+          <input type="text" id="promo" placeholder="PRIDE10">
+          <div class="muted">Ejemplo: PRIDE10 (10% dto.)</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px;">
+        <div>
+          <label for="name">Nombre y apellidos</label>
+          <input type="text" id="name" required placeholder="Nombre completo">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="tucorreo@ejemplo.com">
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px;">
+        <div class="total-box">
+          <div><strong>Noches:</strong> <span id="nights">0</span></div>
+          <div><strong>Precio por noche:</strong> <span id="ppn">0 €</span></div>
+          <div><strong>Descuento:</strong> <span id="discount">0 €</span></div>
+          <hr style="border:none;border-top:1px dashed #ddd; margin:10px 0;">
+          <div style="font-size:20px;"><strong>Total:</strong> <span id="total">0 €</span></div>
+          <div class="error" id="error-msg" style="display:none;"></div>
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap;">
+          <button type="button" class="btn" id="calc">Calcular total</button>
+          <button type="submit" class="btn">Confirmar reserva</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Resumen (se muestra al enviar) -->
+    <div id="summary" class="resumen" style="display:none;">
+      <h2> Reserva creada</h2>
+      <p>Hemos recibido tu solicitud. Este es tu resumen:</p>
+      <ul>
+        <li><strong>Nombre:</strong> <span id="s-name"></span></li>
+        <li><strong>Email:</strong> <span id="s-email"></span></li>
+        <li><strong>Entrada:</strong> <span id="s-in"></span></li>
+        <li><strong>Salida:</strong> <span id="s-out"></span></li>
+        <li><strong>Noches:</strong> <span id="s-nights"></span></li>
+        <li><strong>Tipo:</strong> <span id="s-room"></span></li>
+        <li><strong>Huéspedes:</strong> <span id="s-guests"></span></li>
+        <li><strong>Total:</strong> <span id="s-total"></span></li>
+      </ul>
+      <p class="muted">*Este es un ejemplo local. Para recibir reservas reales lo conectamos luego a tu email/Google Sheet o backend.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © 2025 StayProud. Todos los derechos reservados.
+</footer>
+
+<script>
+  // --- NAV mobile ---
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.getElementById("main-nav");
+  toggle.addEventListener("click", ()=> nav.classList.toggle("open"));
+
+  // ======== PRECIOS (con persistencia local) ========
+  const DEFAULT_PRICES = { individual: 60, pareja: 80, entero: 120 };
+
+  function loadPrices(){
+    try{
+      const saved = JSON.parse(localStorage.getItem("sp_prices"));
+      return saved && typeof saved === "object" ? {...DEFAULT_PRICES, ...saved} : {...DEFAULT_PRICES};
+    }catch(e){ return {...DEFAULT_PRICES}; }
+  }
+
+  function savePrices(p){
+    localStorage.setItem("sp_prices", JSON.stringify(p));
+  }
+
+  let PRICES = loadPrices();
+
+  // Rellena inputs admin
+  const inpInd = document.getElementById("price-individual");
+  const inpPar = document.getElementById("price-pareja");
+  const inpEnt = document.getElementById("price-entero");
+  if(inpInd){ inpInd.value = PRICES.individual; }
+  if(inpPar){ inpPar.value = PRICES.pareja; }
+  if(inpEnt){ inpEnt.value = PRICES.entero; }
+
+  // Toggle panel admin
+  const adminToggle = document.querySelector(".admin-toggle");
+  const adminPanel = document.getElementById("admin-panel");
+  const adminMsg = document.getElementById("admin-msg");
+  adminToggle.addEventListener("click", ()=>{
+    adminPanel.style.display = adminPanel.style.display === "block" ? "none" : "block";
+  });
+
+  document.getElementById("save-prices").addEventListener("click", ()=>{
+    PRICES = {
+      individual: Number(inpInd.value || DEFAULT_PRICES.individual),
+      pareja: Number(inpPar.value || DEFAULT_PRICES.pareja),
+      entero: Number(inpEnt.value || DEFAULT_PRICES.entero),
+    };
+    savePrices(PRICES);
+    adminMsg.style.display = "block";
+    setTimeout(()=> adminMsg.style.display="none", 1500);
+    updateRoomPriceUI();
+    calcTotal();
+  });
+
+  // ======== FORM / CÁLCULOS ========
+  const fmt = n => new Intl.NumberFormat("es-ES", { style:"currency", currency:"EUR" }).format(n);
+
+  const checkin = document.getElementById("checkin");
+  const checkout = document.getElementById("checkout");
+  const room = document.getElementById("room");
+  const guests = document.getElementById("guests");
+  const promo = document.getElementById("promo");
+
+  const nightsEl = document.getElementById("nights");
+  const ppnEl = document.getElementById("ppn");
+  const discEl = document.getElementById("discount");
+  const totalEl = document.getElementById("total");
+  const errorEl = document.getElementById("error-msg");
+
+  const roomPricePill = document.getElementById("room-price-pill");
+
+  // min dates
+  const todayStr = new Date().toISOString().slice(0,10);
+  checkin.min = todayStr;
+  checkout.min = todayStr;
+
+  function daysBetween(aStr, bStr){
+    const a = new Date(aStr+"T12:00:00"); // evitar TZ issues
+    const b = new Date(bStr+"T12:00:00");
+    const diff = (b - a) / (1000*60*60*24);
+    return Math.max(0, Math.floor(diff));
+  }
+
+  function pricePerNightFor(roomValue){
+    if(roomValue === "individual") return PRICES.individual;
+    if(roomValue === "pareja") return PRICES.pareja;
+    return PRICES.entero;
+  }
+
+  function updateRoomPriceUI(){
+    const p = pricePerNightFor(room.value);
+    roomPricePill.textContent = ${p} €/noche;
+    ppnEl.textContent = fmt(p);
+  }
+
+  function calcTotal(){
+    errorEl.style.display = "none";
+    discEl.textContent = fmt(0);
+    let err = "";
+
+    const ci = checkin.value;
+    const co = checkout.value;
+    const n = daysBetween(ci, co);
+    const p = pricePerNightFor(room.value);
+    const g = parseInt(guests.value || "1", 10);
+
+    // Validaciones
+    if(!ci || !co){ err = "Selecciona fechas de entrada y salida."; }
+    else if(n <= 0){ err = "La fecha de salida debe ser posterior a la de entrada."; }
+
+    // Capacidad simple por tipo
+    if(room.value === "individual" && g > 1) err = "La habitación individual admite máximo 1 huésped.";
+    if(room.value === "pareja" && g > 2) err = "La habitación pareja admite máximo 2 huéspedes.";
+
+    if(err){
+      errorEl.textContent = err;
+      errorEl.style.display = "block";
+      nightsEl.textContent = "0";
+      totalEl.textContent = fmt(0);
+      return { nights:0, total:0 };
+    }
+
+    let subtotal = n * p;
+
+    // Descuento promo
+    let discount = 0;
+    const code = (promo.value || "").trim().toUpperCase();
+    if(code === "PRIDE10"){ discount = subtotal * 0.10; }
+    if(code === "LOVE5"){ discount = subtotal * 0.05; }
+
+    const total = Math.max(0, subtotal - discount);
+
+    nightsEl.textContent = String(n);
+    ppnEl.textContent = fmt(p);
+    discEl.textContent = - ${fmt(discount)};
+    totalEl.textContent = fmt(total);
+
+    return { nights:n, total, pnight:p, discount };
+  }
+
+  // UI updates
+  ["change","keyup"].forEach(evt=>{
+    room.addEventListener(evt, updateRoomPriceUI);
+    checkin.addEventListener(evt, ()=>{ checkout.min = checkin.value || todayStr; calcTotal(); });
+    checkout.addEventListener(evt, calcTotal);
+    guests.addEventListener(evt, calcTotal);
+    promo.addEventListener(evt, calcTotal);
+  });
+  updateRoomPriceUI();
+
+  document.getElementById("calc").addEventListener("click", calcTotal);
+
+  // Submit (simulado)
+  const form = document.getElementById("booking-form");
+  const summary = document.getElementById("summary");
+  form.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const res = calcTotal();
+    if(res.nights <= 0 || res.total <= 0){ return; }
+
+    // Pinta resumen
+    document.getElementById("s-name").textContent   = document.getElementById("name").value;
+    document.getElementById("s-email").textContent  = document.getElementById("email").value;
+    document.getElementById("s-in").textContent     = checkin.value;
+    document.getElementById("s-out").textContent    = checkout.value;
+    document.getElementById("s-nights").textContent = res.nights;
+    document.getElementById("s-room").textContent   = room.options[room.selectedIndex].text;
+    document.getElementById("s-guests").textContent = guests.value;
+    document.getElementById("s-total").textContent  = totalEl.textContent;
+
+    summary.style.display = "block";
+    summary.scrollIntoView({behavior:"smooth"});
+  });
+</script>
+
+</body>
+</html>
