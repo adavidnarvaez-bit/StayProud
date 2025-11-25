@@ -20,25 +20,7 @@
           <nav class="main-nav">
   <a href="index.html">Inicio</a>
   
-  </header>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-left">
-        <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
-      </div>
-
-      <div class="hero-right">
-        <h1>Vive tu orgullo en<br />cada destino</h1>
-        <p>
-          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.
-          Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
-        </p>
-        <a class="btn" href="#servicios">Explora el mundo sin etiquetas. Crea tu cuenta</a>
-      </div>
-    </div>
-  </section>
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -58,7 +40,7 @@
       color: #124045;
     }
 
-    /* BARRA SUPERIOR (igual que tu web) */
+    /* BARRA SUPERIOR */
     header {
       background-color: #00bfa6;
       color: #fff;
@@ -99,20 +81,20 @@
     }
 
     /* LADO IZQUIERDO (imagen / mensaje) */
-    <!-- NAVBAR -->
-  <header class="site-header" id="inicio">
-    <div class="container nav-wrap">
-      <a href="#inicio" class="brand">
-        <img src="img/logo.png.jpg" alt="StayProud logo" />
-        <span>StayProud</span>
-      </a>
+    .auth-hero {
+      flex: 1;
+      background-image: url("https://images.pexels.com/photos/3738089/pexels-photo-3738089.jpeg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: none;
     }
 
     .auth-hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(220, 247, 244, 0.85), rgba(211, 232, 237, 0.85));
-      color: #080808;
+      background: linear-gradient(135deg, rgba(0,191,166,0.85), rgba(0,120,150,0.85));
+      color: #fff;
       padding: 40px;
       display: flex;
       flex-direction: column;
@@ -277,20 +259,19 @@
 <body>
   <header>
     <div class="logo">
-      <!-- aquí podrías poner tu logo colibrí -->
       <span>StayProud</span>
     </div>
     <nav>
       <a href="index.html">Inicio</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="alojamientos.html">Alojamientos</a>
-      <a href="reservas.html">Reservas</a>
+      <!-- IMPORTANTE: desde el menú, el botón Reservas apunta al LOGIN -->
+      <a href="login.html">Reservas</a>
       <a href="contacto.html">Contáctanos</a>
     </nav>
   </header>
 
   <main class="auth-container">
-    <!-- LADO IZQUIERDO -->
     <section class="auth-hero">
       <div class="auth-hero-overlay">
         <h1>Bienvenido a la comunidad StayProud </h1>
@@ -301,7 +282,6 @@
       </div>
     </section>
 
-    <!-- FORMULARIOS -->
     <section class="auth-form-wrapper">
       <div class="auth-card">
 
@@ -382,8 +362,6 @@
       document.getElementById("loginForm").classList.remove("hidden");
     }
 
-    //  Esto es un "login" sencillo solo para tu prototipo.
-    // Guarda el email en localStorage y redirige a reservas.html.
     function handleLogin() {
       const email = document.getElementById("loginEmail").value.trim();
       if (!email) {
@@ -403,7 +381,7 @@
         alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
         return;
       }
-      // Aquí podrías enviar los datos a tu backend o a un servicio externo.
+
       localStorage.setItem("stayProudUser", email);
       alert("Cuenta creada. ¡Bienvenido a StayProud! ");
       window.location.href = "reservas.html";
