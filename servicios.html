@@ -27,4 +27,421 @@
     </nav>
     </div>
   </header>
-  
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - StayProud</title>
+    <style>
+        :root {
+            --primary: #00bfa6;
+            --primary-soft: #e0f7f5;
+            --text-main: #222;
+            --text-muted: #666;
+            --border-soft: #ddd;
+            --bg-page: #f5f5f5;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg-page);
+            color: var(--text-main);
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px 40px;
+        }
+
+        h1, h2 {
+            margin: 0 0 16px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .servicios-header {
+            margin-bottom: 24px;
+        }
+
+        .servicios-header p {
+            margin: 8px 0 0;
+            color: var(--text-muted);
+        }
+
+        /* GALERÍA DE FOTOS */
+
+        .galeria-container {
+            margin-bottom: 24px;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .galeria-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .foto-item {
+            border: 1px dashed var(--border-soft);
+            border-radius: 12px;
+            padding: 10px;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .foto-preview {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border-radius: 8px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 4px;
+        }
+
+        .foto-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .foto-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .input-file {
+            font-size: 13px;
+        }
+
+        /* DESCRIPCIÓN */
+
+        .descripcion-container {
+            margin-bottom: 24px;
+        }
+
+        .descripcion-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .descripcion-container textarea {
+            width: 100%;
+            min-height: 140px;
+            resize: vertical;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-soft);
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .descripcion-container textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0,191,166,0.15);
+        }
+
+        /* SERVICIOS (BOTONES) */
+
+        .servicios-container {
+            margin-bottom: 24px;
+        }
+
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .servicios-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .servicios-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .servicio-opcion {
+            position: relative;
+            display: inline-block;
+        }
+
+        .servicio-opcion input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .servicio-opcion span {
+            display: block;
+            text-align: center;
+            padding: 10px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--border-soft);
+            font-size: 13px;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.15s ease-in-out;
+            user-select: none;
+        }
+
+        .servicio-opcion input:checked + span {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 0 0 2px rgba(0,191,166,0.18);
+        }
+
+        /* BOTÓN GUARDAR */
+
+        .acciones-form {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .btn-guardar {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 14px;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .btn-guardar:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .btn-guardar:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="card">
+        <div class="servicios-header">
+            <h1>Servicios y habitaciones</h1>
+            <p>Sube las fotos de la habitación, escribe una descripción y selecciona los servicios que ofrece.</p>
+        </div>
+
+        <form id="form-servicios">
+            <!-- GALERÍA DE 6 FOTOS -->
+            <div class="galeria-container">
+                <h2>Galería de fotos (máx. 6)</h2>
+                <div class="galeria-grid">
+                    <!-- Foto 1 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-1">
+                            Foto 1<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 1</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-1">
+                    </div>
+
+                    <!-- Foto 2 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-2">
+                            Foto 2<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 2</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-2">
+                    </div>
+
+                    <!-- Foto 3 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-3">
+                            Foto 3<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 3</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-3">
+                    </div>
+
+                    <!-- Foto 4 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-4">
+                            Foto 4<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 4</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-4">
+                    </div>
+
+                    <!-- Foto 5 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-5">
+                            Foto 5<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 5</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-5">
+                    </div>
+
+                    <!-- Foto 6 -->
+                    <div class="foto-item">
+                        <div class="foto-preview" id="preview-6">
+                            Foto 6<br>Haz clic abajo para subir
+                        </div>
+                        <div class="foto-label">Hab. Foto 6</div>
+                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-6">
+                    </div>
+                </div>
+            </div>
+
+            <!-- DESCRIPCIÓN DE LA HABITACIÓN -->
+            <div class="descripcion-container">
+                <label for="descripcion-habitacion">Descripción de la habitación</label>
+                <textarea id="descripcion-habitacion" name="descripcion_habitacion" placeholder="Ejemplo: Habitación doble luminosa con vistas al patio interior, cama queen, baño privado y escritorio de trabajo..."></textarea>
+            </div>
+
+            <!-- SERVICIOS -->
+            <div class="servicios-container">
+                <h2>Servicios de la habitación</h2>
+                <div class="servicios-grid">
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Calefacción">
+                        <span>Calefacción</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Aire acondicionado">
+                        <span>Aire acondicionado</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Cocina">
+                        <span>Cocina</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Baño privado">
+                        <span>Baño privado</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="WiFi">
+                        <span>WiFi</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="TV">
+                        <span>TV</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Ropa de cama">
+                        <span>Ropa de cama</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Toallas">
+                        <span>Toallas</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="Balcón/Terraza">
+                        <span>Balcón/Terraza</span>
+                    </label>
+
+                    <label class="servicio-opcion">
+                        <input type="checkbox" name="servicios" value="No fumadores">
+                        <span>No fumadores</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- BOTÓN GUARDAR -->
+            <div class="acciones-form">
+                <button type="submit" class="btn-guardar">Guardar habitación</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Vista previa de las 6 fotos
+    document.querySelectorAll('.foto-input').forEach((input, index) => {
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const previewId = 'preview-' + (index + 1);
+            const previewDiv = document.getElementById(previewId);
+
+            if (!file) {
+                previewDiv.innerHTML = Foto ${index + 1}<br>Haz clic abajo para subir;
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewDiv.innerHTML = "";
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                previewDiv.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Aquí luego puedes manejar el envío del formulario
+    document.getElementById('form-servicios').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Aquí puedes programar cómo guardar los datos (en base de datos, archivo, etc.)');
+    });
+</script>
+
+</body>
+</html>
