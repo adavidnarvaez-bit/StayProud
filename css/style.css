@@ -315,3 +315,129 @@ footer {
     font-size: 15px;
     color: var(--muted);
 }
+/* ===== CALENDARIO STAYPROUD ===== */
+
+.sp-calendar-wrapper {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  padding: 18px 18px 20px;
+  max-width: 420px;
+  font-size: 14px;
+}
+
+.sp-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#sp-monthYear {
+  font-weight: 700;
+  font-size: 16px;
+  color: #0b474b;
+}
+
+.sp-nav-btn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 2px 8px;
+  color: #00a08c;
+}
+
+.sp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 12px;
+  color: #7c8b8d;
+  margin-bottom: 6px;
+}
+
+.sp-weekdays span {
+  padding: 4px 0;
+}
+
+.sp-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.sp-day {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid #b7dada;
+  cursor: default;
+  font-size: 13px;
+  background: #ffffff;
+}
+
+/* días fuera de este mes (espacios en blanco) */
+.sp-day-empty {
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+/* Estado LIBRE (por defecto) */
+.sp-day-free {
+  border-color: #8dd4cf;
+}
+
+/* Estado PENDIENTE (amarillo) */
+.sp-day-pending {
+  background: #ffe9a6;
+  border-color: #f3c55a;
+  color: #5c4408;
+}
+
+/* Estado RESERVADO (rojo) */
+.sp-day-booked {
+  background: #ffb8b5;
+  border-color: #e85b57;
+  color: #5b1512;
+}
+
+/* Leyenda */
+.sp-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #5a6a6c;
+  margin-top: 10px;
+}
+
+.sp-legend span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.sp-free {
+  border: 1px solid #8dd4cf;
+  background: #ffffff;
+}
+
+.sp-pending {
+  background: #ffe9a6;
+  border: 1px solid #f3c55a;
+}
+
+.sp-booked {
+  background: #ffb8b5;
+  border: 1px solid #e85b57;
+}
