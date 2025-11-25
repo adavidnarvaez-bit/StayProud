@@ -50,7 +50,7 @@
       height: calc(100vh - 70px);
     }
 
-    /* IZQUIERDA – LOGO + TEXTO */
+    /* PANEL IZQUIERDO */
     .left-panel {
       background-color: #00bfa6;
       color: white;
@@ -58,6 +58,7 @@
       flex-direction: column;
       justify-content: center;
       padding: 60px;
+      text-align: left;
     }
 
     .left-panel img {
@@ -77,13 +78,15 @@
       max-width: 420px;
     }
 
-    /* DERECHA – FORMULARIO */
+    /* PANEL DERECHO — AHORA 100% PEGADO ARRIBA */
     .right-panel {
       background: #ffffff;
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* PEGADO ARRIBA */
       justify-content: center;
       padding: 40px;
+      padding-top: 0;          /* SIN ESPACIADO ARRIBA */
+      overflow-y: auto;        /* SCROLL SI ES NECESARIO */
     }
 
     .form-card {
@@ -91,6 +94,7 @@
       max-width: 380px;
       background: #fff;
       padding: 30px;
+      padding-top: 10px;       /* Un poco de aire arriba para no pegarlo a la barra */
       border-radius: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     }
@@ -146,7 +150,7 @@
       filter: brightness(0.95);
     }
 
-    /* SOCIAL BUTTONS */
+    /* BOTONES SOCIALES */
     .social-buttons {
       display: flex;
       flex-direction: column;
@@ -255,7 +259,7 @@
 
   <div class="container">
 
-    <!-- PANEL IZQUIERDO -->
+    <!-- IZQUIERDA -->
     <div class="left-panel">
       <img src="img/logo.png" alt="Logo StayProud">
       <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
@@ -266,7 +270,7 @@
       </p>
     </div>
 
-    <!-- PANEL DERECHO -->
+    <!-- DERECHA -->
     <div class="right-panel">
       <div class="form-card">
 
@@ -305,7 +309,8 @@
         <!-- REGISTRO -->
         <div id="registerForm" class="hidden">
           <h2>Crear cuenta</h2>
-          <p>Regístrate como huésped para poder reservar.
+          <p>Regístrate como huésped para poder reservar.</p>
+
           <label for="regName">Nombre completo</label>
           <input type="text" id="regName" placeholder="Tu nombre">
 
