@@ -27,7 +27,8 @@
     </nav>
     </div>
   </header>
- <!DOCTYPE html>
+ Hoy
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -135,18 +136,6 @@
             font-size: 11px;
         }
 
-        /* GALERÍA DE FOTOS */
-
-        .galeria-container {
-            margin-bottom: 24px;
-        }
-
-        .galeria-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
         @media (max-width: 768px) {
             .servicios-header {
                 flex-direction: column;
@@ -157,57 +146,132 @@
                 width: 140px;
                 align-self: flex-end;
             }
-
-            .galeria-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
-        @media (max-width: 480px) {
-            .galeria-grid {
-                grid-template-columns: 1fr;
-            }
+        /* SLIDER (GALERÍA MODERNA) */
+
+        .galeria-container {
+            margin-bottom: 24px;
         }
 
-        .foto-item {
-            border: 1px dashed var(--border-soft);
-            border-radius: 12px;
-            padding: 10px;
-            background: #fafafa;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: stretch;
+        .slider-wrapper {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #f0f0f0;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
         }
 
-        .foto-preview {
+        .slider-viewport {
             width: 100%;
-            aspect-ratio: 4 / 3;
-            border-radius: 8px;
-            background: #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            will-change: transform;
+        }
+
+        .slide {
+            min-width: 100%;
+            aspect-ratio: 16 / 9;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            font-size: 12px;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 4px;
+            background: #e0e0e0;
         }
 
-        .foto-preview img {
+        .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .foto-label {
+        .slide.placeholder {
+            color: var(--text-muted);
+            font-size: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(0, 0, 0, 0.35);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .slider-arrow:active {
+            transform: translateY(-50%) scale(0.98);
+        }
+
+        .slider-arrow.left {
+            left: 10px;
+        }
+
+        .slider-arrow.right {
+            right: 10px;
+        }
+
+        .slider-dots {
+            position: absolute;
+            left: 50%;
+            bottom: 8px;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.16);
+            backdrop-filter: blur(8px);
+        }
+
+        .slider-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.6);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--primary);
+            transform: scale(1.25);
+        }
+
+        .galeria-input-row {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
             font-size: 13px;
             color: var(--text-muted);
         }
 
-        .input-file {
-            font-size: 13px;
+        .galeria-input-row input[type="file"] {
+            font-size: 12px;
         }
 
         /* DESCRIPCIÓN */
@@ -432,63 +496,36 @@
                 </div>
             </div>
 
-            <!-- GALERÍA DE 6 FOTOS -->
+            <!-- GALERÍA SLIDER -->
             <div class="galeria-container">
-                <h2>Galería de fotos (máx. 6)</h2>
-                <div class="galeria-grid">
-                    <!-- Foto 1 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-1">
-                            Foto 1<br>Haz clic abajo para subir
-                        </div>
-                        <div class="foto-label">Hab. Foto 1</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-1">
-                    </div>
+                <h2>Galería de fotos</h2>
 
-                    <!-- Foto 2 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-2">
-                            Foto 2<br>Haz clic abajo para subir
+                <div class="slider-wrapper">
+                    <div class="slider-viewport">
+                        <div class="slider-track" id="slider-track">
+                            <!-- Slide por defecto (si no hay fotos aún) -->
+                            <div class="slide placeholder">
+                                Aún no has subido fotos.<br>
+                                Usa el campo de abajo para subir hasta 6 imágenes de la habitación.
+                            </div>
                         </div>
-                        <div class="foto-label">Hab. Foto 2</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-2">
-                    </div>
 
-                    <!-- Foto 3 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-3">
-                            Foto 3<br>Haz clic abajo para subir
-                        </div>
-                        <div class="foto-label">Hab. Foto 3</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-3">
-                    </div>
+                        <button type="button" class="slider-arrow left" id="prev-slide" aria-label="Foto anterior">
+                            ‹
+                        </button>
+                        <button type="button" class="slider-arrow right" id="next-slide" aria-label="Foto siguiente">
+                            ›
+                        </button>
 
-                    <!-- Foto 4 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-4">
-                            Foto 4<br>Haz clic abajo para subir
+                        <div class="slider-dots" id="slider-dots">
+                            <!-- Puntos generados por JS -->
                         </div>
-                        <div class="foto-label">Hab. Foto 4</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-4">
                     </div>
+                </div>
 
-                    <!-- Foto 5 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-5">
-                            Foto 5<br>Haz clic abajo para subir
-                        </div>
-                        <div class="foto-label">Hab. Foto 5</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-5">
-                    </div>
-
-                    <!-- Foto 6 -->
-                    <div class="foto-item">
-                        <div class="foto-preview" id="preview-6">
-                            Foto 6<br>Haz clic abajo para subir
-                        </div>
-                        <div class="foto-label">Hab. Foto 6</div>
-                        <input class="input-file foto-input" type="file" accept="image/*" id="foto-6">
-                    </div>
+                <div class="galeria-input-row">
+                    <input type="file" id="fotos-habitacion" accept="image/*" multiple>
+                    <span>(Máx. 6 fotos por habitación)</span>
                 </div>
             </div>
 
@@ -600,29 +637,6 @@
 </div>
 
 <script>
-    // Vista previa de las 6 fotos de la habitación
-    document.querySelectorAll('.foto-input').forEach((input, index) => {
-        input.addEventListener('change', function () {
-            const file = this.files[0];
-            const previewId = 'preview-' + (index + 1);
-            const previewDiv = document.getElementById(previewId);
-
-            if (!file) {
-                previewDiv.innerHTML = Foto ${index + 1}<br>Haz clic abajo para subir;
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewDiv.innerHTML = "";
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                previewDiv.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        });
-    });
-
     // Vista previa de la foto del anfitrión
     const hostInput = document.getElementById('host-photo');
     const hostPreview = document.getElementById('host-preview');
@@ -643,6 +657,110 @@
             hostPreview.appendChild(img);
         };
         reader.readAsDataURL(file);
+    });
+
+    // SLIDER DE FOTOS
+    const fotosInput = document.getElementById('fotos-habitacion');
+    const sliderTrack = document.getElementById('slider-track');
+    const sliderDots = document.getElementById('slider-dots');
+    const prevBtn = document.getElementById('prev-slide');
+    const nextBtn = document.getElementById('next-slide');
+
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoPlayTimer = null;
+
+    function clearSlider() {
+        sliderTrack.innerHTML = "";
+        sliderDots.innerHTML = "";
+        totalSlides = 0;
+        currentSlide = 0;
+        if (autoPlayTimer) {
+            clearInterval(autoPlayTimer);
+            autoPlayTimer = null;
+        }
+    }
+
+    function createSlide(src) {
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+        const img = document.createElement('img');
+        img.src = src;
+        slide.appendChild(img);
+        return slide;
+    }
+
+    function createDot(index) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'slider-dot';
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+        return dot;
+    }
+
+    function showSlide(index) {
+        if (totalSlides === 0) return;
+        currentSlide = (index + totalSlides) % totalSlides;
+        const offset = -currentSlide * 100;
+        sliderTrack.style.transform = translateX(${offset}%);
+
+        Array.from(sliderDots.children).forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    function startAutoPlay() {
+        if (autoPlayTimer) clearInterval(autoPlayTimer);
+        if (totalSlides <= 1) return;
+        autoPlayTimer = setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+    }
+
+    fotosInput.addEventListener('change', function () {
+        const files = Array.from(this.files || []);
+        clearSlider();
+
+        if (files.length === 0) {
+            // Mensaje de placeholder
+            const placeholder = document.createElement('div');
+            placeholder.className = 'slide placeholder';
+            placeholder.innerHTML = 'Aún no has subido fotos.<br>Usa el campo de abajo para subir hasta 6 imágenes de la habitación.';
+            sliderTrack.appendChild(placeholder);
+            return;
+        }
+
+        const limitedFiles = files.slice(0, 6);
+        limitedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const slide = createSlide(e.target.result);
+                sliderTrack.appendChild(slide);
+
+                const dot = createDot(index);
+                sliderDots.appendChild(dot);
+
+                totalSlides = sliderTrack.children.length;
+                if (index === 0) {
+                    showSlide(0);
+                    startAutoPlay();
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Flechas
+    prevBtn.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+        startAutoPlay();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+        startAutoPlay();
     });
 
     // Estrellas de valoración (huésped y anfitrión)
