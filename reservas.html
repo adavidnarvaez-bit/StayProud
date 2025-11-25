@@ -250,21 +250,11 @@
         Reserva un alojamiento LGTBIQ+ friendly cerca de la escena queer de la ciudad,
         con anfitriones que entienden y celebran tu manera de ser.
       </p>
-      <div class="chips">
-        <span class="chip">CERCA DE LA ESCENA LGBT</span>
-        <span class="chip">ESPACIO RELAJANTE</span>
-        <span class="chip">UBICACIÓN CÉNTRICA</span>
-        <span class="chip">CONSEJOS GAY DEL ANFITRIÓN</span>
-        <span class="chip">WI-FI</span>
-        <span class="chip">ESPACIO DE TRABAJO</span>
-      </div>
-    </div>
-
-    <div class="reservas-layout">
+         <div class="reservas-layout">
       <!-- COLUMNA IZQUIERDA: CALENDARIO -->
       <div class="card">
         <div class="cal-header">
-          <div class="cal-month" id="cal-month-year">Mes Año</div>
+          <div class="cal-month" id="cal-month-year">DESDE 2025</div>
           <div>
             <button type="button" class="cal-nav-btn" id="cal-prev">‹</button>
             <button type="button" class="cal-nav-btn" id="cal-next">›</button>
@@ -349,7 +339,7 @@
           </div>
         </form>
 
-        <!-- panel simple para configurar precios (solo tú) -->
+        <!-- panel simple para configurar precios (ADMINISTRADOR) -->
         <details style="margin-top:14px;">
           <summary class="muted-small" style="cursor:pointer;">
              Ajustar precios por noche (solo anfitrión)
@@ -416,7 +406,7 @@
   }
 
   // ===== CONFIGURACIÓN BÁSICA =====
-  const OWNER_EMAIL = "tucorreo@stayproud.com"; // ← CAMBIA ESTO POR TU CORREO
+  const OWNER_EMAIL = "adavidnarvaezm@gmail.com"; // ← aqui mi correo
 
   const DEFAULT_PRICES = {
     individual: 60,
@@ -469,7 +459,7 @@
     });
   }
 
-  // ===== Calendario =====
+{  // ===== Calendario =====
   const calGrid = document.getElementById("cal-grid");
   const calMonthYear = document.getElementById("cal-month-year");
   const calSummary = document.getElementById("cal-summary");
@@ -808,4 +798,5 @@
 .sp-booked {
   background: #ffb8b5;
   border: 1px solid #e85b57;
+}
 }
