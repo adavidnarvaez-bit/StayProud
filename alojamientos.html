@@ -27,3 +27,391 @@
     </nav>
     </div>
   </header>
+
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>StayProud - Iniciar sesión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #f5f7f8;
+      color: #124045;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      background-color: #00bfa6;
+      color: #fff;
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header nav a {
+      margin-left: 24px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* CONTENEDOR PRINCIPAL (2 columnas) */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: calc(100vh - 70px);
+    }
+
+    /* PANEL IZQUIERDO */
+    .left-panel {
+      background-color: #00bfa6;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      text-align: left;
+    }
+
+    .left-panel img {
+      width: 200px;
+      margin-bottom: 30px;
+    }
+
+    .left-panel h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .left-panel p {
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    /* PANEL DERECHO — AHORA 100% PEGADO ARRIBA */
+    .right-panel {
+      background: #ffffff;
+      display: flex;
+      align-items: flex-start; /* PEGADO ARRIBA */
+      justify-content: center;
+      padding: 40px;
+      padding-top: 0;          /* SIN ESPACIADO ARRIBA */
+      overflow-y: auto;        /* SCROLL SI ES NECESARIO */
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      padding: 30px;
+      padding-top: 10px;       /* Un poco de aire arriba para no pegarlo a la barra */
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .form-card h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .form-card p {
+      text-align: center;
+      font-size: 14px;
+      color: #5a6a6c;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 5px;
+      color: #335052;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d4dee0;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      border-color: #00bfa6;
+      box-shadow: 0 0 0 2px rgba(0,191,166,0.20);
+    }
+
+    .button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #00bfa6;
+      color: white;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    .button:hover {
+      filter: brightness(0.95);
+    }
+
+    /* BOTONES SOCIALES */
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .social-btn {
+      width: 100%;
+      border: 1px solid #00bfa6;
+      border-radius: 999px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      color: #00bfa6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .social-btn:hover {
+      background: #00bfa6;
+      color: #fff;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 13px;
+      color: #88989b;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: #d4dee0;
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .switch {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .switch a {
+      color: #00bfa6;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+      }
+
+      .left-panel {
+        text-align: center;
+        align-items: center;
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo" style="font-size:20px; font-weight:700;">StayProud</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="login.html">Reservas</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- IZQUIERDA -->
+    <div class="left-panel">
+      <img src="img/logo.png" alt="Logo StayProud">
+      <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
+      <p>
+        En StayProud creemos que viajar es más que moverse, es sentirse libre,
+        auténtico y bienvenido. Encuentra alojamientos donde el respeto y la diversidad
+        son parte del hogar.
+      </p>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="right-panel">
+      <div class="form-card">
+
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <h2>Iniciar sesión</h2>
+          <p>Accede a tu cuenta de huésped para reservar.</p>
+
+          <label for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" placeholder="tucorreo@example.com">
+
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="••••••••">
+
+          <button class="button" onclick="handleLogin()">INICIAR SESIÓN</button>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">
+              Continuar con Facebook
+            </button>
+
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+              Continuar con Google
+            </button>
+          </div>
+
+          <div class="switch">
+            ¿No tienes cuenta? <a onclick="showRegister()">Regístrate</a>
+          </div>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="registerForm" class="hidden">
+          <h2>Crear cuenta</h2>
+          <p>Regístrate como huésped para poder reservar.</p>
+
+          <label for="regName">Nombre completo</label>
+          <input type="text" id="regName" placeholder="Tu nombre">
+
+          <label for="regEmail">Correo electrónico</label>
+          <input type="email" id="regEmail" placeholder="tucorreo@example.com">
+
+          <label for="regPassword">Contraseña</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
+
+          <button class="button" onclick="handleRegister()">CREAR CUENTA</button>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">
+              Registrarse con Facebook
+            </button>
+
+            <button class="social-btn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+              Registrarse con Google
+            </button>
+          </div>
+
+          <div class="switch">
+            ¿Ya tienes cuenta? <a onclick="showLogin()">Iniciar sesión</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("registerForm").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    function handleLogin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      if (!email) {
+        alert("Por favor escribe tu correo.");
+        return;
+      }
+      localStorage.setItem("stayProudUser", email);
+      window.location.href = "reservas.html";
+    }
+
+    function handleRegister() {
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPassword").value.trim();
+
+      if (!name || !email || pass.length < 6) {
+        alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+
+      localStorage.setItem("stayProudUser", email);
+      alert("Cuenta creada. ¡Bienvenido a StayProud!");
+      window.location.href = "reservas.html";
+    }
+  </script>
+
+</body>
+</html>
