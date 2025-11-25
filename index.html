@@ -61,12 +61,16 @@
 
     /* LADO IZQUIERDO (imagen / mensaje) */
     .auth-hero {
-      flex: 1;
-      background-image: url("https://images.pexels.com/photos/3738089/pexels-photo-3738089.jpeg");
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      display: none;
+  flex: 1;
+  background-image: url("img/logo.png");
+  background-size: contain;      /* Para que el logo no se deforme */
+  background-repeat: no-repeat;  /* Para que no se repita */
+  background-position: center;   /* Para centrar el logo */
+  background-color: #00bfa6;     /* Tu color StayProud */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
     }
 
     .auth-hero-overlay {
