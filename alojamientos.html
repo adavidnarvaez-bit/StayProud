@@ -762,12 +762,6 @@
         showSlide(currentSlide + 1);
         startAutoPlay();
     });
-
-    // Estrellas de valoración (huésped y anfitrión)
-    document.querySelectorAll('.rating-stars').forEach(group => {
-        const targetId = group.getAttribute('data-target');
-        const hiddenInput = document.getElementById(targetId);
-
         group.querySelectorAll('span').forEach(star => {
             star.addEventListener('click', () => {
                 const value = parseInt(star.getAttribute('data-value'), 10);
