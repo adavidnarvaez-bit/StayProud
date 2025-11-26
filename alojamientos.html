@@ -28,3 +28,776 @@
     </div>
   </header>
 
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reservas StayProud</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg">
+
+  <!-- Estilos específicos de la página de reservas -->
+  <style>
+    .listing-header{
+      margin-top:24px;
+      margin-bottom:16px;
+    }
+    .listing-header h1{
+      font-size:26px;
+      margin-bottom:4px;
+      color:#222;
+    }
+    .listing-header .muted{
+      margin-top:4px;
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0 20px;
+    }
+    .chip{
+      border-radius:999px;
+      border:1px solid #cfecec;
+      padding:6px 12px;
+      font-size:12px;
+      font-weight:600;
+      color:#007a71;
+      background:#f7fffe;
+      white-space:nowrap;
+    }
+
+    .reservas-layout{
+      display:grid;
+      grid-template-columns: 1.5fr 1.3fr;
+      gap:24px;
+      align-items:flex-start;
+      margin-bottom:40px;
+    }
+    @media (max-width:900px){
+      .reservas-layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    /* TARJETAS */
+    .card{
+      background:#fff;
+      border-radius:18px;
+      border:1px solid #eee;
+      box-shadow:0 10px 24px rgba(0,0,0,.04);
+      padding:18px 18px 20px;
+    }
+
+    /* CALENDARIO */
+    .cal-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .cal-month{
+      font-weight:700;
+      font-size:16px;
+    }
+    .cal-nav-btn{
+      border-radius:999px;
+      border:1px solid #d5e6e5;
+      background:#f7fffe;
+      padding:6px 10px;
+      cursor:pointer;
+      font-weight:700;
+      color:#007a71;
+    }
+    .cal-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:4px;
+      font-size:13px;
+    }
+    .cal-dow{
+      text-align:center;
+      font-weight:600;
+      color:#777;
+      padding:4px 0;
+    }
+    .cal-day{
+      position:relative;
+      border-radius:10px;
+      border:1px solid #dbeeee;
+      background:#fff;
+      height:38px;
+      font-size:14px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .cal-day--empty{
+      border:none;
+      background:transparent;
+      cursor:default;
+    }
+    .cal-day--past,
+    .cal-day--booked{
+      color:#bbb;
+      background:#f5f5f5;
+      border-color:#ececec;
+      cursor:not-allowed;
+    }
+    .cal-day--range{
+      background:#ccf6ef;
+      border-color:#00bfa6;
+      color:#00554c;
+    }
+    .cal-day--start,
+    .cal-day--end{
+      background:#00bfa6;
+      color:#fff;
+      border-color:#00bfa6;
+      font-weight:700;
+    }
+    .cal-day--today{
+      box-shadow:0 0 0 1px #00bfa6 inset;
+    }
+
+    .cal-summary{
+      margin-top:10px;
+      font-size:14px;
+      color:#444;
+    }
+
+    /* FORMULARIO DE RESERVA */
+    label{ display:block; font-weight:600; margin-bottom:4px; color:#333; }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #ddd;
+      font-size:14px;
+      background:#fff;
+    }
+    .muted-small{ font-size:12px; color:#777; }
+
+    .total-box{
+      background:#f7fffe;
+      border-radius:14px;
+      border:1px dashed #00bfa6;
+      padding:14px 14px 10px;
+      font-size:14px;
+      margin-top:8px;
+    }
+    .total-box div{ margin-bottom:4px; }
+    .total-box-strong{
+      font-size:18px;
+      margin-top:4px;
+    }
+
+    .btn-primary{
+      background:#00bfa6;
+      color:#fff;
+      border:none;
+      border-radius:12px;
+      padding:10px 18px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn-primary:hover{
+      background:#00a28f;
+    }
+    .btn-secondary{
+      background:#fff;
+      color:#00bfa6;
+      border-radius:12px;
+      border:2px solid #00bfa6;
+      padding:10px 18px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn-row{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .error{ color:#b00020; font-size:13px; margin-top:6px; display:none; }
+    .ok{ color:#0a8f5a; font-size:13px; margin-top:6px; display:none; }
+
+    .summary-card{
+      margin-bottom:40px;
+    }
+    .summary-card ul{
+      padding-left:18px;
+      margin:8px 0 0;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+
+    <!-- ENCABEZADO ESTILO ANUNCIO -->
+    <div class="listing-header">
+      <h1>Libertad y Respeto : tu espacio seguro en cada uno de tus viajes</h1>
+      <p class="muted">
+        Reserva StayProud: Alojamiento LGTBIQ+ con anfitriones que te conectan con
+         lugares y experiencias comienza aquí: reserva, descubre y déjate guiar por
+          anfitriones locales
+      </p>
+         <div class="reservas-layout">
+      <!-- COLUMNA IZQUIERDA: CALENDARIO -->
+      <div class="card">
+        <div class="cal-header">
+          <div class="cal-month" id="cal-month-year">DESDE 2025</div>
+          <div>
+            <button type="button" class="cal-nav-btn" id="cal-prev">‹</button>
+            <button type="button" class="cal-nav-btn" id="cal-next">›</button>
+          </div>
+        </div>
+
+        <div class="cal-grid" id="cal-grid">
+          <!-- aquí se genera el calendario con JS -->
+        </div>
+
+        <p class="cal-summary" id="cal-summary">
+          Añade tus fechas para ver el precio total.
+        </p>
+      </div>
+
+      <!-- COLUMNA DERECHA: FORMULARIO / TOTAL -->
+      <div class="card">
+        <!-- formulario de reserva -->
+        <form id="booking-form" novalidate>
+
+          <!-- inputs ocultos para guardar fechas -->
+          <input type="hidden" id="checkin">
+          <input type="hidden" id="checkout">
+
+          <div style="margin-bottom:10px;">
+            <span style="font-weight:700;">Reserva StayProud</span><br>
+            <span class="muted-small">Selecciona fechas en el calendario de la izquierda.</span>
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label for="room">Tipo de habitación</label>
+            <select id="room" required>
+              <option value="individual">Hab. individual</option>
+              <option value="pareja">Hab. pareja</option>
+              <option value="entero">Alojamiento entero</option>
+            </select>
+            <div class="muted-small" id="room-price-text">
+              Precio por noche: <strong><span id="room-price-pill">60 €</span></strong>
+            </div>
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label for="guests">Huéspedes</label>
+            <input type="number" id="guests" min="1" max="6" value="1" required>
+            <div class="muted-small">
+              Capacidad sujeta al tipo de habitación (individual, pareja o alojamiento entero).
+            </div>
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label for="name">Nombre y apellidos</label>
+            <input type="text" id="name" required placeholder="Nombre completo">
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label for="email">Email</label>
+            <input type="email" id="email" required placeholder="tucorreo@ejemplo.com">
+          </div>
+
+          <div style="margin-bottom:10px;">
+            <label for="notes">Notas especiales (opcional)</label>
+            <input type="text" id="notes" placeholder="Hora de llegada, alergias, peticiones...">
+          </div>
+
+          <div class="total-box">
+            <div><strong>Noches:</strong> <span id="nights">0</span></div>
+            <div><strong>Precio por noche por persona:</strong> <span id="ppn">0 €</span></div>
+            <div><strong>Valor por noches Pareja:</strong> <span id="subtotal">0 €</span></div>
+            <div class="total-box-strong">
+              <strong>Total reserva:</strong> <span id="total">0 €</span>
+            </div>
+            <div id="error-msg" class="error"></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-primary" id="calc">
+              COMPROBAR DISPONIBILIDAD
+            </button>
+            <button type="submit" class="btn-secondary">
+              Confirmar reserva por email
+            </button>
+          </div>
+        </form>
+
+        <!-- panel simple para configurar precios (ADMINISTRADOR) -->
+        <details style="margin-top:14px;">
+          <summary class="muted-small" style="cursor:pointer;">
+             Ajustar precios por noche (solo anfitrión)
+          </summary>
+          <div class="muted-small" style="margin:8px 0;">
+            Se guarda en este navegador. No afecta a otros dispositivos.
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <div>
+              <label style="font-size:12px;">Indiv. € / noche</label>
+              <input type="number" id="price-individual" min="0" step="1" value="60">
+            </div>
+            <div>
+              <label style="font-size:12px;">Pareja € / noche</label>
+              <input type="number" id="price-pareja" min="0" step="1" value="80">
+            </div>
+            <div>
+              <label style="font-size:12px;">Entero € / noche</label>
+              <input type="number" id="price-entero" min="0" step="1" value="120">
+            </div>
+          </div>
+          <button type="button" class="btn-secondary" id="save-prices"
+                  style="margin-top:8px;padding:6px 10px;font-size:12px;">
+            Guardar precios
+          </button>
+          <div id="admin-msg" class="ok">Precios guardados </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Resumen tras enviar -->
+    <div id="summary" class="card summary-card" style="display:none;">
+      <h2> Reserva creada</h2>
+      <p class="muted">
+        Hemos calculado tu reserva y preparado un correo para el equipo StayProud.
+        Revisa los datos y envía el email para confirmar.
+      </p>
+      <ul>
+        <li><strong>Nombre:</strong> <span id="s-name"></span></li>
+        <li><strong>Email:</strong> <span id="s-email"></span></li>
+        <li><strong>Entrada:</strong> <span id="s-in"></span></li>
+        <li><strong>Salida:</strong> <span id="s-out"></span></li>
+        <li><strong>Noches:</strong> <span id="s-nights"></span></li>
+        <li><strong>Tipo de habitación:</strong> <span id="s-room"></span></li>
+        <li><strong>Huéspedes:</strong> <span id="s-guests"></span></li>
+        <li><strong>Total reserva:</strong> <span id="s-total"></span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © 2025 StayProud. Todos los derechos reservados.
+</footer>
+
+<script>
+  // ===== Navegación móvil =====
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.getElementById("main-nav");
+  if(toggle){
+    toggle.addEventListener("click", ()=> nav.classList.toggle("open"));
+  }
+
+  // ===== CONFIGURACIÓN BÁSICA =====
+  const OWNER_EMAIL = "adavidnarvaezm@gmail.com"; // ← aqui mi correo
+
+  const DEFAULT_PRICES = {
+    individual: 60,
+    pareja: 80,
+    entero: 120
+  };
+
+  // Rango de fechas ya ocupadas (ejemplo)
+  const BOOKED_RANGES = [
+    // del 10 al 12 (noctes 10,11)
+    { from: "2025-12-10", to: "2025-12-12" }
+  ];
+
+  // ===== Utilidades de fechas =====
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0,10);
+
+  function dateObj(str){ return new Date(str + "T12:00:00"); }
+
+  function daysBetween(aStr,bStr){
+    if(!aStr || !bStr) return 0;
+    const a = dateObj(aStr);
+    const b = dateObj(bStr);
+    return Math.max(0, Math.round((b-a)/(1000*60*60*24)));
+  }
+
+  function ymd(y,m,d){
+    const mm = String(m).padStart(2,"0");
+    const dd = String(d).padStart(2,"0");
+    return ${y}-${mm}-${dd};
+  }
+
+  function dmy(str){
+    const [y,m,d] = str.split("-");
+    return ${d}/${m}/${y};
+  }
+
+  function isBookedDate(dateStr){
+    return BOOKED_RANGES.some(r => dateStr >= r.from && dateStr < r.to);
+  }
+
+  function overlapsBooked(ci,co){
+    if(!ci || !co) return false;
+    const aStart = dateObj(ci);
+    const aEnd   = dateObj(co);
+    return BOOKED_RANGES.some(r=>{
+      const bStart = dateObj(r.from);
+      const bEnd   = dateObj(r.to);
+      return aStart < bEnd && bStart < aEnd;
+    });
+  }
+
+{  // ===== Calendario =====
+  const calGrid = document.getElementById("cal-grid");
+  const calMonthYear = document.getElementById("cal-month-year");
+  const calSummary = document.getElementById("cal-summary");
+  const prevBtn = document.getElementById("cal-prev");
+  const nextBtn = document.getElementById("cal-next");
+
+  const checkinInput = document.getElementById("checkin");
+  const checkoutInput = document.getElementById("checkout");
+
+  let currentYear = today.getFullYear();
+  let currentMonth = today.getMonth(); // 0-11
+  let selectedCheckin = "";
+  let selectedCheckout = "";
+
+  function loadPrices(){
+    try{
+      const stored = JSON.parse(localStorage.getItem("sp_prices"));
+      if(stored && typeof stored === "object") return {...DEFAULT_PRICES, ...stored};
+    }catch(e){}
+    return {...DEFAULT_PRICES};
+  }
+
+  let PRICES = loadPrices();
+
+  // ===== UI precios =====
+  const priceIndInput = document.getElementById("price-individual");
+  const priceParInput = document.getElementById("price-pareja");
+  const priceEntInput = document.getElementById("price-entero");
+  const adminMsg = document.getElementById("admin-msg");
+
+  if(priceIndInput){
+    priceIndInput.value = PRICES.individual;
+    priceParInput.value = PRICES.pareja;
+    priceEntInput.value = PRICES.entero;
+
+    document.getElementById("save-prices").addEventListener("click", ()=>{
+      PRICES.individual = Number(priceIndInput.value || DEFAULT_PRICES.individual);
+      PRICES.pareja     = Number(priceParInput.value || DEFAULT_PRICES.pareja);
+      PRICES.entero     = Number(priceEntInput.value || DEFAULT_PRICES.entero);
+      localStorage.setItem("sp_prices", JSON.stringify(PRICES));
+      adminMsg.style.display = "block";
+      setTimeout(()=> adminMsg.style.display="none",1500);
+      updateRoomPriceUI();
+      calcTotal();
+    });
+  }
+
+  function pricePerNightFor(roomValue){
+    if(roomValue === "individual") return PRICES.individual;
+    if(roomValue === "pareja") return PRICES.pareja;
+    return PRICES.entero;
+  }
+
+  const roomSelect = document.getElementById("room");
+  const roomPricePill = document.getElementById("room-price-pill");
+  const ppnEl = document.getElementById("ppn");
+
+  function fmt(n){
+    return new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n);
+  }
+
+  function updateRoomPriceUI(){
+    const p = pricePerNightFor(roomSelect.value);
+    roomPricePill.textContent = fmt(p);
+    ppnEl.textContent = fmt(p);
+  }
+
+  // Renderizar calendario
+  function renderCalendar(){
+    const monthNames = [
+      "ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO",
+      "JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"
+    ];
+
+    calMonthYear.textContent = ${monthNames[currentMonth]} ${currentYear};
+
+    calGrid.innerHTML = "";
+
+    const dow = ["Do","Lu","Ma","Mi","Ju","Vi","Sa"];
+    dow.forEach(d=>{
+      const el = document.createElement("div");
+      el.textContent = d;
+      el.className = "cal-dow";
+      calGrid.appendChild(el);
+    });
+
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0-6
+    const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+
+    // huecos antes del día 1
+    for(let i=0;i<firstDay;i++){
+      const empty = document.createElement("div");
+      empty.className = "cal-day cal-day--empty";
+      calGrid.appendChild(empty);
+    }
+
+    for(let d=1; d<=daysInMonth; d++){
+      const dateStr = ymd(currentYear, currentMonth+1, d);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = d;
+      btn.className = "cal-day";
+      btn.dataset.date = dateStr;
+
+      // estados
+      const isPast = dateStr < todayStr;
+      const booked = isBookedDate(dateStr);
+
+      if(isPast){
+        btn.classList.add("cal-day--past");
+      }
+      if(booked){
+        btn.classList.add("cal-day--booked");
+      }
+
+      // selección de rango
+      if(selectedCheckin && dateStr === selectedCheckin){
+        btn.classList.add("cal-day--start");
+      }
+      if(selectedCheckout && dateStr === selectedCheckout){
+        btn.classList.add("cal-day--end");
+      }
+      if(selectedCheckin && selectedCheckout &&
+         dateStr > selectedCheckin && dateStr < selectedCheckout){
+        btn.classList.add("cal-day--range");
+      }
+
+      // hoy
+      if(dateStr === todayStr){
+        btn.classList.add("cal-day--today");
+      }
+
+      if(!isPast && !booked){
+        btn.addEventListener("click", ()=> onDayClick(dateStr));
+      }
+
+      calGrid.appendChild(btn);
+    }
+  }
+
+  function onDayClick(dateStr){
+    // si no hay checkin o ya hay rango completo → empezar de nuevo
+    if(!selectedCheckin || (selectedCheckin && selectedCheckout)){
+      selectedCheckin = dateStr;
+      selectedCheckout = "";
+    }else{
+      // tenemos checkin pero no checkout
+      if(dateStr <= selectedCheckin){
+        selectedCheckin = dateStr;
+        selectedCheckout = "";
+      }else{
+        selectedCheckout = dateStr;
+      }
+    }
+
+    checkinInput.value = selectedCheckin;
+    checkoutInput.value = selectedCheckout;
+
+    renderCalendar();
+    updateCalSummary();
+    calcTotal();
+  }
+
+  function updateCalSummary(){
+    if(!selectedCheckin){
+      calSummary.textContent = "Añade tus fechas para ver el precio total.";
+      return;
+    }
+    if(selectedCheckin && !selectedCheckout){
+      calSummary.textContent = Entrada: ${dmy(selectedCheckin)}. Selecciona la fecha de salida.;
+      return;
+    }
+    const n = daysBetween(selectedCheckin, selectedCheckout);
+    calSummary.textContent = Del ${dmy(selectedCheckin)} al ${dmy(selectedCheckout)} — ${n} noche(s).;
+  }
+
+  prevBtn.addEventListener("click", ()=>{
+    currentMonth--;
+    if(currentMonth < 0){
+      currentMonth = 11;
+      currentYear--;
+    }
+    renderCalendar();
+  });
+
+  nextBtn.addEventListener("click", ()=>{
+    currentMonth++;
+    if(currentMonth > 11){
+      currentMonth = 0;
+      currentYear++;
+    }
+    renderCalendar();
+  });
+
+  renderCalendar();
+  updateRoomPriceUI();
+
+  // ===== Cálculo de totales =====
+  const guestsInput = document.getElementById("guests");
+  const nightsEl = document.getElementById("nights");
+  const subtotalEl = document.getElementById("subtotal");
+  const totalEl = document.getElementById("total");
+  const errorEl = document.getElementById("error-msg");
+
+  function calcTotal(){
+    errorEl.style.display = "none";
+    let error = "";
+
+    const ci = checkinInput.value;
+    const co = checkoutInput.value;
+    const n = daysBetween(ci,co);
+    const g = parseInt(guestsInput.value || "1",10
+    /* ===== CALENDARIO STAYPROUD ===== */
+
+.sp-calendar-wrapper {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  padding: 18px 18px 20px;
+  max-width: 420px;
+  font-size: 14px;
+}
+
+.sp-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#sp-monthYear {
+  font-weight: 700;
+  font-size: 16px;
+  color: #0b474b;
+}
+
+.sp-nav-btn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 2px 8px;
+  color: #00a08c;
+}
+
+.sp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 12px;
+  color: #7c8b8d;
+  margin-bottom: 6px;
+}
+
+.sp-weekdays span {
+  padding: 4px 0;
+}
+
+.sp-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.sp-day {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid #b7dada;
+  cursor: default;
+  font-size: 13px;
+  background: #ffffff;
+}
+
+/* días fuera de este mes (espacios en blanco) */
+.sp-day-empty {
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+/* Estado LIBRE (por defecto) */
+.sp-day-free {
+  border-color: #8dd4cf;
+}
+
+/* Estado PENDIENTE (amarillo) */
+.sp-day-pending {
+  background: #ffe9a6;
+  border-color: #f3c55a;
+  color: #5c4408;
+}
+
+/* Estado RESERVADO (rojo) */
+.sp-day-booked {
+  background: #ffb8b5;
+  border-color: #e85b57;
+  color: #5b1512;
+}
+
+/* Leyenda */
+.sp-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #5a6a6c;
+  margin-top: 10px;
+}
+
+.sp-legend span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.sp-free {
+  border: 1px solid #8dd4cf;
+  background: #ffffff;
+}
+
+.sp-pending {
+  background: #ffe9a6;
+  border: 1px solid #f3c55a;
+}
+
+.sp-booked {
+  background: #ffb8b5;
+  border: 1px solid #e85b57;
+}
+}
