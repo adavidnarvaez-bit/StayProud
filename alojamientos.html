@@ -761,25 +761,8 @@
     nextBtn.addEventListener('click', () => {
         showSlide(currentSlide + 1);
         startAutoPlay();
-    });
-        group.querySelectorAll('span').forEach(star => {
-            star.addEventListener('click', () => {
-                const value = parseInt(star.getAttribute('data-value'), 10);
-                hiddenInput.value = value;
-
-                group.querySelectorAll('span').forEach(s => {
-                    const starValue = parseInt(s.getAttribute('data-value'), 10);
-                    if (starValue <= value) {
-                        s.classList.add('active');
-                        s.classList.remove('inactive');
-                    } else {
-                        s.classList.add('inactive');
-                        s.classList.remove('active');
-                    }
-                });
-            });
-        });
-    });
+    })
+                
 
     // Manejo del envío de formulario
     document.getElementById('form-servicios').addEventListener('submit', function (e) {
