@@ -1566,3 +1566,264 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StayProud – Servicios</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f8f8f8;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin: 25px auto;
+    width: 90%;
+    max-width: 1100px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* Títulos */
+.card h2 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #00bfa6;
+}
+
+.services-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.services-group h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #008a7d;
+}
+
+/* Checkboxes personalizados */
+.check-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.check-option input {
+    display: none;
+}
+
+.check-custom {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #00bfa6;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.check-option input:checked + .check-custom {
+    background: #00bfa6;
+}
+
+.check-option input:checked + .check-custom::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+/* Estrellas */
+.stars {
+    color: #f5b400;
+    font-size: 18px;
+}
+
+/* Contadores */
+.counter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.counter-label {
+    font-size: 14px;
+}
+
+.counter-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #00bfa6;
+    background: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.qty-btn:hover {
+    background: #00bfa6;
+    color: #fff;
+}
+
+.counter-controls span {
+    min-width: 18px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TARJETA COMPLETA -->
+<section class="card servicios-habitacion">
+  <h2>Servicios de la habitación</h2>
+
+  <!-- SERVICIOS + COMIDAS -->
+  <div class="services-columns">
+
+    <div class="services-group">
+      <h3>Servicios</h3>
+
+      <label class="check-option"><input type="checkbox" value="Gimnasio"><span class="check-custom"></span><span>Gimnasio</span></label>
+      <label class="check-option"><input type="checkbox" value="Wifi"><span class="check-custom"></span><span>Wifi</span></label>
+      <label class="check-option"><input type="checkbox" value="Hidromasaje"><span class="check-custom"></span><span>Hidromasaje</span></label>
+      <label class="check-option"><input type="checkbox" value="PiscinaExterior"><span class="check-custom"></span><span>Piscina al aire libre</span></label>
+      <label class="check-option"><input type="checkbox" value="PiscinaInterior"><span class="check-custom"></span><span>Piscina interior</span></label>
+      <label class="check-option"><input type="checkbox" value="Restaurante"><span class="check-custom"></span><span>Restaurante</span></label>
+      <label class="check-option"><input type="checkbox" value="Bar"><span class="check-custom"></span><span>Bar</span></label>
+      <label class="check-option"><input type="checkbox" value="PlayaPrivada"><span class="check-custom"></span><span>Playa privada</span></label>
+      <label class="check-option"><input type="checkbox" value="PrimeraLinea"><span class="check-custom"></span><span>Primera línea de playa</span></label>
+      <label class="check-option"><input type="checkbox" value="Sauna"><span class="check-custom"></span><span>Sauna</span></label>
+    </div>
+
+    <div class="services-group">
+      <h3>Comidas</h3>
+
+      <label class="check-option"><input type="checkbox" value="SoloDesayuno"><span class="check-custom"></span><span>Solo desayuno</span></label>
+      <label class="check-option"><input type="checkbox" value="DesayunoCena"><span class="check-custom"></span><span>Desayuno y cena</span></label>
+      <label class="check-option"><input type="checkbox" value="PensionCompleta"><span class="check-custom"></span><span>Pensión completa</span></label>
+    </div>
+
+  </div>
+
+  <!-- ACCESO + BIENVENIDO -->
+  <div class="services-columns">
+
+    <div class="services-group">
+      <h3>Acceso</h3>
+
+      <label class="check-option"><input type="checkbox" value="Ascensor"><span class="check-custom"></span><span>Ascensor</span></label>
+      <label class="check-option"><input type="checkbox" value="Aparcamiento"><span class="check-custom"></span><span>Aparcamiento</span></label>
+      <label class="check-option"><input type="checkbox" value="AccesoRuedas"><span class="check-custom"></span><span>Acceso en silla de ruedas</span></label>
+    </div>
+
+    <div class="services-group">
+      <h3>Bienvenido</h3>
+
+      <label class="check-option"><input type="checkbox" value="RopaOpcional"><span class="check-custom"></span><span>Ropa opcional aceptada</span></label>
+      <label class="check-option"><input type="checkbox" value="Fumar"><span class="check-custom"></span><span>Se permite fumar</span></label>
+      <label class="check-option"><input type="checkbox" value="Mascotas"><span class="check-custom"></span><span>Mascotas OK</span></label>
+      <label class="check-option"><input type="checkbox" value="Familias"><span class="check-custom"></span><span>Niños y familias OK</span></label>
+      <label class="check-option"><input type="checkbox" value="SoloAdultos"><span class="check-custom"></span><span>Solo para adultos</span></label>
+    </div>
+
+  </div>
+
+  <!-- HABITACIONES + ESTRELLAS -->
+  <div class="services-columns">
+
+    <div class="services-group">
+      <h3>Habitaciones</h3>
+
+      <div class="counter-row">
+        <div class="counter-label">Habitaciones</div>
+        <div class="counter-controls">
+          <button class="qty-btn" onclick="changeQty('rooms', -1)">−</button>
+          <span id="rooms-value">1</span>
+          <button class="qty-btn" onclick="changeQty('rooms', 1)">+</button>
+          <input type="hidden" id="rooms-input" value="1">
+        </div>
+      </div>
+
+      <div class="counter-row">
+        <div class="counter-label">Camas</div>
+        <div class="counter-controls">
+          <button class="qty-btn" onclick="changeQty('beds', -1)">−</button>
+          <span id="beds-value">1</span>
+          <button class="qty-btn" onclick="changeQty('beds', 1)">+</button>
+          <input type="hidden" id="beds-input" value="1">
+        </div>
+      </div>
+
+      <div class="counter-row">
+        <div class="counter-label">Baños</div>
+        <div class="counter-controls">
+          <button class="qty-btn" onclick="changeQty('baths', -1)">−</button>
+          <span id="baths-value">1</span>
+          <button class="qty-btn" onclick="changeQty('baths', 1)">+</button>
+          <input type="hidden" id="baths-input" value="1">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="services-group">
+      <h3>Valoración</h3>
+
+      <label class="check-option"><input type="radio" name="rating" value="0" checked><span class="check-custom"></span><span>No calificado</span></label>
+      <label class="check-option"><input type="radio" name="rating" value="1"><span class="check-custom"></span><span class="stars">★</span></label>
+      <label class="check-option"><input type="radio" name="rating" value="2"><span class="check-custom"></span><span class="stars">★★</span></label>
+      <label class="check-option"><input type="radio" name="rating" value="3"><span class="check-custom"></span><span class="stars">★★★</span></label>
+      <label class="check-option"><input type="radio" name="rating" value="4"><span class="check-custom"></span><span class="stars">★★★★</span></label>
+      <label class="check-option"><input type="radio" name="rating" value="5"><span class="check-custom"></span><span class="stars">★★★★★</span></label>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+function changeQty(field, delta) {
+    const valueSpan = document.getElementById(field + '-value');
+    const hiddenInput = document.getElementById(field + '-input');
+    let value = parseInt(valueSpan.textContent);
+
+    value += delta;
+    if (value < 0) value = 0;
+
+    valueSpan.textContent = value;
+    hiddenInput.value = value;
+}
+</script>
+
+</body>
+</html>
