@@ -27,3 +27,513 @@
     </nav>
     </div>
   </header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayProud – Reservas</title>
+  <link rel="icon" href="img/logo.png">
+  <style>
+    :root {
+      --primary: #00bfa6;
+      --primary-soft: #e0f7f5;
+      --text-main: #222;
+      --text-muted: #666;
+      --border-soft: #ddd;
+      --bg-page: #f5f5f5;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    /* NAVBAR */
+    .site-header {
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      padding: 10px 0;
+      margin-bottom: 20px;
+    }
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .brand img {
+      height: 34px;
+      width: auto;
+    }
+    .main-nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      margin-left: 12px;
+      font-size: 14px;
+    }
+    .main-nav a:hover {
+      color: var(--primary);
+    }
+
+    /* LAYOUT */
+    .page-wrapper {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 16px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+    }
+    p.page-intro {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .layout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--primary);
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+    .field-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .field-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      font-family: inherit;
+    }
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0,191,166,0.15);
+    }
+
+    .field-row .half {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    /* RESUMEN / COSTES */
+    .resumen-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .resumen-item span:last-child {
+      font-weight: 600;
+    }
+    .resumen-total {
+      border-top: 1px solid var(--border-soft);
+      margin-top: 10px;
+      padding-top: 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .badge-destino {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* PAGO */
+    .card-logo-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .card-logo {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+      background: #fafafa;
+    }
+
+    .inline-terms {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-top: 6px;
+    }
+    .inline-terms input {
+      margin-top: 2px;
+    }
+
+    .btn-pagar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+    }
+    .btn-pagar:hover {
+      filter: brightness(1.05);
+    }
+
+    .nota-pequena {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="StayProud">
+      <span>StayProud</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-wrapper">
+  <h1>Confirmar reserva</h1>
+  <p class="page-intro">
+    Revisa los datos del huésped, las fechas y completa la información de pago para finalizar la reserva.
+  </p>
+
+  <form id="form-reserva">
+
+    <div class="layout-grid">
+      <!-- COLUMNA IZQUIERDA: HUESPED + RESERVA -->
+      <div class="card">
+        <h2>Datos del huésped</h2>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          <div class="field-group half">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" name="apellidos" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="field-group half">
+            <label for="telefono">Teléfono móvil</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+34 ..." required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="pais">País de residencia</label>
+            <input type="text" id="pais" name="pais" placeholder="España, Colombia, México...">
+          </div>
+          <div class="field-group half">
+            <label for="idioma">Idioma preferido</label>
+            <select id="idioma" name="idioma">
+              <option value="">Selecciona idioma</option>
+              <option value="es">Español</option>
+              <option value="en">Inglés</option>
+              <option value="fr">Francés</option>
+              <option value="pt">Portugués</option>
+              <option value="it">Italiano</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="peticiones">Peticiones especiales (opcional)</label>
+          <input type="text" id="peticiones" name="peticiones" placeholder="Ej: llegada tarde, alergias, accesibilidad...">
+        </div>
+
+        <hr style="margin:16px 0; border:none; border-top:1px solid var(--border-soft);">
+
+        <h2>Detalles de la reserva</h2>
+
+        <div class="badge-destino">
+          <span></span>
+          <span id="resumen-alojamiento">Alojamiento StayProud</span>
+        </div>
+
+        <div class="field-group">
+          <label for="nombre-alojamiento">Nombre del alojamiento</label>
+          <input type="text" id="nombre-alojamiento" name="nombre_alojamiento" placeholder="Ej: Habitación doble en el Raval">
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="checkin">Fecha de entrada</label>
+            <input type="date" id="checkin" name="checkin" required>
+          </div>
+          <div class="field-group half">
+            <label for="checkout">Fecha de salida</label>
+            <input type="date" id="checkout" name="checkout" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="huespedes">Número de huéspedes</label>
+            <input type="number" id="huespedes" name="huespedes" min="1" value="1" required>
+          </div>
+          <div class="field-group half">
+            <label for="precio-noche">Precio por noche (€)</label>
+            <input type="number" id="precio-noche" name="precio_noche" min="0" step="0.01" value="80">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="noches">Noches</label>
+            <input type="number" id="noches" name="noches" min="1" value="1">
+          </div>
+          <div class="field-group half">
+            <label for="tasas">Tasas y cargos extra (€)</label>
+            <input type="number" id="tasas" name="tasas" min="0" step="0.01" value="0">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="codigo-reserva">Código de reserva (opcional)</label>
+          <input type="text" id="codigo-reserva" name="codigo_reserva" placeholder="Se generará en tu sistema o channel manager">
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="resumen-item">
+            <span>Precio por noche</span>
+            <span id="resumen-precio-noche">80 €</span>
+          </div>
+          <div class="resumen-item">
+            <span>Noches</span>
+            <span id="resumen-noches">1</span>
+          </div>
+          <div class="resumen-item">
+            <span>Tasas / extras</span>
+            <span id="resumen-tasas">0 €</span>
+          </div>
+          <div class="resumen-total">
+            Total reserva: <span id="resumen-total">80 €</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: PAGO -->
+      <div class="card">
+        <h2>Pago seguro</h2>
+
+        <div class="card-logo-row">
+          <div class="card-logo">Visa</div>
+          <div class="card-logo">Mastercard</div>
+          <div class="card-logo">Maestro</div>
+          <div class="card-logo">American Express</div>
+        </div>
+
+        <div class="field-group">
+          <label for="tipo-tarjeta">Tipo de tarjeta</label>
+          <select id="tipo-tarjeta" name="tipo_tarjeta" required>
+            <option value="">Selecciona una opción</option>
+            <option value="credito">Crédito</option>
+            <option value="debito">Débito</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="titular">Nombre del titular (como aparece en la tarjeta)</label>
+          <input type="text" id="titular" name="titular" required>
+        </div>
+
+        <div class="field-group">
+          <label for="numero-tarjeta">Número de tarjeta</label>
+          <input type="text" id="numero-tarjeta" name="numero_tarjeta" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group half">
+            <label for="caducidad">Fecha de caducidad</label>
+            <input type="text" id="caducidad" name="caducidad" placeholder="MM/AA" required>
+          </div>
+          <div class="field-group half">
+            <label for="cvv">CVV</label>
+            <input type="password" id="cvv" name="cvv" maxlength="4" required>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="direccion-facturacion">Dirección de facturación</label>
+          <input type="text" id="direccion-facturacion" name="direccion_facturacion" placeholder="Calle, número, ciudad, CP">
+        </div>
+
+        <div class="inline-terms">
+          <input type="checkbox" id="acepto" required>
+          <label for="acepto">
+            Acepto las condiciones de reserva, la política de cancelación y autorizo el cargo del importe total en esta tarjeta.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-pagar">Confirmar y pagar</button>
+
+        <p class="nota-pequena">
+          Este formulario es un ejemplo de maquetación. Para procesar pagos reales, deberás conectarlo a una pasarela de pago segura (Stripe, Redsys, PayPal, etc.) en tu backend.
+        </p>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  // Calcula noches según fechas
+  function calcularNoches() {
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    const nochesInput = document.getElementById('noches');
+
+    if (checkin && checkout) {
+      const d1 = new Date(checkin);
+      const d2 = new Date(checkout);
+      const diff = (d2 - d1) / (1000 * 60 * 60 * 24);
+      if (diff > 0) {
+        nochesInput.value = diff;
+      }
+    }
+  }
+
+  function formatearEuros(valor) {
+    const num = isNaN(valor) ? 0 : valor;
+    return num.toFixed(2).replace('.', ',') + ' €';
+  }
+
+  function recalcularTotal() {
+    const precioNoche = parseFloat(document.getElementById('precio-noche').value) || 0;
+    const noches = parseInt(document.getElementById('noches').value, 10) || 0;
+    const tasas = parseFloat(document.getElementById('tasas').value) || 0;
+
+    const subtotal = precioNoche * noches;
+    const total = subtotal + tasas;
+
+    document.getElementById('resumen-precio-noche').textContent = formatearEuros(precioNoche);
+    document.getElementById('resumen-noches').textContent = noches.toString();
+    document.getElementById('resumen-tasas').textContent = formatearEuros(tasas);
+    document.getElementById('resumen-total').textContent = formatearEuros(total);
+  }
+
+  // Listeners
+  document.getElementById('checkin').addEventListener('change', () => {
+    calcularNoches();
+    recalcularTotal();
+  });
+  document.getElementById('checkout').addEventListener('change', () => {
+    calcularNoches();
+    recalcularTotal();
+  });
+  document.getElementById('precio-noche').addEventListener('input', recalcularTotal);
+  document.getElementById('noches').addEventListener('input', recalcularTotal);
+  document.getElementById('tasas').addEventListener('input', recalcularTotal);
+
+  // Al cambiar nombre del alojamiento, lo reflejamos en el badge
+  document.getElementById('nombre-alojamiento').addEventListener('input', function () {
+    const destino = document.getElementById('resumen-alojamiento');
+    destino.textContent = this.value.trim() || 'Alojamiento StayProud';
+  });
+
+  // Envío del formulario (simulado)
+  document.getElementById('form-reserva').addEventListener('submit', function (e) {
+    e.preventDefault();
+    // Aquí iría la llamada real a tu backend / pasarela de pago
+    alert('Reserva registrada.\nAquí conectarías el pago real en tu backend de StayProud.');
+  });
+
+  // Cálculo inicial
+  recalcularTotal();
+</script>
+
+</body>
+</html>
