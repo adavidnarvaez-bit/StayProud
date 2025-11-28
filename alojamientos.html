@@ -25,7 +25,7 @@
       color: var(--text-main);
     }
 
-    /* NAVBAR MUY SIMPLE */
+    /* NAVBAR */
     .site-header {
       background: #ffffff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
@@ -150,11 +150,19 @@
     .galeria-container {
       margin-bottom: 24px;
     }
+    .galeria-wrapper {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+    }
     .galeria-placeholder {
       width: 100%;
       height: 260px;
       border-radius: 18px;
       background: #e0e0e0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -164,19 +172,23 @@
       padding: 10px;
       position: relative;
     }
-    .galeria-placeholder::before,
-    .galeria-placeholder::after {
-      content: "";
+    .galeria-arrow {
       position: absolute;
       top: 50%;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.15);
       transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      cursor: pointer;
+      display: none; /* se activan cuando hay fotos */
+      font-size: 18px;
     }
-    .galeria-placeholder::before { left: 10px; }
-    .galeria-placeholder::after  { right: 10px; }
+    .galeria-arrow.left { left: 10px; }
+    .galeria-arrow.right { right: 10px; }
+
     .galeria-input-row {
       margin-top: 8px;
       display: flex;
@@ -374,33 +386,22 @@
 
 <body>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, contacto=1.0" />
-  <title>StayProud</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
-</head>
-<body>
-
-  <!-- NAVBAR -->
-  <header class="site-header" id="contacto">
-    <div class="container nav-wrap">
-      <a href="#inicio" class="brand">
-        <img src="img/logo.png.jpg" alt="StayProud logo" />
-        <span>StayProud</span>
-      </a>
-
-        <nav class="main-nav">
-  <a href="index.html">Inicio</a>
-  <a href="servicios.html">Servicios</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="alojamientos.html">Alojamientos</a>
-  <a href="reservas">Reservas</a>
-  <a href="contacto.html">Contáctanos</a>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="StayProud">
+      <span>StayProud</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="contacto.html">Contáctanos</a>
     </nav>
-    </div>
-  </header>
+  </div>
+</header>
 
 <div class="page-wrapper">
   <div class="card">
@@ -409,12 +410,12 @@
       <!-- TÍTULO + ANFITRIÓN -->
       <div class="servicios-header">
         <div class="servicios-header-text">
-          <h1>Habitación en Barcelona</h1>
-          <p>Con las Mejores Hubicacines</p>
+          <h1>Servicios y habitaciones</h1>
+          <p>Sube tus fotos de la habitación, escribe una descripción y selecciona los servicios que ofrece.</p>
         </div>
 
         <div class="host-container">
-          <div class="host-title">Jhonattan fabian Cortes</div>
+          <div class="host-title">Foto del anfitrión</div>
           <div class="host-preview" id="host-preview">
             Sube aquí la foto<br>del anfitrión
           </div>
@@ -424,11 +425,17 @@
 
       <!-- GALERÍA -->
       <div class="galeria-container">
-        <h2>Habitacion Doble</h2>
-        <div class="galeria-placeholder">
-          Aún no has subido fotos.<br>
-          Usa el campo de abajo para subir hasta 6 fotos de la habitación.
+        <h2>Galería de fotos</h2>
+
+        <div class="galeria-wrapper">
+          <div class="galeria-placeholder" id="galeria-placeholder">
+            Aún no has subido fotos.<br>
+            Usa el campo de abajo para subir hasta 6 fotos de la habitación.
+          </div>
+          <button type="button" class="galeria-arrow left" id="galeria-prev"></button>
+          <button type="button" class="galeria-arrow right" id="galeria-next"></button>
         </div>
+
         <div class="galeria-input-row">
           <input type="file" id="fotos-habitacion" accept="image/*" multiple>
           <span>(Máx. 6 fotos por habitación)</span>
@@ -461,7 +468,7 @@
             <label class="check-option"><input type="checkbox"><span class="check-custom"></span><span>Sauna</span></label>
           </div>
 
-          <!-- COMIDAS -->
+          <!-- COMIDAS + ACCESO -->
           <div class="services-group">
             <h3>Comidas</h3>
             <label class="check-option"><input type="checkbox"><span class="check-custom"></span><span>Solo desayuno</span></label>
@@ -552,7 +559,7 @@
 </div>
 
 <script>
-  // Vista previa de foto del anfitrión
+  // Foto del anfitrión
   const hostInput = document.getElementById('host-photo');
   const hostPreview = document.getElementById('host-preview');
 
@@ -561,6 +568,7 @@
       const file = this.files[0];
       if (!file) {
         hostPreview.innerHTML = 'Sube aquí la foto<br>del anfitrión';
+        hostPreview.style.backgroundImage = 'none';
         return;
       }
       const reader = new FileReader();
@@ -574,7 +582,63 @@
     });
   }
 
-  // Contadores de habitaciones / camas / baños
+  // GALERÍA DE FOTOS
+  const fotosInput = document.getElementById('fotos-habitacion');
+  const galeriaPlaceholder = document.getElementById('galeria-placeholder');
+  const btnPrev = document.getElementById('galeria-prev');
+  const btnNext = document.getElementById('galeria-next');
+
+  let galeriaImagenes = [];
+  let galeriaIndex = 0;
+
+  function mostrarImagen(index) {
+    if (galeriaImagenes.length === 0) {
+      galeriaPlaceholder.style.backgroundImage = 'none';
+      galeriaPlaceholder.innerHTML = 'Aún no has subido fotos.<br>Usa el campo de abajo para subir hasta 6 fotos de la habitación.';
+      btnPrev.style.display = 'none';
+      btnNext.style.display = 'none';
+      return;
+    }
+    galeriaIndex = (index + galeriaImagenes.length) % galeriaImagenes.length;
+    galeriaPlaceholder.style.backgroundImage = url('${galeriaImagenes[galeriaIndex]}');
+    galeriaPlaceholder.innerHTML = '';
+    btnPrev.style.display = 'block';
+    btnNext.style.display = 'block';
+  }
+
+  if (fotosInput) {
+    fotosInput.addEventListener('change', function () {
+      const files = Array.from(this.files || []).slice(0, 6);
+      galeriaImagenes = [];
+
+      if (files.length === 0) {
+        mostrarImagen(0);
+        return;
+      }
+
+      let cargadas = 0;
+      files.forEach((file, i) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          galeriaImagenes[i] = e.target.result;
+          cargadas++;
+          if (cargadas === 1) {
+            mostrarImagen(0);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  }
+
+  btnPrev.addEventListener('click', () => {
+    mostrarImagen(galeriaIndex - 1);
+  });
+  btnNext.addEventListener('click', () => {
+    mostrarImagen(galeriaIndex + 1);
+  });
+
+  // Contadores habitaciones/camas/baños
   function changeQty(field, delta) {
     const valueSpan = document.getElementById(field + '-value');
     const hiddenInput = document.getElementById(field + '-input');
