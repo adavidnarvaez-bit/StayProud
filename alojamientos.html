@@ -565,24 +565,11 @@
 
 <script>
   // Vista previa de foto del anfitrión
-  const hostInput = document.getElementById('host-photo');
-  const hostPreview = document.getElementById('host-preview');
-
-  if (hostInput) {
-    hostInput.addEventListener('change', function () {
-      const file = this.files[0];
-      if (!file) {
-        hostPreview.innerHTML = 'Sube aquí la foto<br>del anfitrión';
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        hostPreview.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        hostPreview.appendChild(img);
-      };
-      reader.readAsDataURL(file);
+ // GALERÍA DE FOTOS
+const fotosInput = document.getElementById('fotos-habitacion');
+const galeriaPlaceholder = document.getElementById('galeria-placeholder');
+const btnPrev = document.getElementById('galeria-prev');
+const btnNext = document.getElementById('galeria-next');
     });
   }
 
