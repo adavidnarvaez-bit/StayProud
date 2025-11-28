@@ -423,17 +423,29 @@
       </div>
 
       <!-- GALERÍA -->
-      <div class="galeria-container">
-        <h2>Habitacion Doble</h2>
-        <div class="galeria-placeholder">
-          Aún no has subido fotos.<br>
-          Usa el campo de abajo para subir hasta 6 fotos de la habitación.
-        </div>
-        <div class="galeria-input-row">
-          <input type="file" id="fotos-habitacion" accept="image/*" multiple>
-          <span>(Máx. 6 fotos por habitación)</span>
-        </div>
-      </div>
+    <div class="galeria-wrapper">
+  <div class="galeria-placeholder">
+    <img id="galeria-img"
+         alt="Foto de la habitación"
+         style="display:none; width:100%; height:100%; object-fit:cover; border-radius:18px;">
+    <span id="galeria-texto">
+      Aún no has subido fotos.<br>
+      Usa el campo de abajo para subir hasta 6 fotos de la habitación.
+    </span>
+  </div>
+  <button type="button" class="galeria-arrow left" id="galeria-prev"></button>
+  <button type="button" class="galeria-arrow right" id="galeria-next"></button>
+</div>
+
+<div class="galeria-input-row">
+  <input type="file" id="fotos-habitacion" accept="image/*" multiple>
+  <span>(Máx. 6 fotos por habitación)</span>
+</div>
+
+<div class="galeria-input-row">
+  <input type="file" id="fotos-habitacion" accept="image/*" multiple>
+  <span>(Máx. 6 fotos por habitación)</span>
+</div>
 
       <!-- DESCRIPCIÓN -->
       <div class="descripcion-container">
