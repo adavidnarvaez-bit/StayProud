@@ -1,3 +1,31 @@
+<main>
+  <section class="section">
+    <div class="container">
+      <h1>Nosotros</h1>
+      <p>
+        En StayProud soñamos con un mundo donde cada viaje sea una experiencia
+        segura, libre y auténtica para la comunidad LGTBIQ+.
+      </p>
+      <p>
+        Nacimos con la idea de conectar a viajeros con alojamientos que
+        celebran la diversidad y el respeto, creando espacios donde puedas
+        ser tú mismo sin filtros ni explicaciones.
+      </p>
+    </div>
+  </section>
+</main>
+5:27 p. m.
+¡Hola! Me gustaría saber más sobre sus servicios.
+5:31 p. m.
+ VISIÓN – StayProud
+
+Ser la plataforma líder de alojamientos inclusivos a nivel mundial, ofreciendo espacios donde cada persona de la comunidad LGTBI+ pueda viajar con libertad, seguridad y orgullo.
+Buscamos transformar la experiencia del turismo, conectando viajeros con hogares auténticos, anfitriones respetuosos y destinos que celebran la diversidad.
+Nuestra visión es construir un mundo donde viajar sea sinónimo de igualdad, bienestar y amor propio, sin importar quién seas o a quién ames.
+6:07 p. m.
+
+6:35 p. m.
+Hoy
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,7 +53,7 @@
       color: var(--text-main);
     }
 
-    /* NAVBAR MUY SIMPLE */
+    /* NAVBAR */
     .site-header {
       background: #ffffff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
@@ -150,6 +178,11 @@
     .galeria-container {
       margin-bottom: 24px;
     }
+    .galeria-wrapper {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+    }
     .galeria-placeholder {
       width: 100%;
       height: 260px;
@@ -158,25 +191,35 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
       color: var(--text-muted);
       font-size: 14px;
-      text-align: center;
       padding: 10px;
       position: relative;
     }
-    .galeria-placeholder::before,
-    .galeria-placeholder::after {
-      content: "";
+    .galeria-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+    .galeria-arrow {
       position: absolute;
       top: 50%;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.15);
       transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      display: none; /* se activan con fotos */
     }
-    .galeria-placeholder::before { left: 10px; }
-    .galeria-placeholder::after  { right: 10px; }
+    .galeria-arrow.left { left: 10px; }
+    .galeria-arrow.right { right: 10px; }
+
     .galeria-input-row {
       margin-top: 8px;
       display: flex;
@@ -374,33 +417,22 @@
 
 <body>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, contacto=1.0" />
-  <title>StayProud</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
-</head>
-<body>
-
-  <!-- NAVBAR -->
-  <header class="site-header" id="contacto">
-    <div class="container nav-wrap">
-      <a href="#inicio" class="brand">
-        <img src="img/logo.png.jpg" alt="StayProud logo" />
-        <span>StayProud</span>
-      </a>
-
-        <nav class="main-nav">
-  <a href="index.html">Inicio</a>
-  <a href="servicios.html">Servicios</a>
-  <a href="nosotros.html">Nosotros</a>
-  <a href="alojamientos.html">Alojamientos</a>
-  <a href="reservas">Reservas</a>
-  <a href="contacto.html">Contáctanos</a>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="StayProud">
+      <span>StayProud</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="alojamientos.html">Alojamientos</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="contacto.html">Contáctanos</a>
     </nav>
-    </div>
-  </header>
+  </div>
+</header>
 
 <div class="page-wrapper">
   <div class="card">
@@ -409,12 +441,12 @@
       <!-- TÍTULO + ANFITRIÓN -->
       <div class="servicios-header">
         <div class="servicios-header-text">
-          <h1>Habitación en Barcelona</h1>
-          <p>Con las Mejores Hubicacines</p>
+          <h1>Servicios y habitaciones</h1>
+          <p>Sube tus fotos de la habitación, escribe una descripción y selecciona los servicios que ofrece.</p>
         </div>
 
         <div class="host-container">
-          <div class="host-title">Jhonattan fabian Cortes</div>
+          <div class="host-title">Foto del anfitrión</div>
           <div class="host-preview" id="host-preview">
             Sube aquí la foto<br>del anfitrión
           </div>
@@ -423,28 +455,26 @@
       </div>
 
       <!-- GALERÍA -->
-    <div class="galeria-wrapper">
-  <div class="galeria-placeholder">
-    <img id="galeria-img"
-         alt="Foto de la habitación"
-         style="display:none; width:100%; height:100%; object-fit:cover; border-radius:18px;">
-    <span id="galeria-texto">
-      Aún no has subido fotos.<br>
-      Usa el campo de abajo para subir hasta 6 fotos de la habitación.
-    </span>
-  </div>
-  <button type="button" class="galeria-arrow right" id="galeria-next"></button>
-</div>
+      <div class="galeria-container">
+        <h2>Galería de fotos</h2>
 
-<div class="galeria-input-row">
-  <input type="file" id="fotos-habitacion" accept="image/*" multiple>
-  <span>(Máx. 6 fotos por habitación)</span>
-</div>
+        <div class="galeria-wrapper">
+          <div class="galeria-placeholder">
+            <img id="galeria-img" alt="Foto de la habitación" style="display:none;">
+            <span id="galeria-texto">
+              Aún no has subido fotos.<br>
+              Usa el campo de abajo para subir hasta 6 fotos de la habitación.
+            </span>
+          </div>
+          <button type="button" class="galeria-arrow left" id="galeria-prev"></button>
+          <button type="button" class="galeria-arrow right" id="galeria-next"></button>
+        </div>
 
-<div class="galeria-input-row">
-  <input type="file" id="fotos-habitacion" accept="image/*" multiple>
-  <span>(Máx. 6 fotos por habitación)</span>
-</div>
+        <div class="galeria-input-row">
+          <input type="file" id="fotos-habitacion" accept="image/*" multiple>
+          <span>(Máx. 6 fotos por habitación)</span>
+        </div>
+      </div>
 
       <!-- DESCRIPCIÓN -->
       <div class="descripcion-container">
@@ -472,7 +502,7 @@
             <label class="check-option"><input type="checkbox"><span class="check-custom"></span><span>Sauna</span></label>
           </div>
 
-          <!-- COMIDAS -->
+          <!-- COMIDAS + ACCESO -->
           <div class="services-group">
             <h3>Comidas</h3>
             <label class="check-option"><input type="checkbox"><span class="check-custom"></span><span>Solo desayuno</span></label>
@@ -562,111 +592,115 @@
   </div>
 </div>
 
-<script
-  // FOTO DEL ANFITRIÓN
-  const hostInput = document.getElementById('host-photo');
-  const hostPreview = document.getElementById('host-preview');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // FOTO DEL ANFITRIÓN
+    const hostInput = document.getElementById('host-photo');
+    const hostPreview = document.getElementById('host-preview');
 
-  if (hostInput && hostPreview) {
-    hostInput.addEventListener('change', function () {
-      const file = this.files[0];
-      if (!file) {
-        hostPreview.innerHTML = 'Sube aquí la foto<br>del anfitrión';
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        hostPreview.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        hostPreview.appendChild(img);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // CONTADORES HABITACIONES / CAMAS / BAÑOS
-  function changeQty(field, delta) {
-    const valueSpan = document.getElementById(field + '-value');
-    const hiddenInput = document.getElementById(field + '-input');
-    let value = parseInt(valueSpan.textContent, 10);
-    value += delta;
-    if (value < 0) value = 0;
-    valueSpan.textContent = value;
-    hiddenInput.value = value;
-  }
-
-  // GALERÍA DE FOTOS
-  const fotosInput   = document.getElementById('fotos-habitacion');
-  const galeriaImg   = document.getElementById('galeria-img');
-  const galeriaTexto = document.getElementById('galeria-texto');
-  const btnPrev      = document.getElementById('galeria-prev');
-  const btnNext      = document.getElementById('galeria-next');
-
-  let imagenes = [];
-  let indice = 0;
-
-  function mostrarImagen(i) {
-    if (!galeriaImg || !galeriaTexto) return;
-
-    if (imagenes.length === 0) {
-      galeriaImg.style.display = 'none';
-      galeriaImg.src = '';
-      galeriaTexto.style.display = 'block';
-      if (btnPrev) btnPrev.style.display = 'none';
-      if (btnNext) btnNext.style.display = 'none';
-      return;
-    }
-
-    indice = (i + imagenes.length) % imagenes.length;
-    galeriaImg.src = imagenes[indice];
-    galeriaImg.style.display = 'block';
-    galeriaTexto.style.display = 'none';
-
-    if (btnPrev) btnPrev.style.display = imagenes.length > 1 ? 'block' : 'none';
-    if (btnNext) btnNext.style.display = imagenes.length > 1 ? 'block' : 'none';
-  }
-
-  if (fotosInput) {
-    fotosInput.addEventListener('change', function () {
-      const files = Array.from(this.files || []).slice(0, 6);
-      imagenes = [];
-
-      if (files.length === 0) {
-        mostrarImagen(0);
-        return;
-      }
-
-      let cargadas = 0;
-      files.forEach((file, idx) => {
+    if (hostInput && hostPreview) {
+      hostInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) {
+          hostPreview.innerHTML = 'Sube aquí la foto<br>del anfitrión';
+          return;
+        }
         const reader = new FileReader();
         reader.onload = function (e) {
-          imagenes[idx] = e.target.result;
-          cargadas++;
-          // en cuanto carga la primera, se muestra
-          if (cargadas === 1) {
-            mostrarImagen(0);
-          }
+          hostPreview.innerHTML = '';
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          hostPreview.appendChild(img);
         };
         reader.readAsDataURL(file);
       });
-    });
-  }
+    }
 
-  if (btnPrev) {
-    btnPrev.addEventListener('click', function () {
-      mostrarImagen(indice - 1);
-    });
-  }
+    // CONTADORES HABITACIONES / CAMAS / BAÑOS
+    window.changeQty = function (field, delta) {
+      const valueSpan = document.getElementById(field + '-value');
+      const hiddenInput = document.getElementById(field + '-input');
+      let value = parseInt(valueSpan.textContent, 10);
+      value += delta;
+      if (value < 0) value = 0;
+      valueSpan.textContent = value;
+      hiddenInput.value = value;
+    };
 
-  if (btnNext) {
-    btnNext.addEventListener('click', function () {
-      mostrarImagen(indice + 1);
-    });
-  }
+    // GALERÍA DE FOTOS
+    const fotosInput   = document.getElementById('fotos-habitacion');
+    const galeriaImg   = document.getElementById('galeria-img');
+    const galeriaTexto = document.getElementById('galeria-texto');
+    const btnPrev      = document.getElementById('galeria-prev');
+    const btnNext      = document.getElementById('galeria-next');
 
-  // Estado inicial (sin fotos)
-  mostrarImagen(0);
+    let imagenes = [];
+    let indice = 0;
+
+    function actualizarFlechas() {
+      const show = imagenes.length > 1;
+      if (btnPrev) btnPrev.style.display = show ? 'block' : 'none';
+      if (btnNext) btnNext.style.display = show ? 'block' : 'none';
+    }
+
+    function mostrarImagen(i) {
+      if (!galeriaImg || !galeriaTexto) return;
+
+      if (imagenes.length === 0) {
+        galeriaImg.style.display = 'none';
+        galeriaImg.src = '';
+        galeriaTexto.style.display = 'block';
+        actualizarFlechas();
+        return;
+      }
+
+      indice = (i + imagenes.length) % imagenes.length;
+      galeriaImg.src = imagenes[indice];
+      galeriaImg.style.display = 'block';
+      galeriaTexto.style.display = 'none';
+      actualizarFlechas();
+    }
+
+    if (fotosInput) {
+      fotosInput.addEventListener('change', function () {
+        const files = Array.from(this.files || []).slice(0, 6);
+        imagenes = [];
+
+        if (files.length === 0) {
+          mostrarImagen(0);
+          return;
+        }
+
+        let cargadas = 0;
+        files.forEach((file, idx) => {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            imagenes[idx] = e.target.result;
+            cargadas++;
+            if (cargadas === 1) {
+              mostrarImagen(0);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
+
+    if (btnPrev) {
+      btnPrev.addEventListener('click', () => {
+        mostrarImagen(indice - 1);
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener('click', () => {
+        mostrarImagen(indice + 1);
+      });
+    }
+
+    // Estado inicial
+    mostrarImagen(0);
+  });
 </script>
 
 </body>
