@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayProud - Pago</title>
+  <style>
+    :root{ --brand:#00bfa6; --bg:#f5f5f5; --card:#fff; --text:#333; --muted:#7f8c8d; }
+    *{ box-sizing:border-box; font-family: Arial, sans-serif; }
+    body{ margin:0; background:var(--bg); color:var(--text); display:flex; min-height:100vh; align-items:center; justify-content:center; padding:20px; }
+    .card{ background:var(--card); width:min(720px, 100%); border-radius:16px; padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    h1{ margin:0 0 8px 0; }
+    .muted{ color:var(--muted); margin:0 0 18px 0; }
+    .row{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(0,0,0,.06); gap: 12px; }
+    .row:last-child{ border-bottom:none; }
+    .btns{ display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
+    button,a{
+      border:none; background:var(--brand); color:#fff; padding:12px 14px; border-radius:12px;
+      text-decoration:none; font-weight:800; cursor:pointer;
+    }
+    .secondary{ background:#fff; color:#333; border:1px solid rgba(0,0,0,.15); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Pasarela de pago (demo)</h1>
+    <p class="muted">Aquí luego conectamos Stripe o PayPal. Por ahora es una pantalla de confirmación.</p>
+
+    <div id="info"></div>
+
+    <div class="btns">
+      <button id="pay">Pagar ahora (demo)</button>
+      <a class="secondary" href="reservas.html">Volver a reservas</a>
+    </div>
+  </div>
+
+  <script>
+    const info = document.getElementById("info");
+    const data = JSON.parse(localStorage.getItem("stayproud_last_booking") || "null");
+
+    if(!data){
+      info.innerHTML = "<p>No hay datos de reserva. Vuelve a la página de reservas.</p>";
+    }else{
+      info.innerHTML = `
+        <div class="row"><strong>Nombre</strong><span>${data.name}</span></div>
+        <div class="row"><strong>Email</strong><span>${data.email}</span></div>
+        <div class="row"><strong>Entrada</strong><span>${data.checkIn}</span></div>
+        <div class="row"><strong>Salida</strong><span>${data.checkOut}</span></div>
+        <div class="row"><strong>Noches</strong><span>${data.nights}</span></div>
+        <div class="row"><strong>Precio/noche</strong><span>${data.pricePerNight}</span></div>
+        <div class="row"><strong>Total</strong><span>${data.total}</span></div>
+      `;
+    }
+
+    document.getElementById("pay").addEventListener("click", () => {
+      alert("Pago realizado (demo). Aquí iría Stripe/PayPal.");
+      window.location.href = "reservas.html";
+    });
+  </script>
+</body>
+</html>
