@@ -1,488 +1,725 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Disponibilidad | StayProud</title>
 
   <style>
     :root{
-      --brand:#00bfa6;
-      --bg:#f6f7f8;
+      --primary:#00bfa6;
+      --bg:#f6f7f9;
       --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#e5e7eb;
-      --danger:#ef4444;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+
+      --free:#ffffff;
+      --inquiry:#fde68a;   /* amarillo */
+      --reserved: var(--primary); /* verde */
+      --selected:#111827;  /* negro suave para selección */
     }
 
     *{ box-sizing:border-box; }
-    body{ margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:var(--bg);
+      color:var(--text);
+    }
 
-    /* NAV */
-    header{ background:var(--brand); color:white; position:sticky; top:0; z-index:10; }
-    .nav-wrap{ max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:14px; }
-    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:white; font-weight:700; }
-    .brand img{ width:34px; height:34px; object-fit:contain; background:white; border-radius:8px; padding:4px; }
-    .nav{ display:flex; gap:14px; align-items:center; }
-    .nav a{ color:white; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:10px; opacity:.95; }
-    .nav a:hover{ background:rgba(255,255,255,.18); }
-    .nav a.active{ background:rgba(255,255,255,.22); outline:2px solid rgba(255,255,255,.35); }
+    /* Header */
+    .site-header{
+      background: linear-gradient(90deg, var(--primary), #11a89a);
+      color:#fff;
+      padding: 14px 18px;
+      position: sticky;
+      top:0;
+      z-index: 10;
+    }
+    .nav-wrap{
+      max-width: 1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      justify-content: space-between;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .brand img{
+      width:34px; height:34px; object-fit:contain;
+      background:#fff; border-radius:10px; padding:4px;
+    }
+    .main-nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .main-nav a{
+      color:#eafffb;
+      text-decoration:none;
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight:600;
+      font-size:14px;
+      border:1px solid rgba(255,255,255,.22);
+    }
+    .main-nav a.active{
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.35);
+    }
 
     /* Layout */
-    .container{ max-width:1100px; margin:0 auto; padding:18px 16px 50px; }
-    .grid{ display:grid; grid-template-columns: 1.15fr .85fr; gap:16px; }
-    @media (max-width:900px){
-      .grid{ grid-template-columns:1fr; }
+    .page{
+      max-width: 1100px;
+      margin: 18px auto;
+      padding: 0 16px 28px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
     }
-
     .card{
       background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      box-shadow:0 10px 25px rgba(2,6,23,.06);
-      padding:16px;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(16,24,40,.06);
+    }
+    .card-header{
+      padding:16px 16px 10px;
+      border-bottom:1px solid var(--border);
+    }
+    .card-header h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:.2px;
+    }
+    .card-header p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height: 1.4;
     }
 
-    h1{ margin:0 0 8px; font-size:22px; }
-    .sub{ margin:0 0 16px; color:var(--muted); }
+    /* Legend */
+    .legend{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      padding: 12px 16px;
+      align-items:center;
+    }
+    .legend-item{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size: 13px;
+      font-weight:600;
+    }
+    .dot{
+      width:14px; height:14px;
+      border-radius:4px;
+      border:1px solid var(--border);
+      background:var(--free);
+    }
+    .dot.inquiry{ background: var(--inquiry); border-color:#f59e0b33; }
+    .dot.reserved{ background: var(--reserved); border-color: transparent; }
 
     /* Calendar */
-    .cal-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
-    .cal-title{ font-weight:800; letter-spacing:.5px; }
-    .cal-actions{ display:flex; gap:8px; }
-    .btn{
-      border:1px solid var(--line);
-      background:white;
-      padding:10px 12px;
-      border-radius:12px;
+    .cal-wrap{ padding: 14px 16px 18px; }
+    .cal-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .cal-title{
+      font-weight:900;
+      letter-spacing:.6px;
+      font-size: 18px;
+    }
+    .btn-icon{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius: 12px;
+      padding:8px 10px;
       cursor:pointer;
-      font-weight:700;
+      font-weight:900;
     }
-    .btn:hover{ border-color:#cbd5e1; }
-    .btn.primary{
-      background:var(--brand);
-      border-color:var(--brand);
-      color:white;
-    }
-    .btn.primary:hover{ filter:brightness(.98); }
+    .btn-icon:hover{ border-color:#cbd5e1; }
 
-    .dow{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; color:var(--muted); font-weight:700; font-size:12px; margin:10px 0 8px; }
-    .grid-days{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+    .weekdays{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight:800;
+      padding: 0 2px 8px;
+    }
+
+    .calendar-grid{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:10px;
+    }
 
     .day{
-      border:1px solid var(--line);
-      background:white;
-      border-radius:14px;
-      padding:10px 10px;
-      min-height:54px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:flex-start;
-      font-weight:800;
-      cursor:pointer;
-      position:relative;
       user-select:none;
+      border:2px solid #dbeafe00;
+      border-radius: 14px;
+      padding: 14px 8px;
+      text-align:center;
+      background: var(--free);
+      border: 2px solid #d1d5db;
+      cursor:pointer;
+      font-weight:800;
+      position:relative;
+      min-height: 52px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
-    .day.muted{ opacity:.35; cursor:default; }
-    .day.blocked{
-      background:#fff1f2;
-      border-color:#fecdd3;
-      color:#9f1239;
+
+    .day.muted{
+      opacity:.35;
+      cursor: default;
+      border-style: dashed;
+    }
+
+    .day.inquiry{
+      background: var(--inquiry);
+      border-color: #f59e0b55;
+    }
+
+    .day.reserved{
+      background: var(--reserved);
+      color:#fff;
+      border-color: transparent;
       cursor:not-allowed;
     }
-    .day.selected{ outline:3px solid rgba(0,191,166,.35); border-color:var(--brand); }
-    .day.inrange{ background:rgba(0,191,166,.10); border-color:rgba(0,191,166,.35); }
 
-    .badge{
-      position:absolute;
-      bottom:8px;
-      right:10px;
-      font-size:10px;
-      font-weight:800;
-      color:var(--muted);
+    .day.selected{
+      outline: 3px solid #111827;
+      outline-offset: 2px;
     }
-    .blocked .badge{ color:#9f1239; }
 
-    /* Form / summary */
-    .row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    @media (max-width:520px){ .row{ grid-template-columns:1fr; } }
+    .day.range{
+      border-color:#111827;
+    }
 
-    label{ display:block; font-size:12px; color:var(--muted); margin:10px 0 6px; font-weight:800; }
+    /* Right column (summary) */
+    .summary{ padding: 14px 16px 18px; }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight:800;
+      margin-bottom: 6px;
+    }
     input, select{
       width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:white;
-      font-size:14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid var(--border);
       outline:none;
-    }
-    input:focus, select:focus{ border-color:rgba(0,191,166,.6); box-shadow:0 0 0 4px rgba(0,191,166,.12); }
-
-    .kpi{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:12px;
-    }
-    .kpi .box{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
+      font-size: 14px;
       background:#fff;
     }
-    .kpi .t{ font-size:12px; color:var(--muted); font-weight:800; }
-    .kpi .v{ font-size:18px; font-weight:900; margin-top:6px; }
+    input:focus, select:focus{
+      border-color: #00bfa6aa;
+      box-shadow: 0 0 0 4px #00bfa61f;
+    }
 
-    .note{ margin-top:10px; color:var(--muted); font-size:12px; }
-    .warn{ color:var(--danger); font-weight:800; margin-top:10px; }
+    .totals{
+      margin-top: 12px;
+      border-top:1px solid var(--border);
+      padding-top: 12px;
+      display:grid;
+      gap:6px;
+      color: var(--muted);
+      font-weight:700;
+    }
+    .totals b{ color: var(--text); }
+    .total-big{
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text);
+    }
 
-    footer{ text-align:center; padding:18px; color:var(--muted); font-size:12px; }
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top: 14px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:none;
+      background: var(--primary);
+      color:#fff;
+      font-weight:900;
+      padding: 12px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      letter-spacing:.2px;
+      flex:1;
+      min-width: 180px;
+    }
+    .btn.secondary{
+      background:#fff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 900px){
+      .page{ grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 
 <body>
-  <header>
+  <header class="site-header">
     <div class="nav-wrap">
       <a class="brand" href="index.html">
-        <!-- Ajusta este path si tu logo está en img/logo.png -->
-        <img src="img/logo.png" alt="StayProud">
+        <img src="img/logo.png" alt="StayProud" />
         <span>StayProud</span>
       </a>
 
-      <nav class="nav" id="mainNav">
+      <nav class="main-nav">
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="alojamientos.html">Alojamientos</a>
-        <a class="active" href="disponibilidad.html">Reservas</a>
+        <a class="active" href="calendario.html">Reservas</a>
         <a href="contactanos.html">Contáctanos</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <div class="grid">
-      <!-- CALENDARIO -->
-      <section class="card">
+  <main class="page">
+    <!-- CALENDAR CARD -->
+    <section class="card">
+      <div class="card-header">
         <h1>Selecciona las fechas de tu estancia</h1>
-        <p class="sub">Haz clic en una fecha de entrada y luego en una fecha de salida. Las fechas ocupadas quedan bloqueadas.</p>
+        <p>Haz clic en una fecha de entrada y luego en una fecha de salida. Las fechas reservadas quedan bloqueadas.</p>
+      </div>
 
-        <div class="cal-head">
-          <div class="cal-title" id="monthLabel">—</div>
-          <div class="cal-actions">
-            <button class="btn" id="prevBtn" type="button">◀</button>
-            <button class="btn" id="todayBtn" type="button">Hoy</button>
-            <button class="btn" id="nextBtn" type="button">▶</button>
-          </div>
+      <div class="legend">
+        <div class="legend-item"><span class="dot"></span> Libre</div>
+        <div class="legend-item"><span class="dot inquiry"></span> Consulta / Interesado</div>
+        <div class="legend-item"><span class="dot reserved"></span> Reservado</div>
+      </div>
+
+      <div class="cal-wrap">
+        <div class="cal-top">
+          <button class="btn-icon" id="prevMonth" aria-label="Mes anterior">‹</button>
+          <div class="cal-title" id="monthTitle">—</div>
+          <button class="btn-icon" id="nextMonth" aria-label="Mes siguiente">›</button>
         </div>
 
-        <div class="dow">
+        <div class="weekdays">
           <div>Do</div><div>Lu</div><div>Ma</div><div>Mi</div><div>Ju</div><div>Vi</div><div>Sá</div>
         </div>
 
-        <!-- IMPORTANTÍSIMO: ESTE contenedor es donde aparece el calendario -->
-        <div class="grid-days" id="calendarGrid"></div>
+        <div id="calendar-grid" class="calendar-grid"></div>
 
-        <div class="note">
-          <b>Tip:</b> Si no se ve nada, abre <b>F12 → Console</b>. Si hay un error, el calendario no se dibuja.
+        <div class="hint">
+          Tip: si alguna vez no se dibuja el calendario, mira la consola (F12 → Console). Un error de JS lo puede bloquear.
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- FORM + CÁLCULO -->
-      <aside class="card">
+    <!-- SUMMARY CARD -->
+    <aside class="card">
+      <div class="card-header">
         <h1>Tu reserva</h1>
-        <p class="sub">Calculamos noches y total automáticamente.</p>
+        <p>Calculamos noches y total automáticamente.</p>
+      </div>
 
-        <div class="row">
+      <div class="summary">
+        <div class="grid2">
           <div>
             <label>Fecha de entrada</label>
-            <input id="checkIn" type="text" placeholder="Selecciona en el calendario" readonly>
+            <input id="checkin" type="text" placeholder="Selecciona en el calendario" readonly />
           </div>
           <div>
             <label>Fecha de salida</label>
-            <input id="checkOut" type="text" placeholder="Selecciona en el calendario" readonly>
+            <input id="checkout" type="text" placeholder="Selecciona en el calendario" readonly />
           </div>
         </div>
 
-        <label>Tipo de habitación</label>
-        <select id="roomType">
-          <option value="60">Habitación por persona — 60 €/noche</option>
-          <option value="80">Habitación por pareja — 80 €/noche</option>
-          <option value="120">Alojamiento entero — 120 €/noche</option>
-        </select>
+        <div style="height:10px"></div>
 
-        <div class="row">
+        <div class="grid2">
+          <div>
+            <label>Tipo de habitación</label>
+            <select id="roomType">
+              <option value="single">Habitación por persona — 60 €/noche</option>
+              <option value="couple">Habitación por pareja — 80 €/noche</option>
+              <option value="entire">Alojamiento entero — 120 €/noche</option>
+            </select>
+          </div>
           <div>
             <label>Huéspedes</label>
-            <input id="guests" type="number" min="1" value="2">
+            <select id="guests">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="grid2">
+          <div>
+            <label>Nombre y apellidos</label>
+            <input id="fullname" type="text" placeholder="Tu nombre completo" />
           </div>
           <div>
             <label>Email</label>
-            <input id="email" type="email" placeholder="tucorreo@gmail.com">
+            <input id="email" type="email" placeholder="tucorreo@gmail.com" />
           </div>
         </div>
 
-        <label>Nombre y apellidos</label>
-        <input id="fullName" type="text" placeholder="Tu nombre completo">
-
-        <div class="kpi">
-          <div class="box">
-            <div class="t">Noches</div>
-            <div class="v" id="nights">0</div>
-          </div>
-          <div class="box">
-            <div class="t">Precio por noche</div>
-            <div class="v" id="priceNight">0 €</div>
-          </div>
-          <div class="box">
-            <div class="t">Total reserva</div>
-            <div class="v" id="total">0 €</div>
-          </div>
+        <div class="totals">
+          <div>Noches: <b id="nights">0</b></div>
+          <div>Precio por noche: <b id="priceNight">0 €</b></div>
+          <div>Valor por las noches reservadas: <b id="subtotal">0 €</b></div>
+          <div class="total-big">Total reserva: <span id="total">0 €</span></div>
         </div>
 
-        <div class="warn" id="warning" style="display:none;"></div>
-
-        <div style="display:flex; gap:10px; margin-top:14px;">
-          <button class="btn" id="clearBtn" type="button" style="flex:1;">Limpiar</button>
-          <button class="btn primary" id="confirmBtn" type="button" style="flex:1;">Confirmar</button>
+        <div class="actions">
+          <button class="btn secondary" id="clearDates">Borrar fechas</button>
+          <button class="btn" id="confirm" disabled>Confirmar reserva</button>
         </div>
 
-        <div class="note">
-          * El envío al correo requiere backend (PHP/Node). Aquí dejamos listo el <b>resumen</b>; luego lo conectamos.
+        <div class="hint">
+          Al confirmar, bloqueamos esas fechas como <b>Reservadas</b> (en este navegador).
         </div>
-      </aside>
-    </div>
+      </div>
+    </aside>
   </main>
-
-  <footer>© 2025 StayProud. Todos los derechos reservados.</footer>
 
   <script>
     // ====== CONFIG ======
-    // Fechas ocupadas (bloqueadas). Formato: "YYYY-MM-DD"
-    // Cambia/añade las que quieras:
-    const blockedDates = new Set([
-      "2025-11-26",
-      "2025-11-27",
-      "2025-11-28"
-    ]);
+    const PRIMARY = "#00bfa6";
 
-    const monthNames = [
-      "ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO",
-      "JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"
-    ];
+    // Precios por noche
+    const ROOMS = {
+      single: { label: "Habitación por persona", price: 60, maxGuests: 1 },
+      couple: { label: "Habitación por pareja", price: 80, maxGuests: 2 },
+      entire: { label: "Alojamiento entero", price: 120, maxGuests: 4 }
+    };
+
+    // Fechas de ejemplo (puedes cambiarlas)
+    // Formato: YYYY-MM-DD
+    const STATIC_BLOCKS = {
+      reserved: [
+        { start: "2025-11-25", end: "2025-11-28" }, // incluye 25-27, checkout 28
+        { start: "2025-12-05", end: "2025-12-09" }
+      ],
+      inquiry: [
+        { start: "2025-11-18", end: "2025-11-20" }
+      ]
+    };
+
+    // Reservas guardadas en el navegador
+    const LS_KEY = "stayproud_reservations_v1";
+    function loadReservations(){
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function saveReservations(list){
+      localStorage.setItem(LS_KEY, JSON.stringify(list));
+    }
 
     // ====== HELPERS ======
-    const pad = n => String(n).padStart(2,"0");
-    const toISO = (d) => ${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())};
-    const toDisplay = (d) => ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()};
+    const pad2 = n => String(n).padStart(2, "0");
+    const toISO = (d) => ${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())};
+    const parseISO = (s) => {
+      const [y,m,d] = s.split("-").map(Number);
+      return new Date(y, m-1, d);
+    };
+    const fmtES = (iso) => {
+      const d = parseISO(iso);
+      return ${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()};
+    };
+    const addDays = (date, days) => new Date(date.getFullYear(), date.getMonth(), date.getDate()+days);
 
-    function parseISO(iso){
-      const [y,m,day] = iso.split("-").map(Number);
-      return new Date(y, m-1, day);
+    function inRange(dateISO, startISO, endISO){
+      // rango [start, end) -> end es checkout
+      return dateISO >= startISO && dateISO < endISO;
     }
 
-    function nightsBetween(checkInISO, checkOutISO){
-      const a = parseISO(checkInISO);
-      const b = parseISO(checkOutISO);
-      const ms = b - a;
-      return Math.max(0, Math.round(ms / (1000*60*60*24)));
+    function getAllBlocks(){
+      const saved = loadReservations(); // [{start,end}]
+      return {
+        reserved: [...STATIC_BLOCKS.reserved, ...saved],
+        inquiry: [...STATIC_BLOCKS.inquiry]
+      };
     }
 
-    // Bloquea si la noche incluye alguna fecha ocupada dentro del rango [in, out)
-    function rangeHitsBlocked(checkInISO, checkOutISO){
-      const inD = parseISO(checkInISO);
-      const outD = parseISO(checkOutISO);
-      for (let d = new Date(inD); d < outD; d.setDate(d.getDate()+1)){
-        if (blockedDates.has(toISO(d))) return true;
+    function statusForDate(dateISO){
+      const blocks = getAllBlocks();
+      for(const r of blocks.reserved){
+        if(inRange(dateISO, r.start, r.end)) return "reserved";
       }
-      return false;
+      for(const q of blocks.inquiry){
+        if(inRange(dateISO, q.start, q.end)) return "inquiry";
+      }
+      return "free";
     }
 
     // ====== STATE ======
-    let viewDate = new Date(); // mes actual en vista
+    let view = new Date(); // mes visible
     let startISO = null;
     let endISO = null;
 
     // ====== DOM ======
-    const monthLabel = document.getElementById("monthLabel");
-    const calendarGrid = document.getElementById("calendarGrid");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const todayBtn = document.getElementById("todayBtn");
+    const grid = document.getElementById("calendar-grid");
+    const monthTitle = document.getElementById("monthTitle");
+    const prevMonth = document.getElementById("prevMonth");
+    const nextMonth = document.getElementById("nextMonth");
 
-    const checkInEl = document.getElementById("checkIn");
-    const checkOutEl = document.getElementById("checkOut");
-    const roomTypeEl = document.getElementById("roomType");
+    const checkin = document.getElementById("checkin");
+    const checkout = document.getElementById("checkout");
+    const roomType = document.getElementById("roomType");
+    const guests = document.getElementById("guests");
     const nightsEl = document.getElementById("nights");
     const priceNightEl = document.getElementById("priceNight");
+    const subtotalEl = document.getElementById("subtotal");
     const totalEl = document.getElementById("total");
-    const warningEl = document.getElementById("warning");
-    const clearBtn = document.getElementById("clearBtn");
-    const confirmBtn = document.getElementById("confirmBtn");
+    const clearDates = document.getElementById("clearDates");
+    const confirm = document.getElementById("confirm");
+    const fullname = document.getElementById("fullname");
+    const email = document.getElementById("email");
 
-    function renderCalendar(){
-      const year = viewDate.getFullYear();
-      const month = viewDate.getMonth();
+    // ====== RENDER ======
+    function render(){
+      grid.innerHTML = "";
 
-      monthLabel.textContent = ${monthNames[month]} ${year};
+      const year = view.getFullYear();
+      const month = view.getMonth();
 
-      calendarGrid.innerHTML = "";
+      const monthNames = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+      monthTitle.textContent = ${monthNames[month]} ${year};
 
+      // Primer día del mes y offset para que arranque donde toque
       const first = new Date(year, month, 1);
-      const last = new Date(year, month+1, 0);
+      const firstDow = first.getDay(); // 0 domingo
+      const daysInMonth = new Date(year, month+1, 0).getDate();
 
-      const startDay = first.getDay(); // 0 dom ... 6 sáb
-      const daysInMonth = last.getDate();
-
-      // Días “previos” del mes anterior para completar la fila
-      const prevMonthLast = new Date(year, month, 0).getDate();
-      for(let i=0; i<startDay; i++){
-        const dayNum = prevMonthLast - (startDay-1-i);
-        const cell = document.createElement("div");
-        cell.className = "day muted";
-        cell.textContent = dayNum;
-        calendarGrid.appendChild(cell);
+      // Dibujamos "celdas vacías" antes del 1
+      for(let i=0;i<firstDow;i++){
+        const blank = document.createElement("div");
+        blank.className = "day muted";
+        blank.textContent = "";
+        grid.appendChild(blank);
       }
 
-      // Días del mes actual
+      // Días del mes
       for(let day=1; day<=daysInMonth; day++){
         const d = new Date(year, month, day);
         const iso = toISO(d);
+        const st = statusForDate(iso);
 
         const cell = document.createElement("div");
-        cell.className = "day";
+        cell.className = "day " + (st !== "free" ? st : "");
         cell.textContent = day;
 
-        if (blockedDates.has(iso)){
-          cell.classList.add("blocked");
-          const b = document.createElement("div");
-          b.className = "badge";
-          b.textContent = "OCUPADA";
-          cell.appendChild(b);
+        // marcar selección
+        if(startISO && iso === startISO) cell.classList.add("selected");
+        if(endISO && iso === endISO) cell.classList.add("selected");
+
+        // marcar rango visual (entre start y end)
+        if(startISO && endISO){
+          const s = startISO < endISO ? startISO : endISO;
+          const e = startISO < endISO ? endISO : startISO;
+          if(iso > s && iso < e) cell.classList.add("range");
         }
 
-        // selection UI
-        if (startISO === iso || endISO === iso) cell.classList.add("selected");
-        if (startISO && endISO){
-          const s = parseISO(startISO);
-          const e = parseISO(endISO);
-          if (d > s && d < e) cell.classList.add("inrange");
+        // click
+        cell.addEventListener("click", () => onDayClick(iso));
+
+        // si es reservado, bloqueado
+        if(st === "reserved"){
+          cell.title = "Fecha reservada";
         }
-
-        // click handler
-        cell.addEventListener("click", () => {
-          if (blockedDates.has(iso)) return;
-
-          // si no hay inicio, set inicio
-          if (!startISO || (startISO && endISO)){
-            startISO = iso;
-            endISO = null;
-          } else {
-            // set fin (debe ser posterior a inicio)
-            if (parseISO(iso) <= parseISO(startISO)){
-              // si selecciona una anterior, la tomamos como nuevo inicio
-              startISO = iso;
-              endISO = null;
-            } else {
-              endISO = iso;
-
-              // validar rango contra bloqueadas
-              if (rangeHitsBlocked(startISO, endISO)){
-                warningEl.style.display = "block";
-                warningEl.textContent = "Tu rango incluye fechas ocupadas. Elige otras fechas.";
-                endISO = null;
-              } else {
-                warningEl.style.display = "none";
-                warningEl.textContent = "";
-              }
-            }
-          }
-
-          syncForm();
-          renderCalendar();
-        });
-
-        calendarGrid.appendChild(cell);
+        grid.appendChild(cell);
       }
 
-      // Completar hasta múltiplo de 7 con celdas mudas
-      const totalCells = calendarGrid.children.length;
-      const remainder = totalCells % 7;
-      const toAdd = remainder === 0 ? 0 : (7 - remainder);
-      for(let i=0; i<toAdd; i++){
-        const cell = document.createElement("div");
-        cell.className = "day muted";
-        cell.textContent = "";
-        calendarGrid.appendChild(cell);
-      }
+      syncSummary();
     }
 
-    function syncForm(){
-      checkInEl.value = startISO ? toDisplay(parseISO(startISO)) : "";
-      checkOutEl.value = endISO ? toDisplay(parseISO(endISO)) : "";
+    function dateRangeHasReserved(sISO, eISO){
+      const s = parseISO(sISO);
+      const e = parseISO(eISO);
+      for(let d = new Date(s); d < e; d = addDays(d, 1)){
+        const iso = toISO(d);
+        if(statusForDate(iso) === "reserved") return true;
+      }
+      return false;
+    }
 
-      const price = Number(roomTypeEl.value || 0);
+    function onDayClick(iso){
+      // no permitir si es reservado
+      if(statusForDate(iso) === "reserved") return;
+
+      if(!startISO || (startISO && endISO)){
+        startISO = iso;
+        endISO = null;
+      } else {
+        // set end
+        let s = startISO;
+        let e = iso;
+
+        // orden
+        if(e < s){
+          const tmp = s; s = e; e = tmp;
+        }
+
+        // checkout debe ser al menos +1 día
+        const sDate = parseISO(s);
+        const eDate = parseISO(e);
+        if(eDate.getTime() === sDate.getTime()){
+          // mismo día: no válido
+          return;
+        }
+
+        // el rango usa [start, end) -> end es checkout
+        // bloqueamos si hay reservados dentro
+        if(dateRangeHasReserved(s, e)){
+          alert("Ese rango incluye fechas reservadas. Elige otras fechas.");
+          return;
+        }
+
+        startISO = s;
+        endISO = e;
+      }
+
+      render();
+    }
+
+    function calcNights(){
+      if(!startISO || !endISO) return 0;
+      const s = parseISO(startISO);
+      const e = parseISO(endISO);
+      const ms = e.getTime() - s.getTime();
+      return Math.max(0, Math.round(ms / (1000*60*60*24)));
+    }
+
+    function syncSummary(){
+      checkin.value = startISO ? fmtES(startISO) : "";
+      checkout.value = endISO ? fmtES(endISO) : "";
+
+      const room = ROOMS[roomType.value];
+      const price = room.price;
       priceNightEl.textContent = ${price} €;
 
-      const n = (startISO && endISO) ? nightsBetween(startISO, endISO) : 0;
-      nightsEl.textContent = n;
+      const n = calcNights();
+      nightsEl.textContent = String(n);
 
-      const total = price * n;
-      totalEl.textContent = ${total} €;
+      const subtotal = n * price;
+      subtotalEl.textContent = ${subtotal} €;
+      totalEl.textContent = ${subtotal} €;
+
+      // activar botón confirmar si todo ok
+      const ok = startISO && endISO && n > 0;
+      confirm.disabled = !ok;
     }
 
-    // nav month
-    prevBtn.addEventListener("click", () => {
-      viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()-1, 1);
-      renderCalendar();
-    });
-    nextBtn.addEventListener("click", () => {
-      viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()+1, 1);
-      renderCalendar();
-    });
-    todayBtn.addEventListener("click", () => {
-      viewDate = new Date();
-      renderCalendar();
+    // ====== EVENTS ======
+    prevMonth.addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth()-1, 1);
+      render();
     });
 
-    roomTypeEl.addEventListener("change", syncForm);
+    nextMonth.addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth()+1, 1);
+      render();
+    });
 
-    clearBtn.addEventListener("click", () => {
+    roomType.addEventListener("change", () => {
+      // ajusta huéspedes según tipo
+      const room = ROOMS[roomType.value];
+      const g = Number(guests.value);
+      if(g > room.maxGuests) guests.value = String(room.maxGuests);
+      syncSummary();
+    });
+
+    guests.addEventListener("change", () => {
+      const room = ROOMS[roomType.value];
+      const g = Number(guests.value);
+      if(g > room.maxGuests){
+        guests.value = String(room.maxGuests);
+      }
+    });
+
+    clearDates.addEventListener("click", () => {
       startISO = null;
       endISO = null;
-      warningEl.style.display = "none";
-      warningEl.textContent = "";
-      syncForm();
-      renderCalendar();
+      render();
     });
 
-    confirmBtn.addEventListener("click", () => {
-      if (!startISO || !endISO){
-        warningEl.style.display = "block";
-        warningEl.textContent = "Selecciona fecha de entrada y salida para confirmar.";
+    confirm.addEventListener("click", () => {
+      const n = calcNights();
+      if(!startISO || !endISO || n <= 0) return;
+
+      // Validación mínima
+      if(!fullname.value.trim()){
+        alert("Por favor escribe tu nombre y apellidos.");
         return;
       }
-      warningEl.style.display = "none";
-      const price = Number(roomTypeEl.value || 0);
-      const n = nightsBetween(startISO, endISO);
-      const total = price * n;
+      if(!email.value.trim() || !email.value.includes("@")){
+        alert("Por favor escribe un email válido.");
+        return;
+      }
 
-      alert(
-        "✅ Reserva lista (demo)\n\n" +
-        Entrada: ${toDisplay(parseISO(startISO))}\n +
-        Salida:  ${toDisplay(parseISO(endISO))}\n +
-        Noches:  ${n}\n +
-        Precio/noche: ${price} €\n +
-        Total:   ${total} €\n\n +
-        "Luego conectamos el envío por email con backend."
-      );
+      // guardar como reservada (checkout endISO)
+      const saved = loadReservations();
+      saved.push({ start: startISO, end: endISO });
+      saveReservations(saved);
+
+      alert("Reserva confirmada (guardada en este navegador).");
+
+      // limpiar selección y refrescar
+      startISO = null;
+      endISO = null;
+      render();
     });
 
     // ====== INIT ======
-    renderCalendar();
-    syncForm();
+    // Asegura que JS corre DESPUÉS del HTML (por eso el script está al final)
+    render();
   </script>
 </body>
 </html>
