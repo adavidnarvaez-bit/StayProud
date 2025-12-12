@@ -1,389 +1,533 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reservas | StayProud</title>
+<!DOCTYPE html><html lang="en"><head>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/png" sizes="512x512" href="https://z-cdn.chatglm.cn/z-ai/static/logo.svg">
+		<link rel="shortcut icon" href="https://z-cdn.chatglm.cn/z-ai/static/logo.svg">
+		<link rel="apple-touch-icon" sizes="512x512" href="Z.ai Chat - Free AI powered by GLM-4.6 &amp; GLM-4.5">
+		<meta name="apple-mobile-web-app-title" content="Z.ai Chat - Free AI powered by GLM-4.6 &amp; GLM-4.5">
+		
+		<meta name="keywords" content="GLM-4.6, GLM 4.6, GLM-4.6-Air, GLM 4.6 Air, GLM 4.5, GLM4.5, GLM4.6, Deep Research, z ai, z.ai, GLM 4.5 AI, GLM 4.6 AI, GLM AI, Chat Z, zai, Chat AI, GLM, z.ia, Chat Z AI, AI chat, chatbot, z.ai chat, free ai chat, free AI, free ai chat no login, GLM-4.5, GLM-4.5 chat, GLM-4.1V, GLM-4.5V, AI assistant chat, AI PPT, AI presentation, AI presentation maker, AI slides maker, AI slides, slide deck, pitch deck, AI deck generator, free pitch deck generator, AI PPT, AI PPT maker, AI for Google Slides, AI for PowerPoint, AI writer, AI writing assistant, AI code generator, full stack code generation, AI full stack developer, claude code, Roo Code, Cline, Kilo Code, OpenCode, Codex, Cursor, GLM Coding Plan, GLM Coding, AI Coding, code writer ai, magic design, magic design tool, AI inspiration board, visual brainstorming AI, chat with AI, AI对话, AI聊天, 聊天机器人, 免费AI聊天, AI做PPT, AI写作, AI编程, 全栈开发, 灵感画板, AI tool, AI helper, AI for students, AI for marketers, AI for content creation, ChatGPT, chatgpt free, Free ChatGPT, gpt chat, Gemini, Grok, Claude, Poe AI, YouChat, Jasper AI, deepseek, qwen, 豆包, 文心一言, AI搜问答, 写作灵感AI, 代码解释工具, PPT思路生成, 如何用AI做PPT, create pitch deck from brief, AI business plan presentation, marketing report slides, AI academic paper assistant, AI legal contract drafting, write social media calendar, AI email responder,  VS Code AI assistant, AI for Notion, AI for Figma, AI math problem solver from image, AI geoguessr solver, image to code generator, table extractor from image, chart data extractor, document analysis AI, image caption generator, visual Q&amp;A, 看图猜成语, AI拍照解题, 数学题解答, 物理题解答, GeoGuess AI, 图片转表格, 图片读数据, 看图问答, analyze video, summarize video content, generate video transcript, find object in image, what is in this picture, 视频分析, 视频内容摘要, 生成视频字幕, 图片里有什么, 识别图中物体">
+		
+		<link rel="manifest" href="https://z-cdn.chatglm.cn/z-ai/frontend/static/manifest.json">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+		
+		<link rel="search" type="application/opensearchdescription+xml" title="Z.ai Chat - Free AI powered by GLM-4.6 &amp; GLM-4.5" href="https://z-cdn.chatglm.cn/z-ai/frontend/static/opensearch.xml">
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Z8QTHYBHP3"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag('js', new Date());
 
-  <!-- Flatpickr (calendario) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+			gtag('config', 'G-Z8QTHYBHP3');
+		</script>
 
-  <style>
-    :root{
-      --primary:#00bfa6;
-      --bg:#f6f7f9;
-      --card:#fff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
 
-    .site-header{
-      background:linear-gradient(90deg,var(--primary),#11a89a);
-      color:#fff;padding:14px 18px;position:sticky;top:0;z-index:10
-    }
-    .nav-wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:900}
-    .brand img{width:34px;height:34px;background:#fff;border-radius:10px;padding:4px;object-fit:contain}
-    .main-nav{display:flex;gap:10px;flex-wrap:wrap}
-    .main-nav a{color:#eafffb;text-decoration:none;padding:8px 10px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.22)}
-    .main-nav a.active{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
+		<script>
+					let metrics = {}
+					const observer = new PerformanceObserver((list) => {
+						const entries = list.getEntries();
 
-    .page{
-      max-width:1100px;margin:18px auto;padding:0 16px 28px;
-      display:grid;grid-template-columns:1.2fr .8fr;gap:16px
-    }
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px rgba(16,24,40,.06)}
-    .card-header{padding:16px 16px 10px;border-bottom:1px solid var(--border)}
-    .card-header h1{margin:0;font-size:20px}
-    .card-header p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.4}
+						entries.forEach((entry) => {
+							// 根据不同的entry类型处理不同的性能指标
+							switch (entry.entryType) {
+								case 'navigation':
+									{
+										const navEntry = entry;
+										metrics = {
+											...metrics,
+											dns: navEntry.domainLookupEnd - navEntry.domainLookupStart,
+											response: navEntry.responseEnd - navEntry.responseStart,
+											dom_parse: navEntry.domInteractive - navEntry.responseEnd,
+											dom_ready:
+												navEntry.domContentLoadedEventEnd - navEntry.fetchStart,
+											resource: navEntry.domComplete - navEntry.domContentLoadedEventEnd,
+											first_interactive: navEntry.domInteractive - navEntry.fetchStart,
+											first_byte: navEntry.responseStart - navEntry.domainLookupStart,
+											loaded: navEntry.loadEventEnd - navEntry.fetchStart
+										};
+										sessionStorage.setItem('performance', JSON.stringify(metrics));
+										// 发送性能指标到阿里云日志服务
+									}
+									break;
 
-    .content{padding:14px 16px 18px}
-    .legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;color:var(--muted);font-size:13px;font-weight:700}
-    .dot{width:14px;height:14px;border-radius:4px;border:1px solid var(--border);display:inline-block}
-    .dot.free{background:#fff}
-    .dot.inquiry{background:#fde68a;border-color:#f59e0b55}
-    .dot.reserved{background:var(--primary);border-color:transparent}
+								case 'paint':
+									if (entry.name === 'first-paint') {
+										metrics = {
+											...metrics,
+											first_paint: entry.startTime,
+										};
+										sessionStorage.setItem('performance', JSON.stringify(metrics));
+									}
+									if (entry.name === 'first-contentful-paint') {
+										metrics = {
+											...metrics,
+											first_contentful_paint: entry.startTime,
+										};
+										sessionStorage.setItem('performance', JSON.stringify(metrics));
+									}
+									break;
+							}
+						});
+					});
 
-    label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px}
-    input,select{
-      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);
-      outline:none;font-size:14px;background:#fff
-    }
-    input:focus,select:focus{border-color:#00bfa6aa;box-shadow:0 0 0 4px #00bfa61f}
+					// 观察的性能指标类型
+					observer.observe({
+						entryTypes: ['navigation', 'paint']
+					});
+		</script>
 
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .totals{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:grid;gap:6px;color:var(--muted);font-weight:800}
-    .totals b{color:var(--text)}
-    .total-big{margin-top:6px;font-size:18px;font-weight:900;color:var(--text)}
+		<script>
+			function resizeIframe(obj) {
+				obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+			}
+		</script>
 
-    .btn{
-      width:100%;border:none;background:var(--primary);color:#fff;font-weight:900;
-      padding:12px 14px;border-radius:14px;cursor:pointer;letter-spacing:.2px
-    }
-    .btn:disabled{opacity:.55;cursor:not-allowed}
-    .btn.secondary{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+		<script>
+			// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+			const initTheme = () => {
+				const metaThemeColorTag = document.querySelector('meta[name="theme-color"]');
+				// 取用户浏览器设置的主题
+				// const prefersTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-    .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-    .actions .btn{flex:1;min-width:180px}
+				const prefersTheme = 'light'
+				
+				if (!localStorage?.theme) {
+					localStorage.theme = prefersTheme;
+				}
 
-    /* Flatpickr: que se vea tipo app */
-    .flatpickr-calendar.inline{box-shadow:none;border:0;background:transparent}
-    .flatpickr-months .flatpickr-month{color:var(--text)}
-    .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange{
-      background:var(--primary)!important;border-color:var(--primary)!important;color:#fff!important
-    }
-    .flatpickr-day.inRange{background:#00bfa61a!important;border-color:#00bfa600!important}
-    .flatpickr-day.is-reserved{background:var(--primary)!important;color:#fff!important;opacity:.85;cursor:not-allowed}
-    .flatpickr-day.is-inquiry{background:#fde68a!important;border-color:#f59e0b55!important}
+				if (localStorage.theme === 'system') {
+					document.documentElement.classList.add(prefersTheme);
+					metaThemeColorTag.setAttribute('content', prefersTheme === 'light' ? '#F4F6F8' : '#141618');
+				} else if (localStorage.theme === 'light') {
+					document.documentElement.classList.add('light');
+					metaThemeColorTag.setAttribute('content', '#F4F6F8');
+				} else {
+					document.documentElement.classList.add('dark');
+					metaThemeColorTag.setAttribute('content', '#141618');
+				}
 
-    /* Sección PayPal */
-    #paypalBox{display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
-    .hint{font-size:12px;color:var(--muted);line-height:1.35;margin-top:10px}
+				// window.matchMedia('(prefers-color-scheme: dark)').addListener((e) => {
+				// 	if (localStorage.theme === 'system') {
+				// 		if (e.matches) {
+				// 			document.documentElement.classList.add('dark');
+				// 			document.documentElement.classList.remove('light');
+				// 			metaThemeColorTag.setAttribute('content', '#141618');
+				// 		} else {
+				// 			document.documentElement.classList.add('light');
+				// 			document.documentElement.classList.remove('dark');
+				// 			metaThemeColorTag.setAttribute('content', '#F4F6F8');
+				// 		}
+				// 	}
+				// });
 
-    @media (max-width: 900px){
-      .page{grid-template-columns:1fr}
-    }
-  </style>
-</head>
+				function setSplashImage() {
+					const logo = document.getElementById('logo');
+					const isDarkMode = document.documentElement.classList.contains('dark');
+					const splashContainer = document.getElementById('splash-screen');
 
-<body>
-  <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="index.html">
-        <img src="img/logo.png" alt="StayProud" />
-        <span>StayProud</span>
-      </a>
+					if (isDarkMode) {
+						const darkImage = new Image();
+						darkImage.src = 'https://z-cdn.chatglm.cn/z-ai/static/logo.svg';
+						splashContainer.style.backgroundColor = '#141618';
 
-      <nav class="main-nav">
-        <a href="index.html">Inicio</a>
-        <a href="servicios.html">Servicios</a>
-        <a href="nosotros.html">Nosotros</a>
-        <a href="alojamientos.html">Alojamientos</a>
-        <a class="active" href="reservas.html">Reservas</a>
-        <a href="contactanos.html">Contáctanos</a>
-      </nav>
-    </div>
-  </header>
+						darkImage.onload = () => {
+							logo.src = 'https://z-cdn.chatglm.cn/z-ai/static/logo.svg';
+							logo.style.filter = ''; // Ensure no inversion is applied if splash-dark.png exists
+						};
 
-  <main class="page">
-    <section class="card">
-      <div class="card-header">
-        <h1>Selecciona las fechas de tu estancia</h1>
-        <p>Elige entrada y salida. Las fechas reservadas quedan bloqueadas.</p>
-      </div>
+						darkImage.onerror = () => {
+							logo.style.filter = 'invert(1)'; // Invert image if splash-dark.png is missing
+						};
+					} else {
+						splashContainer.style.backgroundColor = '#F4F6F8';
+					}
+				}
 
-      <div class="content">
-        <div class="legend">
-          <span><i class="dot free"></i> Libre</span>
-          <span><i class="dot inquiry"></i> Consulta / Interesado</span>
-          <span><i class="dot reserved"></i> Reservado</span>
-        </div>
+				// Runs after classes are assigned
+				window.addEventListener('DOMContentLoaded', setSplashImage, { once: true });
+			};
+			initTheme();
+		</script>
 
-        <!-- Calendario INLINE (siempre visible) -->
-        <div id="calendar"></div>
+		
 
-        <div class="hint">
-          Si alguna vez no se ve, revisa F12 → Console. Si hay error en rojo, el calendario no puede cargar.
-        </div>
-      </div>
-    </section>
+		<script>
+			// 炫酷的控制台介绍 - 根据语言显示
+			(function() {
+				// 检测用户语言偏好
+				const userLang = navigator.language || navigator.userLanguage;
+				const isChinese = userLang.startsWith('zh') || userLang.includes('CN') || userLang.includes('TW') || userLang.includes('HK');
+				
+				// 共同的 ASCII Logo
+				const logoLines = [
+					'%c███████╗     █████╗ ██╗',
+					'%c╚══███╔╝    ██╔══██╗██║',
+					'%c  ███╔╝     ███████║██║',
+					'%c ███╔╝      ██╔══██║██║',
+					'%c███████╗ ██╗██║  ██║██║',
+					'%c╚══════╝ ╚═╝╚═╝  ╚═╝╚═╝'
+				];
+				const logoColors = [
+					'color: #ff6b6b; font-family: monospace; font-size: 12px;',
+					'color: #4ecdc4; font-family: monospace; font-size: 12px;',
+					'color: #45b7d1; font-family: monospace; font-size: 12px;',
+					'color: #f9ca24; font-family: monospace; font-size: 12px;',
+					'color: #ff9ff3; font-family: monospace; font-size: 12px;',
+					'color: #6c5ce7; font-family: monospace; font-size: 12px;'
+				];
 
-    <aside class="card">
-      <div class="card-header">
-        <h1>Tu reserva</h1>
-        <p>Calculamos noches y total automáticamente.</p>
-      </div>
+				if (isChinese) {
+					// 中文版本
+					console.log('%c🚀 欢迎来到 Z.ai 🚀', 'color: #00d4ff; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #00d4ff;');
+					logoLines.forEach((line, index) => console.log(line, logoColors[index]));
+					console.log('');
+					console.log('%c✨ 基于开源GLM模型的智能AI助手', 'color: #a29bfe; font-size: 14px; font-weight: bold;');
+					console.log('%c🧠 支持文本生成、推理和深度研究', 'color: #fd79a8; font-size: 12px;');
+					console.log('%c🌍 为中英文用户量身定制', 'color: #00b894; font-size: 12px;');
+					console.log('%c💡 免费开源的ChatGPT替代方案', 'color: #fdcb6e; font-size: 12px;');
+					console.log('');
+					console.log('%c---', 'color: #ddd;');
+					console.log('%c由 ❤️ 和大量 ☕ 驱动', 'color: #e84393; font-size: 11px; font-style: italic;');
+					console.log('');
+					console.log('%c🚀 加入我们！我们正在招聘优秀人才！', 'color: #00b894; font-size: 13px; font-weight: bold;');
+					console.log('%c💼 查看职位: https://zhipu-ai.jobs.feishu.cn/s/stmyTm5lxaU', 'color: #0984e3; font-size: 12px; text-decoration: underline;');
+				} else {
+					// 英文版本
+					console.log('%c🚀 Welcome to Z.ai 🚀', 'color: #00d4ff; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #00d4ff;');
+					logoLines.forEach((line, index) => console.log(line, logoColors[index]));
+					console.log('');
+					console.log('%c✨ Advanced AI assistant powered by open-source GLM models', 'color: #a29bfe; font-size: 14px; font-weight: bold;');
+					console.log('%c🧠 Supports text generation, reasoning, and deep research', 'color: #fd79a8; font-size: 12px;');
+					console.log('%c🌍 Tailored for both English and Chinese users', 'color: #00b894; font-size: 12px;');
+					console.log('%c💡 Free and open-source ChatGPT alternative', 'color: #fdcb6e; font-size: 12px;');
+					console.log('');
+					console.log('%c---', 'color: #ddd;');
+					console.log('%cPowered by ❤️ and lots of ☕', 'color: #e84393; font-size: 11px; font-style: italic;');
+					console.log('');
+					console.log('%c🚀 Join us! We are hiring talented people!', 'color: #00b894; font-size: 13px; font-weight: bold;');
+					console.log('%c💼 View jobs: https://zhipu-ai.jobs.feishu.cn/s/stmyTm5lxaU', 'color: #0984e3; font-size: 12px; text-decoration: underline;');
+				}
+			})();
+		</script>
 
-      <div class="content">
-        <div class="grid2">
-          <div>
-            <label>Fecha de entrada</label>
-            <input id="checkin" type="text" readonly placeholder="Selecciona en el calendario">
-          </div>
-          <div>
-            <label>Fecha de salida</label>
-            <input id="checkout" type="text" readonly placeholder="Selecciona en el calendario">
-          </div>
-        </div>
+		
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/entry/start.DWjTB-qB.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/chunks/CQplubvo.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/chunks/CG5uSfbd.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/chunks/C-pqWtJt.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/entry/app.jkcVpSbM.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/chunks/C1FmrZbK.js">
+		<link rel="modulepreload" href="https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/chunks/C_mKt501.js">
+	<title>Z.AI Share</title><meta name="description" content="Amazing content sharing from Z.AI"><meta property="og:type" content="website"><meta property="og:site_name" content="Z.AI"><meta property="og:title" content="Z.AI Share"><meta property="og:description" content="Amazing content sharing from Z.AI"><meta property="og:image" content="https://z-cdn.chatglm.cn/z-ai/static/share-logo.png"><meta property="og:image:alt" content="Z.AI Share"><meta property="og:image:width" content="400"><meta property="og:image:height" content="400"><meta property="og:image:type" content="image/png"><meta property="og:url" content="http://chat.z.ai/space/e0ugma5qfjs0-art"><meta property="article:author" content="Z.AI"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Z.AI Share"><meta name="twitter:description" content="Amazing content sharing from Z.AI"><meta name="twitter:image" content="https://z-cdn.chatglm.cn/z-ai/static/share-logo.png"><meta name="twitter:image:alt" content="Z.AI Share"><meta name="robots" content="index,follow"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="application-name" content="Z.AI"><meta name="theme-color" content="#1976d2"><meta name="msapplication-TileColor" content="#1976d2"><link rel="canonical" href="http://chat.z.ai/space/e0ugma5qfjs0-art"><script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script>
+(function() {
+  var frontendCallId = Math.random().toString(36).substring(2, 8);
+  console.log('[WeChat-Frontend-' + frontendCallId + '] ===== 开始前端微信JS-SDK初始化 =====');
+  console.log('[WeChat-Frontend-' + frontendCallId + '] 当前页面URL:', window.location.href);
+  console.log('[WeChat-Frontend-' + frontendCallId + '] 当前页面URL (去掉#):', window.location.href.split('#')[0]);
+  console.log('[WeChat-Frontend-' + frontendCallId + '] 签名配置:', {
+    debug: false,
+    appId: 'wxa5796e47c57570b1',
+    timestamp: 1765548301,
+    nonceStr: '7lpNFKfZc9llNFPo',
+    signature: 'a9d4b24a8494702dc1dbd9a9e5f78a32a728f759',
+    jsApiList: ["updateAppMessageShareData","updateTimelineShareData","onMenuShareAppMessage","onMenuShareTimeline"]
+  });
 
-        <div style="height:10px"></div>
+  // 微信 JS-SDK 配置
+  wx.config({
+    debug: false, // 根据环境变量设置debug模式
+    appId: 'wxa5796e47c57570b1', // 公众号的唯一标识
+    timestamp: 1765548301, // 生成签名的时间戳
+    nonceStr: '7lpNFKfZc9llNFPo', // 生成签名的随机串
+    signature: 'a9d4b24a8494702dc1dbd9a9e5f78a32a728f759', // 签名
+    jsApiList: ["updateAppMessageShareData","updateTimelineShareData","onMenuShareAppMessage","onMenuShareTimeline"] // 需要使用的JS接口列表
+  });
 
-        <div class="grid2">
-          <div>
-            <label>Tipo de habitación</label>
-            <select id="roomType">
-              <option value="single" data-price="60">Habitación por persona — 60 €/noche</option>
-              <option value="couple" data-price="80">Habitación por pareja — 80 €/noche</option>
-              <option value="entire" data-price="120">Alojamiento entero — 120 €/noche</option>
-            </select>
-          </div>
-          <div>
-            <label>Huéspedes</label>
-            <select id="guests">
-              <option>1</option><option selected>2</option><option>3</option><option>4</option>
-            </select>
-          </div>
-        </div>
+  console.log('[WeChat-Frontend-' + frontendCallId + '] wx.config() 调用完成');
 
-        <div style="height:10px"></div>
+  // 微信 JS-SDK 就绪回调
+  wx.ready(function () {
+    console.log('[WeChat-Frontend-' + frontendCallId + '] WeChat JS-SDK ready - 微信JS-SDK就绪!');
 
-        <div class="grid2">
-          <div>
-            <label>Nombre y apellidos</label>
-            <input id="fullname" type="text" placeholder="Tu nombre completo">
-          </div>
-          <div>
-            <label>Email</label>
-            <input id="email" type="email" placeholder="tucorreo@gmail.com">
-          </div>
-        </div>
-
-        <div class="totals">
-          <div>Noches: <b id="nights">0</b></div>
-          <div>Precio por noche: <b id="priceNight">0 €</b></div>
-          <div>Valor por las noches reservadas: <b id="subtotal">0 €</b></div>
-          <div class="total-big">Total reserva: <span id="total">0 €</span></div>
-        </div>
-
-        <div class="actions">
-          <button class="btn secondary" id="clearDates">Borrar fechas</button>
-          <button class="btn" id="confirm" disabled>Confirmar reserva</button>
-        </div>
-
-        <!-- Pasarela de pago (PayPal) -->
-        <div id="paypalBox">
-          <h3 style="margin:0 0 8px;">Paga tu reserva</h3>
-          <div id="paypal-buttons"></div>
-          <div class="hint">En modo pruebas (sandbox). Para producción se cambia el Client ID.</div>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Flatpickr -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-  <!-- PayPal (Sandbox). En producción: reemplaza client-id=TU_CLIENT_ID -->
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
-
-  <script>
-    // ====== BLOQUEOS (ejemplo) ======
-    // Formato: "YYYY-MM-DD"
-    const reservedRanges = [
-      { start: "2025-11-25", end: "2025-11-28" }, // 25-27 ocupadas
-      { start: "2025-12-05", end: "2025-12-09" }
-    ];
-    const inquiryRanges = [
-      { start: "2025-11-18", end: "2025-11-20" }
-    ];
-
-    // ====== STATE ======
-    let startDate = null;
-    let endDate = null;
-
-    // ====== DOM ======
-    const checkin = document.getElementById("checkin");
-    const checkout = document.getElementById("checkout");
-    const roomType = document.getElementById("roomType");
-    const nightsEl = document.getElementById("nights");
-    const priceNightEl = document.getElementById("priceNight");
-    const subtotalEl = document.getElementById("subtotal");
-    const totalEl = document.getElementById("total");
-    const clearDates = document.getElementById("clearDates");
-    const confirm = document.getElementById("confirm");
-    const paypalBox = document.getElementById("paypalBox");
-
-    const fullname = document.getElementById("fullname");
-    const email = document.getElementById("email");
-
-    // ====== HELPERS ======
-    const pad2 = n => String(n).padStart(2,"0");
-    const toISO = (d) => ${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())};
-    const fmtES = (d) => ${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()};
-
-    function inRange(iso, start, end){ return iso >= start && iso < end; }
-
-    function isReservedISO(iso){
-      return reservedRanges.some(r => inRange(iso, r.start, r.end));
-    }
-    function isInquiryISO(iso){
-      return inquiryRanges.some(r => inRange(iso, r.start, r.end));
-    }
-
-    function calcNights(){
-      if(!startDate || !endDate) return 0;
-      const ms = endDate.getTime() - startDate.getTime();
-      return Math.max(0, Math.round(ms / (1000*60*60*24)));
-    }
-
-    function getPricePerNight(){
-      const opt = roomType.options[roomType.selectedIndex];
-      return Number(opt.dataset.price || 0);
-    }
-
-    function recalc(){
-      const nights = calcNights();
-      const price = getPricePerNight();
-      const subtotal = nights * price;
-
-      nightsEl.textContent = String(nights);
-      priceNightEl.textContent = ${price} €;
-      subtotalEl.textContent = ${subtotal} €;
-      totalEl.textContent = ${subtotal} €;
-
-      checkin.value = startDate ? fmtES(startDate) : "";
-      checkout.value = endDate ? fmtES(endDate) : "";
-
-      confirm.disabled = !(startDate && endDate && nights > 0);
-      paypalBox.style.display = "none"; // si cambias algo, ocultamos pago hasta confirmar
-      document.getElementById("paypal-buttons").innerHTML = "";
-    }
-
-    // ====== CALENDARIO INLINE ======
-    flatpickr("#calendar", {
-      inline: true,
-      mode: "range",
-      dateFormat: "Y-m-d",
-      minDate: "today",
-
-      // Bloquear reservadas
-      disable: [
-        function(date){
-          const iso = toISO(date);
-          return isReservedISO(iso);
-        }
-      ],
-
-      // Pintar estilos a días (reservado/inquiry)
-      onDayCreate: function(dObj, dStr, fp, dayElem){
-        const iso = dayElem.dateObj ? toISO(dayElem.dateObj) : null;
-        if(!iso) return;
-        if(isReservedISO(iso)) dayElem.classList.add("is-reserved");
-        else if(isInquiryISO(iso)) dayElem.classList.add("is-inquiry");
+    // 分享给朋友的配置
+    console.log('[WeChat-Frontend-' + frontendCallId + '] 开始配置分享给朋友...');
+    wx.updateAppMessageShareData({
+      title: 'Z.AI Share',
+      desc: 'Amazing content sharing from Z.AI',
+      link: 'http://chat.z.ai/space/e0ugma5qfjs0-art',
+      imgUrl: 'https://z-cdn.chatglm.cn/z-ai/static/share-logo.png',
+      success: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 分享给朋友成功');
       },
-
-      onChange: function(selectedDates){
-        // Flatpickr devuelve [entrada, salida]
-        startDate = selectedDates[0] || null;
-        endDate = selectedDates[1] || null;
-
-        // Si el usuario elige un rango que “pisa” un reservado (por ejemplo por bug),
-        // lo cortamos
-        if(startDate && endDate){
-          // validar que dentro del rango no haya reservados
-          let ok = true;
-          for(let d = new Date(startDate); d < endDate; d.setDate(d.getDate()+1)){
-            if(isReservedISO(toISO(d))){ ok = false; break; }
-          }
-          if(!ok){
-            alert("Ese rango incluye fechas reservadas. Elige otras fechas.");
-            this.clear();
-            startDate = null; endDate = null;
-          }
-        }
-
-        recalc();
+      cancel: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 分享给朋友取消');
       }
     });
 
-    roomType.addEventListener("change", recalc);
-    clearDates.addEventListener("click", () => {
-      startDate = null; endDate = null;
-      // limpiar flatpickr
-      document.querySelector("#calendar")._flatpickr.clear();
-      recalc();
+    // 分享到朋友圈的配置
+    console.log('[WeChat-Frontend-' + frontendCallId + '] 开始配置分享到朋友圈...');
+    wx.updateTimelineShareData({
+      title: 'Z.AI Share',
+      link: 'http://chat.z.ai/space/e0ugma5qfjs0-art',
+      imgUrl: 'https://z-cdn.chatglm.cn/z-ai/static/share-logo.png',
+      success: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 分享到朋友圈成功');
+      },
+      cancel: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 分享到朋友圈取消');
+      }
     });
 
-    // ====== CONFIRMAR -> PASARELA PAYPAL ======
-    confirm.addEventListener("click", () => {
-      const nights = calcNights();
-      const total = nights * getPricePerNight();
-
-      if(!fullname.value.trim()){
-        alert("Escribe tu nombre y apellidos.");
-        return;
+    // 兼容旧版本微信客户端
+    console.log('[WeChat-Frontend-' + frontendCallId + '] 开始配置兼容旧版本分享...');
+    wx.onMenuShareAppMessage({
+      title: 'Z.AI Share',
+      desc: 'Amazing content sharing from Z.AI',
+      link: 'http://chat.z.ai/space/e0ugma5qfjs0-art',
+      imgUrl: 'https://z-cdn.chatglm.cn/z-ai/static/share-logo.png',
+      success: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 兼容版分享给朋友成功');
+      },
+      cancel: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 兼容版分享给朋友取消');
       }
-      if(!email.value.trim() || !email.value.includes("@")){
-        alert("Escribe un email válido.");
-        return;
-      }
-      if(!(startDate && endDate && nights > 0)){
-        alert("Selecciona fechas válidas.");
-        return;
-      }
-
-      paypalBox.style.display = "block";
-
-      // Render PayPal Buttons con el TOTAL calculado
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              description: Reserva StayProud (${fmtES(startDate)} - ${fmtES(endDate)}),
-              amount: { value: total.toFixed(2) }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert("Pago aprobado ✅ Gracias. ID: " + details.id);
-
-            // Aquí puedes marcar el rango como reservado (localStorage o backend)
-            // y redirigir a una página de confirmación.
-          });
-        },
-        onError: function(err) {
-          console.error(err);
-          alert("Hubo un error con PayPal. Revisa la consola (F12).");
-        }
-      }).render("#paypal-buttons");
     });
 
-    // INIT
-    recalc();
-  </script>
-</body>
-</html>
+    wx.onMenuShareTimeline({
+      title: 'Z.AI Share',
+      link: 'http://chat.z.ai/space/e0ugma5qfjs0-art',
+      imgUrl: 'https://z-cdn.chatglm.cn/z-ai/static/share-logo.png',
+      success: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 兼容版分享到朋友圈成功');
+      },
+      cancel: function () {
+        console.log('[WeChat-Frontend-' + frontendCallId + '] 兼容版分享到朋友圈取消');
+      }
+    });
+
+    console.log('[WeChat-Frontend-' + frontendCallId + '] 所有分享配置完成');
+  });
+
+  // 微信 JS-SDK 错误回调
+  wx.error(function(res){
+    console.error('[WeChat-Frontend-' + frontendCallId + '] 微信JS-SDK错误:', res);
+    console.error('[WeChat-Frontend-' + frontendCallId + '] 错误详情:', JSON.stringify(res, null, 2));
+    // 可以在这里处理签名验证失败等错误
+  });
+
+  console.log('[WeChat-Frontend-' + frontendCallId + '] ===== 微信JS-SDK初始化完成 =====');
+})();
+</script></head>
+
+	<body data-sveltekit-preload-data="hover">
+				<script>
+			const env = location.hostname === 'chat.z.ai' ? 'prod' : 'pre';
+    !(function(c,b,d,a){c[a]||(c[a]={});c[a]=
+    {
+      pid: 'j2c03hoppk@9a8be198b65ba4b',
+			endpoint: 'https://j2c03hoppk-default-cn.rum.aliyuncs.com',
+      // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
+      env: env,
+      // 设置路由模式， 参考值：'history' | 'hash'
+      spaMode: 'history',
+      collectors: {
+        // 页面性能指标监听开关，默认开启
+        perf: true,
+        // WebVitals指标监听开关，默认开启
+        webVitals: false,
+        // Ajax监听开关，默认开启
+        api: true,
+        // 静态资源开关，默认开启
+        staticResource: true,
+        // JS错误监听开关，默认开启
+        jsError: true,
+        // 控制台错误监听开关，默认开启
+        consoleError: false,
+        // 用户行为监听开关，默认开启
+        action: true,
+      },
+      // 链路追踪配置开关，默认关闭
+      tracing: false,
+			parseViewName(url) {
+				const pathname = new URL(url).pathname;
+				if (!pathname) {
+					return '/';
+				}
+				return pathname.replace(/(.*)\/[a-f0-9-]+$/g, '$1');
+			},
+			evaluateApi(options, response) {
+
+				const traceId = response?.headers?.get?.('X-Trace-Id') || 'unknown';
+
+				return {
+					name: options.url.replace(/\/[a-f0-9-]{36}/g, '/**'),
+					properties: {
+						traceId
+					}
+				}
+			}
+    }
+    with(b)with(body)with(insertBefore(createElement("script"),firstChild))setAttribute("crossorigin","",src=d)
+})(window, document, "https://sdk.rum.aliyuncs.com/v2/browser-sdk.js", "__rum");
+		</script>
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_1cpt640 = {
+						base: "",
+						assets: "https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/entry/start.DWjTB-qB.js"),
+						import("https://z-cdn.chatglm.cn/z-ai/frontend/prod-fe-1.0.156/_app/immutable/entry/app.jkcVpSbM.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+
+		<div id="splash-screen" style="position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%; background-color: #F4F6F8">
+			<style type="text/css" nonce="">
+				html {
+					overflow-y: scroll !important;
+				}
+			</style>
+
+			<img id="logo" style="
+					position: absolute;
+					width: auto;
+					height: 10rem;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				" src="https://z-cdn.chatglm.cn/z-ai/static/logo.svg">
+
+			<div style="
+					position: absolute;
+					top: 33%;
+					left: 50%;
+
+					width: 24rem;
+					transform: translateX(-50%);
+
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				">
+
+				<div style="position: relative; width: 24rem; margin-top: 0.5rem">
+					<div id="progress-background" style="
+							position: absolute;
+							width: 100%;
+							height: 0.75rem;
+
+							border-radius: 9999px;
+							background-color: #F4F6F8;
+						"></div>
+
+					<div id="progress-bar" style="
+							position: absolute;
+							width: 0%;
+							height: 0.75rem;
+							border-radius: 9999px;
+							background-color: #fff;
+						" class="bg-white"></div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var token = localStorage.getItem('token');
+			var base = window.WEBUI_BASE_URL || '';
+			var lang = localStorage.locale ?? (navigator.language.includes('zh') ? 'zh-CN' : 'en-US');
+			var config = {
+				credentials: 'include',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					...(token ? { Authorization: `Bearer ${token}` } : {}),
+					'Accept-Language': lang,
+				}
+			};
+
+			window.GLOBAL_FETCHES = {
+				session: fetch(`${base}/api/v1/auths/`, config).then(async (res) => {
+					if (res.status === 401) {
+						location.replace('/auth');
+					}
+					if (!res.ok) throw await res.json();
+					return res.json();
+				}),
+				config: fetch(`${base}/api/config`, config).then(async (res) => {
+					if (!res.ok) throw await res.json();
+					return res.json();
+				}),
+				models: token && fetch(`${base}/api/models`, config),
+				settings: token && fetch(`${base}/api/v1/users/user/settings`, config).then(async (res) => {
+					if (!res.ok) throw await res.json();
+					return res.json();
+				}),
+			}
+		</script>
+		<script async="" src="//o.alicdn.com/frontend-lib/common-lib/jquery.min.js"></script>
+	
+
+
+<style type="text/css" nonce="">
+	html {
+		overflow-y: hidden !important;
+	}
+
+	#splash-screen {
+		background: #F4F6F8;
+	}
+
+	html.dark #splash-screen {
+		background: #141618;
+	}
+
+	#progress-background {
+		display: none;
+	}
+
+	#progress-bar {
+		display: none;
+	}
+
+	html.her #logo {
+		display: none;
+	}
+
+	html.her #progress-background {
+		display: block;
+	}
+
+	html.her #progress-bar {
+		display: block;
+	}
+
+	@media (max-width: 24rem) {
+		html.her #progress-background {
+			display: none;
+		}
+
+		html.her #progress-bar {
+			display: none;
+		}
+	}
+
+	@keyframes pulse {
+		50% {
+			opacity: 0.65;
+		}
+	}
+
+	.animate-pulse-fast {
+		animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+</style>
+</body></html>
