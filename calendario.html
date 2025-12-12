@@ -1,348 +1,701 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reservas | StayProud</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayProud - Reservas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
 
-  <!-- Flatpickr (calendario) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-  <style>
-    :root{
-      --brand:#00bfa6;
-      --bg:#f6f7f8;
-      --card:#ffffff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-    header{
-      background:linear-gradient(90deg, var(--brand), #00a08b);
-      color:#fff;
-      padding:14px 18px;
-      display:flex;align-items:center;gap:12px;
-    }
-    header .logo{
-      width:34px;height:34px;border-radius:10px;background:#fff2;
-      display:flex;align-items:center;justify-content:center;font-weight:800
-    }
-    header nav{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-    header nav a{
-      color:#fff;text-decoration:none;font-weight:600;
-      padding:8px 10px;border-radius:12px;
-      border:1px solid #ffffff33;
-    }
-    header nav a.active{background:#ffffff22}
+        /* Header Styles */
+        header {
+            background-color: #20c997;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    main{max-width:1050px;margin:18px auto;padding:0 14px}
-    .grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:14px}
-    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:16px;
-      box-shadow:0 8px 20px rgba(0,0,0,.05);
-    }
-    h1{margin:0 0 6px;font-size:22px}
-    p{margin:0;color:var(--muted)}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
-    .pill{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
-    .dot{width:12px;height:12px;border-radius:4px;border:1px solid var(--border)}
-    .dot.free{background:#fff}
-    .dot.block{background:#cbd5e1}
-    .dot.booked{background:var(--brand)}
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
 
-    /* calendario inline siempre visible */
-    #calendarWrap{margin-top:14px}
-    .flatpickr-calendar.inline{box-shadow:none;border:0}
-    .flatpickr-day.selected,
-    .flatpickr-day.startRange,
-    .flatpickr-day.endRange,
-    .flatpickr-day.inRange{
-      background:var(--brand)!important;border-color:var(--brand)!important;color:#fff!important;
-    }
-    .flatpickr-day.flatpickr-disabled{
-      background:#e5e7eb!important;color:#9ca3af!important;
-      text-decoration:line-through;
-    }
+        .logo h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
 
-    .formRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-    .formRow.one{grid-template-columns:1fr}
-    label{display:block;font-size:13px;color:var(--muted);margin:6px 0}
-    input, select{
-      width:100%;
-      padding:11px 12px;
-      border:1px solid var(--border);
-      border-radius:14px;
-      background:#fff;
-      outline:none;
-    }
-    input:focus, select:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(0,191,166,.12)}
-    .summary{
-      display:grid;gap:10px;margin-top:12px;
-      border-top:1px dashed var(--border);
-      padding-top:12px;
-    }
-    .kpi{display:flex;justify-content:space-between;gap:10px}
-    .kpi b{font-size:14px}
-    .totalBox{
-      margin-top:10px;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(0,191,166,.25);
-      background:rgba(0,191,166,.06);
-      display:flex;justify-content:space-between;align-items:center;
-      font-weight:800;
-    }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .btn{
-      cursor:pointer;
-      border:1px solid var(--border);
-      background:#fff;
-      padding:12px 14px;border-radius:16px;
-      font-weight:800;
-    }
-    .btn.primary{
-      border-color:transparent;
-      background:var(--brand);
-      color:#fff;
-    }
-    .hint{margin-top:10px;font-size:12px;color:var(--muted)}
-  </style>
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #e0f2f1;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .calendar-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-header h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .calendar-header p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .calendar {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 0.5rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+        }
+
+        .calendar-day-header {
+            padding: 0.8rem;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .calendar-day {
+            padding: 0.8rem;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background-color: #f8f9fa;
+        }
+
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+
+        .calendar-day.free {
+            background-color: #e8f5e9;
+        }
+
+        .calendar-day.reserved {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .calendar-day.selected {
+            background-color: #c8e6c9;
+            font-weight: bold;
+        }
+
+        .calendar-day.start-date {
+            border-radius: 50% 0 0 50%;
+        }
+
+        .calendar-day.end-date {
+            border-radius: 0 50% 50% 0;
+        }
+
+        .calendar-tip {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        /* Reservation Form */
+        .reservation-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .reservation-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .reservation-header h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .reservation-header p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .reservation-form {
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #20c997;
+        }
+
+        .reservation-summary {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-item:last-child {
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .reservation-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-clear {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #ddd;
+        }
+
+        .btn-clear:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-confirm {
+            background-color: #20c997;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: #1aae8e;
+        }
+
+        .reservation-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <header>
-    <div class="logo">SP</div>
-    <div style="font-weight:900">StayProud</div>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="servicios.html">Servicios</a>
-      <a href="nosotros.html">Nosotros</a>
-      <a href="alojamientos.html">Alojamientos</a>
-      <a class="active" href="reservas.html">Reservas</a>
-      <a href="contactanos.html">Contáctanos</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="grid">
-      <!-- CALENDARIO -->
-      <section class="card">
-        <h1>Selecciona las fechas de tu estancia</h1>
-        <p>Haz clic en una fecha de entrada y luego en una fecha de salida. Las fechas ocupadas quedan bloqueadas.</p>
-
-        <div class="legend">
-          <div class="pill"><span class="dot free"></span> Libre</div>
-          <div class="pill"><span class="dot block"></span> Bloqueada</div>
-          <div class="pill"><span class="dot booked"></span> Reservada (selección)</div>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://picsum.photos/seed/stayproud/40/40.jpg" alt="StayProud Logo">
+                <h1>StayProud</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Alojamientos</a></li>
+                    <li><a href="#">Reservas</a></li>
+                    <li><a href="#">Contáctanos</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <div id="calendarWrap">
-          <div id="calendar"></div>
-        </div>
+    <main class="main-container">
+        <section class="calendar-section">
+            <div class="calendar-header">
+                <h2>Selecciona las fechas de tu estancia</h2>
+                <p>Haz clic en una fecha de entrada y luego en una fecha de salida. Las fechas reservadas quedan bloqueadas.</p>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #e8f5e9;"></div>
+                    <span>Libre</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #fff3e0;"></div>
+                    <span>Consulta / Interesado</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #e3f2fd;"></div>
+                    <span>Reservado</span>
+                </div>
+            </div>
 
-        <div class="hint">
-          Tip: si alguna vez el calendario no se ve, abre F12 → Console. Si hay un error rojo, el calendario no renderiza.
-        </div>
-      </section>
+            <div class="calendar">
+                <div class="calendar-header-nav">
+                    <button class="nav-btn">&lt;</button>
+                    <span id="current-month">Noviembre 2024</span>
+                    <button class="nav-btn">&gt;</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day-header">Do</div>
+                    <div class="calendar-day-header">Lu</div>
+                    <div class="calendar-day-header">Ma</div>
+                    <div class="calendar-day-header">Mi</div>
+                    <div class="calendar-day-header">Ju</div>
+                    <div class="calendar-day-header">Vi</div>
+                    <div class="calendar-day-header">Sá</div>
+                    
+                    <!-- Calendar days will be generated by JavaScript -->
+                </div>
+            </div>
 
-      <!-- FORM + RESUMEN -->
-      <aside class="card">
-        <h1>Tu reserva</h1>
-        <p>Calculamos noches y total automáticamente.</p>
+            <div class="calendar-tip">
+                Tip: si alguna vez no se dibuja el calendario, mira la consola (F12 → Console). Un error de JS lo puede bloquear.
+            </div>
+        </section>
 
-        <div class="formRow">
-          <div>
-            <label>Fecha de entrada</label>
-            <input id="checkin" placeholder="Selecciona en el calendario" readonly>
-          </div>
-          <div>
-            <label>Fecha de salida</label>
-            <input id="checkout" placeholder="Selecciona en el calendario" readonly>
-          </div>
-        </div>
+        <section class="reservation-section">
+            <div class="reservation-header">
+                <h2>Tu reserva</h2>
+                <p>Calculamos noches y total automáticamente.</p>
+            </div>
 
-        <div class="formRow">
-          <div>
-            <label>Tipo de habitación</label>
-            <select id="roomType">
-              <option value="60">Habitación por persona — 60 €/noche</option>
-              <option value="80">Habitación por pareja — 80 €/noche</option>
-              <option value="120">Alojamiento entero — 120 €/noche</option>
-            </select>
-          </div>
-          <div>
-            <label>Huéspedes</label>
-            <select id="guests">
-              <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option>
-            </select>
-          </div>
-        </div>
+            <form class="reservation-form" id="reservation-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="check-in">Fecha de entrada</label>
+                        <input type="text" id="check-in" placeholder="Selecciona en el calendario" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="check-out">Fecha de salida</label>
+                        <input type="text" id="check-out" placeholder="Selecciona en el calendario" readonly>
+                    </div>
+                </div>
 
-        <div class="formRow one">
-          <div>
-            <label>Nombre y apellidos</label>
-            <input id="fullName" placeholder="Tu nombre completo">
-          </div>
-        </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="room-type">Tipo de habitación</label>
+                        <select id="room-type">
+                            <option value="single">Habitación por persona</option>
+                            <option value="double">Habitación doble</option>
+                            <option value="suite">Suite</option>
+                            <option value="family">Habitación familiar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Huéspedes</label>
+                        <select id="guests">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
 
-        <div class="formRow one">
-          <div>
-            <label>Email</label>
-            <input id="email" type="email" placeholder="tucorreo@gmail.com">
-          </div>
-        </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nombre y apellidos</label>
+                        <input type="text" id="name" placeholder="Tu nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="tucorreo@gmail.com">
+                    </div>
+                </div>
 
-        <div class="summary">
-          <div class="kpi"><span>Noches</span><b id="nights">0</b></div>
-          <div class="kpi"><span>Precio por noche</span><b><span id="priceNight">60</span> €</b></div>
-          <div class="kpi"><span>Valor por las noches reservadas</span><b><span id="subtotal">0</span> €</b></div>
+                <div class="reservation-summary">
+                    <div class="summary-item">
+                        <span>Noches:</span>
+                        <span id="nights">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Precio por noche:</span>
+                        <span id="price-per-night">0 €</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Valor por las noches reservadas:</span>
+                        <span id="total-nights">0 €</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total reserva:</span>
+                        <span id="total-amount">0 €</span>
+                    </div>
+                </div>
 
-          <div class="totalBox">
-            <span>Total reserva</span>
-            <span><span id="total">0</span> €</span>
-          </div>
-        </div>
+                <div class="reservation-buttons">
+                    <button type="button" class="btn btn-clear" id="clear-dates">Borrar fechas</button>
+                    <button type="submit" class="btn btn-confirm">Confirmar reserva</button>
+                </div>
 
-        <div class="actions">
-          <button class="btn" id="clearBtn" type="button">Borrar fechas</button>
-          <button class="btn primary" id="payBtn" type="button">Confirmar reserva</button>
-        </div>
+                <div class="reservation-note">
+                    Al confirmar, bloqueamos esas fechas como Reservadas (en este navegador).
+                </div>
+            </form>
+        </section>
+    </main>
 
-        <div class="hint">
-          Nota: para una pasarela real (Stripe/PayPal con cobro) necesitas integrar un proveedor. Aquí te envío a una página de pago preparada con los datos.
-        </div>
-      </aside>
-    </div>
-  </main>
-
-  <script>
-    // ====== BLOQUEO DE FECHAS (EJEMPLO) ======
-    // Formato: "YYYY-MM-DD"
-    // Puedes editarlas o luego cargarlas desde tu base de datos.
-    const blockedDates = [
-      "2025-11-27",
-      "2025-11-28",
-      "2025-12-05"
-    ];
-
-    // ====== UTILIDADES ======
-    const € = (n) => Number(n).toFixed(0);
-
-    const checkinEl  = document.getElementById("checkin");
-    const checkoutEl = document.getElementById("checkout");
-    const roomTypeEl = document.getElementById("roomType");
-    const nightsEl   = document.getElementById("nights");
-    const priceNightEl = document.getElementById("priceNight");
-    const subtotalEl = document.getElementById("subtotal");
-    const totalEl    = document.getElementById("total");
-
-    function diffNights(start, end){
-      // noches = días entre fechas
-      const ms = end - start;
-      const days = Math.round(ms / (1000*60*60*24));
-      return Math.max(0, days);
-    }
-
-    function recalc(){
-      const price = Number(roomTypeEl.value || 0);
-      priceNightEl.textContent = price;
-
-      const inDate  = checkinEl.dataset.value ? new Date(checkinEl.dataset.value) : null;
-      const outDate = checkoutEl.dataset.value ? new Date(checkoutEl.dataset.value) : null;
-
-      let nights = 0;
-      if (inDate && outDate) nights = diffNights(inDate, outDate);
-
-      nightsEl.textContent = nights;
-      const subtotal = price * nights;
-      subtotalEl.textContent = €(subtotal);
-      totalEl.textContent = €(subtotal);
-    }
-
-    // ====== CALENDARIO (INLINE, RANGE) ======
-    document.addEventListener("DOMContentLoaded", () => {
-      if (typeof flatpickr === "undefined") {
-        console.error("❌ No cargó Flatpickr. Revisa internet/CDN.");
-        return;
-      }
-
-      const fp = flatpickr("#calendar", {
-        inline: true,
-        mode: "range",
-        minDate: "today",
-        dateFormat: "Y-m-d",
-        disable: blockedDates,
-        onChange: (selectedDates, dateStr, instance) => {
-          // selectedDates = [start, end]
-          if (selectedDates.length >= 1) {
-            const start = selectedDates[0];
-            checkinEl.value = instance.formatDate(start, "d/m/Y");
-            checkinEl.dataset.value = instance.formatDate(start, "Y-m-d");
-          } else {
-            checkinEl.value = "";
-            delete checkinEl.dataset.value;
-          }
-
-          if (selectedDates.length >= 2) {
-            const end = selectedDates[1];
-            checkoutEl.value = instance.formatDate(end, "d/m/Y");
-            checkoutEl.dataset.value = instance.formatDate(end, "Y-m-d");
-          } else {
-            checkoutEl.value = "";
-            delete checkoutEl.dataset.value;
-          }
-
-          recalc();
-        }
-      });
-
-      // botones
-      document.getElementById("clearBtn").addEventListener("click", () => {
-        fp.clear();
-        checkinEl.value = ""; checkoutEl.value = "";
-        delete checkinEl.dataset.value; delete checkoutEl.dataset.value;
-        recalc();
-      });
-
-      // recalcular cuando cambie tipo de habitación
-      roomTypeEl.addEventListener("change", recalc);
-
-      // Confirmar reserva -> página de pago (simulada / preparada)
-      document.getElementById("payBtn").addEventListener("click", () => {
-        const inV  = checkinEl.dataset.value;
-        const outV = checkoutEl.dataset.value;
-        const nights = Number(nightsEl.textContent || 0);
-        const total  = Number(totalEl.textContent || 0);
-
-        if (!inV || !outV || nights <= 0) {
-          alert("Por favor selecciona una fecha de entrada y una de salida válidas.");
-          return;
-        }
-
-        const name = encodeURIComponent(document.getElementById("fullName").value || "");
-        const email = encodeURIComponent(document.getElementById("email").value || "");
-        const guests = encodeURIComponent(document.getElementById("guests").value || "1");
-        const room = encodeURIComponent(roomTypeEl.options[roomTypeEl.selectedIndex].text);
-
-        // Aquí lo enviamos a "pago.html" con parámetros.
-        // Luego conectamos PayPal/Stripe de verdad cuando elijas proveedor.
-        const url = pago.html?checkin=${inV}&checkout=${outV}&nights=${nights}&total=${total}&room=${room}&guests=${guests}&name=${name}&email=${email};
-        window.location.href = url;
-      });
-
-      recalc();
-      console.log("✅ Calendario cargado OK");
-    });
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calendar functionality
+            const calendarGrid = document.querySelector('.calendar-grid');
+            const currentMonthEl = document.getElementById('current-month');
+            const checkInInput = document.getElementById('check-in');
+            const checkOutInput = document.getElementById('check-out');
+            const nightsEl = document.getElementById('nights');
+            const pricePerNightEl = document.getElementById('price-per-night');
+            const totalNightsEl = document.getElementById('total-nights');
+            const totalAmountEl = document.getElementById('total-amount');
+            const clearDatesBtn = document.getElementById('clear-dates');
+            const reservationForm = document.getElementById('reservation-form');
+            
+            let currentDate = new Date();
+            let selectedDates = {
+                checkIn: null,
+                checkOut: null
+            };
+            
+            // Sample reserved dates (for demonstration)
+            const reservedDates = [
+                new Date(2024, 10, 15), // November 15, 2024
+                new Date(2024, 10, 16),
+                new Date(2024, 10, 20),
+                new Date(2024, 10, 21),
+                new Date(2024, 10, 22)
+            ];
+            
+            // Generate calendar
+            function generateCalendar() {
+                // Clear existing calendar days (except headers)
+                const dayHeaders = document.querySelectorAll('.calendar-day-header');
+                calendarGrid.innerHTML = '';
+                dayHeaders.forEach(header => calendarGrid.appendChild(header));
+                
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+                
+                currentMonthEl.textContent = ${getMonthName(month)} ${year};
+                
+                for (let i = 0; i < 42; i++) {
+                    const date = new Date(startDate);
+                    date.setDate(startDate.getDate() + i);
+                    
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'calendar-day';
+                    dayEl.textContent = date.getDate();
+                    
+                    // Check if date is in current month
+                    if (date.getMonth() !== month) {
+                        dayEl.classList.add('other-month');
+                    } else {
+                        // Check if date is reserved
+                        const isReserved = reservedDates.some(reservedDate => 
+                            reservedDate.toDateString() === date.toDateString()
+                        );
+                        
+                        if (isReserved) {
+                            dayEl.classList.add('reserved');
+                        } else {
+                            dayEl.classList.add('free');
+                        }
+                        
+                        // Add click event
+                        dayEl.addEventListener('click', () => selectDate(date));
+                    }
+                    
+                    calendarGrid.appendChild(dayEl);
+                }
+            }
+            
+            function getMonthName(month) {
+                const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                return months[month];
+            }
+            
+            function selectDate(date) {
+                if (!selectedDates.checkIn || (selectedDates.checkIn && selectedDates.checkOut)) {
+                    // Start new selection
+                    selectedDates.checkIn = date;
+                    selectedDates.checkOut = null;
+                    updateCalendarSelection();
+                    checkInInput.value = formatDate(date);
+                } else if (selectedDates.checkIn && !selectedDates.checkOut) {
+                    // End selection
+                    if (date >= selectedDates.checkIn) {
+                        selectedDates.checkOut = date;
+                        updateCalendarSelection();
+                        checkOutInput.value = formatDate(date);
+                        calculateReservation();
+                    }
+                }
+            }
+            
+            function updateCalendarSelection() {
+                // Clear previous selection
+                document.querySelectorAll('.calendar-day').forEach(day => {
+                    day.classList.remove('selected', 'start-date', 'end-date');
+                });
+                
+                if (selectedDates.checkIn) {
+                    const checkInDay = findCalendarDay(selectedDates.checkIn);
+                    if (checkInDay) {
+                        checkInDay.classList.add('selected', 'start-date');
+                    }
+                }
+                
+                if (selectedDates.checkOut) {
+                    const checkOutDay = findCalendarDay(selectedDates.checkOut);
+                    if (checkOutDay) {
+                        checkOutDay.classList.add('selected', 'end-date');
+                    }
+                }
+                
+                generateCalendar();
+            }
+            
+            function findCalendarDay(date) {
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                
+                return Array.from(document.querySelectorAll('.calendar-day')).find(el => {
+                    const dayNum = parseInt(el.textContent);
+                    const isCurrentMonth = !el.classList.contains('other-month');
+                    
+                    if (isCurrentMonth) {
+                        const elDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNum);
+                        return elDate.toDateString() === date.toDateString();
+                    }
+                    return false;
+                });
+            }
+            
+            function formatDate(date) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return ${day}/${month}/${year};
+            }
+            
+            function calculateReservation() {
+                if (selectedDates.checkIn && selectedDates.checkOut) {
+                    const nights = Math.ceil((selectedDates.checkOut - selectedDates.checkIn) / (1000 * 60 * 60 * 24));
+                    nightsEl.textContent = nights;
+                    
+                    // Sample price calculation (you can modify this)
+                    const pricePerNight = 50; // Base price per night
+                    const guests = parseInt(document.getElementById('guests').value);
+                    const roomType = document.getElementById('room-type').value;
+                    
+                    // Adjust price based on room type and guests
+                    let adjustedPrice = pricePerNight;
+                    if (roomType === 'double') adjustedPrice *= 1.5;
+                    if (roomType === 'suite') adjustedPrice *= 2;
+                    if (roomType === 'family') adjustedPrice *= 2.5;
+                    adjustedPrice *= guests;
+                    
+                    pricePerNightEl.textContent = ${adjustedPrice} €;
+                    totalNightsEl.textContent = ${nights * adjustedPrice} €;
+                    totalAmountEl.textContent = ${nights * adjustedPrice} €;
+                }
+            }
+            
+            // Event listeners
+            document.querySelector('.nav-btn:first-child').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                generateCalendar();
+            });
+            
+            document.querySelector('.nav-btn:last-child').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                generateCalendar();
+            });
+            
+            clearDatesBtn.addEventListener('click', () => {
+                selectedDates = { checkIn: null, checkOut: null };
+                checkInInput.value = '';
+                checkOutInput.value = '';
+                nightsEl.textContent = '0';
+                pricePerNightEl.textContent = '0 €';
+                totalNightsEl.textContent = '0 €';
+                totalAmountEl.textContent = '0 €';
+                updateCalendarSelection();
+            });
+            
+            reservationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (selectedDates.checkIn && selectedDates.checkOut) {
+                    alert('Reserva confirmada. Las fechas han sido bloqueadas.');
+                    // Here you would typically send the data to a server
+                } else {
+                    alert('Por favor, selecciona las fechas de entrada y salida.');
+                }
+            });
+            
+            // Update calculations when form fields change
+            document.getElementById('guests').addEventListener('change', calculateReservation);
+            document.getElementById('room-type').addEventListener('change', calculateReservation);
+            
+            // Initialize calendar
+            generateCalendar();
+        });
+    </script>
 </body>
 </html>
