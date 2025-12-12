@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pago seguro – StayProud</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID_PAYPAL_AQUI&currency=EUR"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #00bfa6;
+      margin-bottom: 10px;
+    }
+
+    .total {
+      font-size: 1.4rem;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 20px;
+    }
+
+    #paypal-button-container {
+      margin-top: 25px;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Pago seguro</h1>
+  <p>Estás a punto de confirmar tu reserva</p>
+
+  <div class="total">
+    Total a pagar: <span id="totalPago">0 €</span>
+  </div>
+
+  <div id="paypal-button-container"></div>
+
+  <div class="note">
+    Tu reserva se confirma automáticamente tras el pago.
+  </div>
+
+  <div id="resultado"></div>
+</div>
+
+<script>
+  const total = localStorage.getItem("totalReserva");
+
+  if (!total || isNaN(total)) {
+    alert("No se encontró el total de la reserva.");
+    window.location.href = "reservas.html";
+  }
+
+  document.getElementById("totalPago").textContent = `${total} €`;
+
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'paypal'
+    },
+
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: total
+          },
+          description: "Reserva StayProud"
+        }]
+      });
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        document.getElementById("resultado").innerHTML =
+          `<div class="success">✅ Pago completado. Gracias ${details.payer.name.given_name}.</div>`;
+
+        // Aquí puedes:
+        // - guardar la reserva en backend
+        // - enviar email
+        // - bloquear fechas definitivamente
+        localStorage.removeItem("totalReserva");
+      });
+    },
+
+    onError: function(err) {
+      alert("Ocurrió un error en el pago.");
+      console.error(err);
+    }
+  }).render('#paypal-button-container');
+</script>
+
+</body>
+</html>
