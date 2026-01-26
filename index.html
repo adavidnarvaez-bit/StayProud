@@ -1,460 +1,695 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>StayProud - Iniciar sesión</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StayProud - Reservas</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
+    :root{
+      --green:#00bfa6; /* StayProud */
+      --reserved:#ffd54f; /* amarillo reservado */
+      --inquiry:#ffb74d; /* naranja consultado */
+      --bg:#f5f7f8;
+      --text:#124045;
+      --muted:#5a6a6c;
+      --border:#d4dee0;
+      --card:#ffffff;
+      --shadow: 0 10px 25px rgba(0,0,0,0.08);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    body{ margin:0; background:var(--bg); color:var(--text); }
+
+    header{
+      background:var(--green);
+      color:#fff;
+      padding:14px 40px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    header .logo{ font-weight:800; font-size:20px; }
+    header nav a{
+      color:#fff;
+      text-decoration:none;
+      margin-left:20px;
+      font-weight:500;
+      font-size:14px;
+    }
+    header nav a:hover{ text-decoration:underline; }
+
+    .wrap{
+      padding:26px 18px;
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap:18px;
     }
 
-    body {
-      background: #f5f7f8;
-      color: #124045;
-      height: 100vh;
-      overflow: hidden;
-      overflow-x: hidden;
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
     }
 
-    /* BARRA SUPERIOR */
-    header {
-      background-color: #00bfa6;
-      color: #fff;
-      padding: 14px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    header nav a {
-      margin-left: 24px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
+    .title{
+      font-size:18px;
+      font-weight:800;
+      margin:0;
+    }
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    header nav a:hover {
-      text-decoration: underline;
+    /* Calendar */
+    .cal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .cal-head .month{
+      font-weight:800;
+      font-size:18px;
+    }
+    .btn{
+      border:none;
+      background:var(--green);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:14px;
+    }
+    .btn.secondary{
+      background:#fff;
+      color:var(--green);
+      border:1px solid var(--green);
+    }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .chip{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; }
+    .dot.green{ background:var(--green); }
+    .dot.res{ background:var(--reserved); }
+    .dot.inq{ background:var(--inquiry); }
+    .dot.free{ background:#fff; border:1px solid var(--border); }
+
+    .grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:8px;
+    }
+    .dow{
+      font-size:12px;
+      font-weight:700;
+      color:var(--muted);
+      text-align:center;
+      padding:6px 0;
     }
 
-    /* CONTENEDOR PRINCIPAL (2 columnas) */
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      height: calc(100vh - 70px);
+    .day{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px;
+      min-height:70px;
+      cursor:pointer;
+      position:relative;
+      user-select:none;
+      transition:.12s ease;
+    }
+    .day:hover{ transform: translateY(-1px); }
+    .day.muted{
+      opacity:.45;
+      cursor:default;
     }
 
-    /* PANEL IZQUIERDO */
-    .left-panel {
-      background-color: white;
-      color: #00bfa6;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px;
-      text-align: left;
+    .day .n{
+      font-weight:800;
+      font-size:14px;
+    }
+    .day .tag{
+      position:absolute;
+      left:10px;
+      bottom:10px;
+      font-size:11px;
+      font-weight:700;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(4px);
     }
 
-    .left-panel img {
-      width: 200px;
-      margin-bottom: 30px;
-    }
+    /* States */
+    .state-free{ background:#fff; }
+    .state-selected{ background: rgba(0,191,166,0.18); border-color: rgba(0,191,166,0.45); }
+    .state-reserved{ background: rgba(255,213,79,0.35); border-color: rgba(255,213,79,0.75); }
+    .state-inquiry{ background: rgba(255,183,77,0.35); border-color: rgba(255,183,77,0.75); }
 
-    .left-panel h1 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 18px;
+    /* Right panel form */
+    label{ display:block; font-size:12px; font-weight:700; margin:12px 0 6px; color:#335052; }
+    select, input{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      font-size:14px;
+      outline:none;
+      background:#fff;
     }
-
-    .left-panel p {
-      font-size: 16px;
-      line-height: 1.5;
-      max-width: 420px;
-      color: #124045;
-    }
-
-    /* PANEL DERECHO — PEGADO ARRIBA */
-    .right-panel {
-      background: #ffffff;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 40px;
-      padding-top: 0;
-      overflow-y: auto;
-    }
-
-    .form-card {
-      width: 100%;
-      max-width: 380px;
-      background: #fff;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      margin-top: 12px; /* aire limpio debajo de la barra */
-    }
-
-    .form-card h2 {
-      text-align: center;
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    .form-card p {
-      text-align: center;
-      font-size: 14px;
-      color: #5a6a6c;
-      margin-bottom: 20px;
-    }
-
-    label {
-      font-size: 13px;
-      display: block;
-      margin-bottom: 5px;
-      color: #335052;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #d4dee0;
-      font-size: 14px;
-      margin-bottom: 15px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #00bfa6;
+    input:focus, select:focus{
+      border-color: var(--green);
       box-shadow: 0 0 0 2px rgba(0,191,166,0.20);
     }
 
-    .button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: #00bfa6;
-      color: white;
-      border-radius: 999px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 15px;
+    .price-box{
+      margin-top:14px;
+      border:1px dashed var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+    }
+    .price-line{ display:flex; justify-content:space-between; gap:10px; font-size:13px; color:var(--muted); }
+    .price-total{
+      display:flex; justify-content:space-between; gap:10px;
+      margin-top:10px; padding-top:10px; border-top:1px solid var(--border);
+      font-weight:900;
     }
 
-    .button:hover {
-      filter: brightness(0.95);
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
     }
 
-    /* BOTONES SOCIALES */
-    .social-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+    .note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
+      line-height:1.35;
     }
 
-    .social-btn {
-      width: 100%;
-      border: 1px solid #00bfa6;
-      border-radius: 999px;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      background: #fff;
-      color: #00bfa6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      transition: 0.2s ease;
-    }
-
-    .social-btn img {
-      width: 20px;
-      height: 20px;
-    }
-
-    .social-btn:hover {
-      background: #00bfa6;
-      color: #fff;
-    }
-
-    .divider {
-      text-align: center;
-      font-size: 13px;
-      color: #88989b;
-      margin: 10px 0;
-      position: relative;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 35%;
-      height: 1px;
-      background: #d4dee0;
-    }
-
-    .divider::before { left: 0; }
-    .divider::after { right: 0; }
-
-    .hidden {
-      display: none;
-    }
-
-    .switch {
-      text-align: center;
-      font-size: 14px;
-      margin-top: 15px;
-    }
-
-    .switch a {
-      color: #00bfa6;
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .switch a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 900px) {
-      body {
-        overflow: auto;
-      }
-
-      .container {
-        grid-template-columns: 1fr;
-        height: auto;
-        overflow-y: auto;
-      }
-
-      .left-panel {
-        text-align: center;
-        align-items: center;
-        padding: 40px 20px;
-      }
-
-      .right-panel {
-        padding: 20px;
-      }
-
-      header {
-        padding: 14px 20px;
-      }
-
-      header nav a {
-        margin-left: 14px;
-      }
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns:1fr; }
+      header{ padding:14px 18px; }
+      header nav a{ margin-left:12px; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
-    <div class="logo" style="font-size:20px; font-weight:700;">StayProud</div>
+    <div class="logo">StayProud</div>
     <nav>
-      <a href="login.html">Inicio</a>
-      <a href="alojamientos.html">Alojamientos</a>     
+      <a href="reservas.html">Alojamientos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contáctanos</a>
     </nav>
   </header>
 
-  <div class="container">
-
-    <!-- IZQUIERDA -->
-    <div class="left-panel">
-      <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
-      <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
-      <p>
-        En StayProud creemos que viajar es más que moverse, es sentirse libre,
-        auténtico y bienvenido. Encuentra alojamientos donde el respeto y la diversidad
-        son parte del hogar.
-      </p>
-    </div>
-
-    <!-- DERECHA -->
-    <div class="right-panel">
-      <div class="form-card">
-
-        <!-- LOGIN -->
-        <div id="loginForm">
-          <h2>Iniciar sesión</h2>
-          <p>Accede a tu cuenta de huésped para reservar.</p>
-
-          <label for="loginEmail">Correo electrónico</label>
-          <input type="email" id="loginEmail" placeholder="tucorreo@example.com">
-
-          <label for="loginPassword">Contraseña</label>
-          <input type="password" id="loginPassword" placeholder="••••••••">
-
-          <button class="button" onclick="handleLogin()">INICIAR SESIÓN</button>
-
-          <div class="divider">O</div>
-
-          <div class="social-buttons">
-            <button class="social-btn" type="button">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
-              Continuar con Facebook
-            </button>
-
-            <button class="social-btn" type="button">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-              Continuar con Google
-            </button>
-          </div>
-
-          <div class="switch">
-            ¿No tienes cuenta? <a onclick="showRegister()">Regístrate</a>
-          </div>
+  <div class="wrap">
+    <!-- CALENDARIO -->
+    <section class="card">
+      <div class="row">
+        <div>
+          <p class="title">Calendario de disponibilidad</p>
+          <p class="sub">Selecciona fechas (verde). Reservado (amarillo). Consultado (naranja). Libre (blanco).</p>
         </div>
-
-        <!-- REGISTRO -->
-        <div id="registerForm" class="hidden">
-          <h2>Crear cuenta</h2>
-          <p>Regístrate como huésped para poder reservar.</p>
-
-          <label for="regName">Nombre completo</label>
-          <input type="text" id="regName" placeholder="Tu nombre">
-
-          <label for="regEmail">Correo electrónico</label>
-          <input type="email" id="regEmail" placeholder="tucorreo@example.com">
-
-          <label for="regPassword">Contraseña</label>
-          <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
-
-          <button class="button" onclick="handleRegister()">CREAR CUENTA</button>
-
-          <div class="divider">O</div>
-
-          <div class="social-buttons">
-            <button class="social-btn" type="button">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
-              Registrarse con Facebook
-            </button>
-
-            <button class="social-btn" type="button">
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-              Registrarse con Google
-            </button>
-          </div>
-
-          <div class="switch">
-            ¿Ya tienes cuenta? <a onclick="showLogin()">Iniciar sesión</a>
-          </div>
-        </div>
-
       </div>
-    </div>
 
+      <div class="cal-head">
+        <button class="btn secondary" id="prevBtn">◀</button>
+        <div class="month" id="monthLabel">—</div>
+        <button class="btn secondary" id="nextBtn">▶</button>
+      </div>
+
+      <div class="grid" id="dow">
+        <div class="dow">Lun</div><div class="dow">Mar</div><div class="dow">Mié</div>
+        <div class="dow">Jue</div><div class="dow">Vie</div><div class="dow">Sáb</div><div class="dow">Dom</div>
+      </div>
+
+      <div class="grid" id="calendar"></div>
+
+      <div class="legend">
+        <div class="chip"><span class="dot green"></span> Seleccionadas</div>
+        <div class="chip"><span class="dot res"></span> Reservadas</div>
+        <div class="chip"><span class="dot inq"></span> Consultadas</div>
+        <div class="chip"><span class="dot free"></span> Libres</div>
+      </div>
+    </section>
+
+    <!-- PANEL DERECHO -->
+    <aside class="card">
+      <p class="title">Crear reserva / consulta</p>
+      <p class="sub">Elige el tipo y confirma. El precio se calcula automáticamente.</p>
+
+      <label for="type">Tipo de alojamiento</label>
+      <select id="type">
+        <option value="habitacion">Habitación</option>
+        <option value="doble">Habitación doble</option>
+        <option value="completo">Alojamiento completo</option>
+      </select>
+
+      <label for="guests">Número de huéspedes</label>
+      <input id="guests" type="number" min="1" value="1" />
+
+      <label for="status">Estado</label>
+      <select id="status">
+        <option value="reserved">Reservado (amarillo)</option>
+        <option value="inquiry">Consultado (naranja)</option>
+      </select>
+
+      <label for="name">Nombre</label>
+      <input id="name" type="text" placeholder="Nombre del huésped" />
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="correo@ejemplo.com" />
+
+      <div class="price-box">
+        <div class="price-line"><span>Noches</span><span id="nights">0</span></div>
+        <div class="price-line"><span>Precio/noche</span><span id="ppn">—</span></div>
+        <div class="price-line"><span>Subtotal</span><span id="subtotal">—</span></div>
+        <div class="price-line"><span>Tarifa servicio (10%)</span><span id="fee">—</span></div>
+        <div class="price-total"><span>Total</span><span id="total">—</span></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="saveBtn">Guardar</button>
+        <button class="btn secondary" id="clearSelectionBtn">Limpiar selección</button>
+        <button class="btn" id="payBtn" disabled>Pagar</button>
+      </div>
+
+      <p class="note">
+        Nota: ahora funciona con <b>localStorage</b> (demo real sin servidor).
+        Para pago real, conecta el botón “Pagar” a Stripe/PayPal (te dejo abajo cómo).
+      </p>
+    </aside>
   </div>
 
   <script>
-    // --- UTILIDADES PARA GUARDAR USUARIOS EN localStorage ---
+    // =========================
+    // CONFIGURACIÓN (ajústala)
+    // =========================
+    const THEME_GREEN = "#00bfa6";
 
-    function getUsersFromStorage() {
-      const data = localStorage.getItem("stayProudUsers");
-      if (!data) return [];
-      try {
-        return JSON.parse(data);
-      } catch (e) {
-        console.error("Error leyendo usuarios", e);
-        return [];
+    // Precios base por noche (ejemplo)
+    const PRICES = {
+      habitacion: 65,
+      doble: 95,
+      completo: 180
+    };
+
+    // Tarifa de servicio
+    const SERVICE_FEE_RATE = 0.10;
+
+    // Link de pago (DEMO). Reemplaza con tu Payment Link real (Stripe/PayPal) cuando lo tengas.
+    // Ejemplo Stripe Payment Link: https://buy.stripe.com/xxxx
+    const PAYMENT_LINK_BASE = "pago.html"; // o tu link real
+
+    // =========================
+    // DATOS (localStorage)
+    // =========================
+    // bookings: { "YYYY-MM-DD": { status: "reserved"|"inquiry", type, guests, name, email, pricePerNight } }
+    const STORAGE_KEY = "stayProudCalendarBookings_v1";
+
+    function loadBookings(){
+      try{
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      }catch(e){
+        return {};
+      }
+    }
+    function saveBookings(data){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // =========================
+    // UTIL FECHAS
+    // =========================
+    function pad(n){ return String(n).padStart(2,"0"); }
+    function toISODate(d){
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    }
+    function parseISODate(s){
+      const [y,m,dd] = s.split("-").map(Number);
+      return new Date(y, m-1, dd);
+    }
+    function startOfDay(d){
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+    function diffDays(a,b){
+      const ms = 24*60*60*1000;
+      return Math.round((startOfDay(b)-startOfDay(a))/ms);
+    }
+    function formatMonthYear(d){
+      return d.toLocaleDateString("es-ES", { month:"long", year:"numeric" })
+        .replace(/^\w/, c => c.toUpperCase());
+    }
+
+    // =========================
+    // ESTADO UI
+    // =========================
+    const bookings = loadBookings();
+
+    let viewDate = new Date(); // mes actual
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
+
+    // selección (rango)
+    let selectedStart = null; // Date
+    let selectedEnd = null; // Date (checkout day, no incluido)
+    let selectedDates = new Set(); // ISO days selected (noches)
+
+    // =========================
+    // ELEMENTOS
+    // =========================
+    const calendarEl = document.getElementById("calendar");
+    const monthLabel = document.getElementById("monthLabel");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    const typeEl = document.getElementById("type");
+    const guestsEl = document.getElementById("guests");
+    const statusEl = document.getElementById("status");
+    const nameEl = document.getElementById("name");
+    const emailEl = document.getElementById("email");
+
+    const nightsEl = document.getElementById("nights");
+    const ppnEl = document.getElementById("ppn");
+    const subtotalEl = document.getElementById("subtotal");
+    const feeEl = document.getElementById("fee");
+    const totalEl = document.getElementById("total");
+
+    const saveBtn = document.getElementById("saveBtn");
+    const clearSelectionBtn = document.getElementById("clearSelectionBtn");
+    const payBtn = document.getElementById("payBtn");
+
+    // =========================
+    // RENDER CALENDARIO
+    // =========================
+    function getDayIndexMondayFirst(jsDay){
+      // JS: 0=Dom ... 6=Sáb
+      // queremos: 0=Lun ... 6=Dom
+      return (jsDay + 6) % 7;
+    }
+
+    function renderCalendar(){
+      monthLabel.textContent = formatMonthYear(viewDate);
+      calendarEl.innerHTML = "";
+
+      const year = viewDate.getFullYear();
+      const month = viewDate.getMonth();
+      const first = new Date(year, month, 1);
+      const last = new Date(year, month + 1, 0);
+
+      const leadingBlanks = getDayIndexMondayFirst(first.getDay());
+      const daysInMonth = last.getDate();
+
+      // celdas: blanks + días
+      const totalCells = leadingBlanks + daysInMonth;
+      for(let i=0; i<totalCells; i++){
+        if(i < leadingBlanks){
+          const blank = document.createElement("div");
+          blank.className = "day muted";
+          calendarEl.appendChild(blank);
+          continue;
+        }
+
+        const dayNum = i - leadingBlanks + 1;
+        const d = new Date(year, month, dayNum);
+        const iso = toISODate(d);
+
+        const cell = document.createElement("div");
+        cell.className = "day state-free";
+        cell.dataset.date = iso;
+
+        const n = document.createElement("div");
+        n.className = "n";
+        n.textContent = dayNum;
+
+        cell.appendChild(n);
+
+        // Estado: reservado/consulta/seleccionado/libre
+        const b = bookings[iso];
+        const isSelected = selectedDates.has(iso);
+
+        if(b?.status === "reserved"){
+          cell.classList.remove("state-free");
+          cell.classList.add("state-reserved");
+          const tag = document.createElement("div");
+          tag.className = "tag";
+          tag.textContent = "Reservado";
+          cell.appendChild(tag);
+        }else if(b?.status === "inquiry"){
+          cell.classList.remove("state-free");
+          cell.classList.add("state-inquiry");
+          const tag = document.createElement("div");
+          tag.className = "tag";
+          tag.textContent = "Consultado";
+          cell.appendChild(tag);
+        }else if(isSelected){
+          cell.classList.remove("state-free");
+          cell.classList.add("state-selected");
+          const tag = document.createElement("div");
+          tag.className = "tag";
+          tag.textContent = "Seleccionado";
+          cell.appendChild(tag);
+        }
+
+        // Click: solo seleccionar si NO está reservado (amarillo)
+        cell.addEventListener("click", () => handleDayClick(d, iso));
+        calendarEl.appendChild(cell);
       }
     }
 
-    function saveUsersToStorage(users) {
-      localStorage.setItem("stayProudUsers", JSON.stringify(users));
-    }
-
-    // --- CAMBIO ENTRE LOGIN / REGISTRO ---
-
-    function showRegister() {
-      document.getElementById("loginForm").classList.add("hidden");
-      document.getElementById("registerForm").classList.remove("hidden");
-    }
-
-    function showLogin() {
-      document.getElementById("registerForm").classList.add("hidden");
-      document.getElementById("loginForm").classList.remove("hidden");
-    }
-
-    // --- INICIAR SESIÓN ---
-
-    function handleLogin() {
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-
-      if (!email || !password) {
-        alert("Por favor escribe tu correo y contraseña.");
+    // =========================
+    // SELECCIÓN DE RANGO
+    // =========================
+    function handleDayClick(dateObj, iso){
+      // no permitir seleccionar días reservados
+      if(bookings[iso]?.status === "reserved"){
+        alert("Ese día ya está reservado (amarillo).");
         return;
       }
 
-      const users = getUsersFromStorage();
-      const user = users.find(u => u.email === email && u.password === password);
-
-      if (!user) {
-        alert("Correo o contraseña incorrectos, o el usuario no está registrado.");
+      // 1er click: start
+      if(!selectedStart || (selectedStart && selectedEnd)){
+        selectedStart = dateObj;
+        selectedEnd = null;
+        selectedDates.clear();
+        // por UX: seleccionamos 1 noche mínima (start)
+        selectedDates.add(iso);
+        updatePricing();
+        renderCalendar();
         return;
       }
 
-      // Guardamos el usuario conectado
-      localStorage.setItem("stayProudUser", user.email);
-      window.location.href = "reservas.html";
+      // 2do click: end (si es antes, lo intercambiamos)
+      const start = startOfDay(selectedStart);
+      const end = startOfDay(dateObj);
+
+      let a = start, b = end;
+      if(b < a){ [a,b] = [b,a]; }
+
+      // rango de noches: desde a hasta b (incluyendo a, incluyendo b) -> lo tratamos como noches seleccionadas
+      // En reservas reales suele ser: check-in a, check-out b (b no incluido). Aquí lo dejamos simple: noches incluidas.
+      selectedStart = a;
+      selectedEnd = b;
+
+      selectedDates.clear();
+      let cursor = new Date(a);
+      while(cursor <= b){
+        const isoDay = toISODate(cursor);
+        // si cae en reservado => bloqueamos y avisamos
+        if(bookings[isoDay]?.status === "reserved"){
+          alert("Tu rango incluye un día reservado. Ajusta la selección.");
+          selectedDates.clear();
+          selectedEnd = null;
+          selectedStart = null;
+          updatePricing();
+          renderCalendar();
+          return;
+        }
+        selectedDates.add(isoDay);
+        cursor.setDate(cursor.getDate()+1);
+      }
+
+      updatePricing();
+      renderCalendar();
     }
 
-    // --- REGISTRO ---
-
-    function handleRegister() {
-      const name = document.getElementById("regName").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const pass = document.getElementById("regPassword").value.trim();
-
-      if (!name || !email || pass.length < 6) {
-        alert("Completa todos los campos. La contraseña debe tener al menos 6 caracteres.");
-        return;
-      }
-
-      const users = getUsersFromStorage();
-
-      // Verificar si ya existe ese correo
-      const existing = users.find(u => u.email === email);
-      if (existing) {
-        alert("Ya existe una cuenta con ese correo. Intenta iniciar sesión.");
-        showLogin();
-        return;
-      }
-
-      // Crear nuevo usuario
-      const newUser = {
-        name: name,
-        email: email,
-        password: pass // Demo: en producción se cifra/hashea
-      };
-
-      users.push(newUser);
-      saveUsersToStorage(users);
-
-      // Guardar usuario conectado
-      localStorage.setItem("stayProudUser", email);
-
-      alert("Cuenta creada y guardada. ¡Bienvenido a StayProud!");
-      window.location.href = "reservas.html";
+    function clearSelection(){
+      selectedStart = null;
+      selectedEnd = null;
+      selectedDates.clear();
+      updatePricing();
+      renderCalendar();
     }
+
+    // =========================
+    // PRECIO
+    // =========================
+    function money(n){
+      return new Intl.NumberFormat("es-ES", { style:"currency", currency:"EUR" }).format(n);
+    }
+
+    function pricePerNight(){
+      const t = typeEl.value;
+      const base = PRICES[t] ?? 0;
+      // ejemplo simple: si huéspedes > 2 y no es "completo", sumamos 10€/huésped extra
+      const guests = Math.max(1, parseInt(guestsEl.value || "1",10));
+      let extra = 0;
+      if(t !== "completo" && guests > 2){
+        extra = (guests - 2) * 10;
+      }
+      return base + extra;
+    }
+
+    function updatePricing(){
+      const nights = selectedDates.size;
+      const ppn = pricePerNight();
+      const subtotal = nights * ppn;
+      const fee = subtotal * SERVICE_FEE_RATE;
+      const total = subtotal + fee;
+
+      nightsEl.textContent = String(nights);
+      ppnEl.textContent = nights ? money(ppn) : "—";
+      subtotalEl.textContent = nights ? money(subtotal) : "—";
+      feeEl.textContent = nights ? money(fee) : "—";
+      totalEl.textContent = nights ? money(total) : "—";
+
+      // activar botón pagar solo si estado es reservado y hay noches
+      const status = statusEl.value;
+      payBtn.disabled = !(nights > 0 && status === "reserved");
+    }
+
+    // =========================
+    // GUARDAR (RESERVA/CONSULTA)
+    // =========================
+    function saveSelection(){
+      if(selectedDates.size === 0){
+        alert("Selecciona al menos una fecha en el calendario (verde).");
+        return;
+      }
+
+      const status = statusEl.value; // reserved / inquiry
+      const type = typeEl.value;
+      const guests = Math.max(1, parseInt(guestsEl.value || "1",10));
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+
+      if(!name || !email){
+        alert("Escribe nombre y email.");
+        return;
+      }
+
+      const ppn = pricePerNight();
+
+      // Guardamos cada día con estado (para pintar por día)
+      selectedDates.forEach(iso => {
+        bookings[iso] = { status, type, guests, name, email, pricePerNight: ppn };
+      });
+
+      saveBookings(bookings);
+
+      alert(status === "reserved"
+        ? "Reserva guardada (amarillo)."
+        : "Consulta guardada (naranja)."
+      );
+
+      clearSelection();
+      renderCalendar();
+    }
+
+    // =========================
+    // PAGO (DEMO/PUENTE)
+    // =========================
+    function goToPayment(){
+      if(payBtn.disabled) return;
+
+      const nights = selectedDates.size;
+      const ppn = pricePerNight();
+      const subtotal = nights * ppn;
+      const fee = subtotal * SERVICE_FEE_RATE;
+      const total = subtotal + fee;
+
+      // enviamos info por query (DEMO)
+      // En pago real: esto NO debe calcularse solo en frontend.
+      const params = new URLSearchParams({
+        source: "stayproud",
+        type: typeEl.value,
+        guests: String(guestsEl.value || 1),
+        nights: String(nights),
+        total: String(total.toFixed(2)),
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        dates: Array.from(selectedDates).join(",")
+      });
+
+      window.location.href = `${PAYMENT_LINK_BASE}?${params.toString()}`;
+    }
+
+    // =========================
+    // EVENTS
+    // =========================
+    prevBtn.addEventListener("click", () => {
+      viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()-1, 1);
+      renderCalendar();
+    });
+    nextBtn.addEventListener("click", () => {
+      viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()+1, 1);
+      renderCalendar();
+    });
+
+    clearSelectionBtn.addEventListener("click", clearSelection);
+    saveBtn.addEventListener("click", saveSelection);
+    payBtn.addEventListener("click", goToPayment);
+
+    typeEl.addEventListener("change", updatePricing);
+    guestsEl.addEventListener("input", updatePricing);
+    statusEl.addEventListener("change", updatePricing);
+
+    // Forzar pantalla limpia
+    window.addEventListener("load", () => {
+      renderCalendar();
+      updatePricing();
+    });
   </script>
-
 </body>
 </html>
