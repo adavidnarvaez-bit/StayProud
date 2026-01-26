@@ -1,413 +1,338 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StayProud</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StayProud – Reservas</title>
+<style>
+  :root { --brand:#00bfa6; --bg:#f5f5f5; --card:#fff; --muted:#666; }
+  *{box-sizing:border-box;font-family:Arial,sans-serif;margin:0;padding:0}
+  body{background:var(--bg);color:#222}
+  header{background:var(--brand);padding:14px 18px}
+  header .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+  header .logo{color:#fff;font-weight:700;font-size:20px}
+  header nav a{color:#fff;text-decoration:none;margin-left:16px;font-weight:500}
+  .main{max-width:1200px;margin:22px auto;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .h{font-size:18px;font-weight:700;margin-bottom:6px}
+  .p{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.4}
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin:8px 0 10px}
+  .cal-btn{border:none;background:#eef7f6;color:#0a3f39;padding:8px 10px;border-radius:10px;cursor:pointer}
+  .cal-title{font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .dow{font-size:12px;color:#555;text-align:center;font-weight:700}
+  .day{padding:10px 0;text-align:center;border:1px solid #eaeaea;border-radius:10px;cursor:pointer;user-select:none}
+  .day.other{opacity:.35;cursor:default}
+  .day.reserved{background:#e3f2fd;color:#1976d2;border-color:#cfe7ff;cursor:not-allowed}
+  .day.free{background:#e8f5e9;border-color:#d7efda}
+  .day.selected{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:700}
+  .legend{display:flex;gap:14px;margin:12px 0 0;font-size:12px;color:#444;flex-wrap:wrap}
+  .dot{width:12px;height:12px;border-radius:4px;display:inline-block;margin-right:6px;vertical-align:-2px}
+  label{font-size:13px;color:#333;font-weight:700;margin-bottom:6px;display:block}
+  input,select{width:100%;padding:10px;border:1px solid #dcdcdc;border-radius:10px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .sum{background:#f7f7f7;border-radius:12px;padding:12px;margin-top:12px}
+  .sum div{display:flex;justify-content:space-between;margin:8px 0;font-size:13px}
+  .sum .total{font-weight:800;font-size:15px;border-top:1px solid #e3e3e3;padding-top:10px;margin-top:10px}
+  .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;margin-top:12px}
+  .btn.pay{background:var(--brand);color:#fff}
+  .btn.pay:hover{filter:brightness(.95)}
+  .btn.clear{background:#fff;border:1px solid #ddd}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.4}
+  @media(max-width:900px){ .main{grid-template-columns:1fr} .row{grid-template-columns:1fr} }
+</style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="site-header" id="inicio">
-    <div class="container nav-wrap">
-      <a href="#inicio" class="brand">
-        <img src="img/logo.png.jpg" alt="StayProud logo" />
-        <span>StayProud</span>
-      </a>
+<header>
+  <div class="wrap">
+    <div class="logo">StayProud</div>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Servicios</a>
+      <a href="#">Nosotros</a>
+      <a href="#">Alojamientos</a>
+      <a href="#">Reservas</a>
+    </nav>
+  </div>
+</header>
 
-          <nav class="main-nav">
-  <a href="index.html">Inicio</a>
-  
-  </header>
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-left">
-        <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
-      </div>
+<div class="main">
 
-      <div class="hero-right">
-        <h1>Vive tu orgullo en<br />cada destino</h1>
-        <p>
-          En StayProud creemos que viajar es más que moverse, es sentirse libre, auténtico y bienvenido.
-          Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
-        </p>
-        <a class="btn" href="#servicios">Explora el mundo sin etiquetas. Crea tu cuenta</a>
-      </div>
+  <!-- Calendario -->
+  <section class="card">
+    <div class="h">Selecciona las fechas de tu estancia</div>
+    <div class="p">Haz clic en una fecha de entrada y luego en una de salida. Las fechas pagadas quedan bloqueadas.</div>
+
+    <div class="cal-head">
+      <button class="cal-btn" id="prev">◀</button>
+      <div class="cal-title" id="title">—</div>
+      <button class="cal-btn" id="next">▶</button>
     </div>
+
+    <div class="grid" id="dow">
+      <div class="dow">Do</div><div class="dow">Lu</div><div class="dow">Ma</div>
+      <div class="dow">Mi</div><div class="dow">Ju</div><div class="dow">Vi</div><div class="dow">Sa</div>
+    </div>
+
+    <div class="grid" id="days" style="margin-top:8px"></div>
+
+    <div class="legend">
+      <span><span class="dot" style="background:#e8f5e9"></span>Libre</span>
+      <span><span class="dot" style="background:#e3f2fd"></span>Reservado</span>
+      <span><span class="dot" style="background:var(--brand)"></span>Seleccionado</span>
+    </div>
+
+    <div class="note">Tip: si no se dibuja, revisa F12 → Console. Pero con este código y backend, debería ir fino.</div>
   </section>
 
- <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>StayProud - Iniciar sesión</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
-    }
+  <!-- Reserva -->
+  <section class="card">
+    <div class="h">Tu reserva</div>
+    <div class="p">Calculamos noches y total automáticamente.</div>
 
-    body {
-      background: #f5f7f8;
-      color: #124045;
-    }
-
-    /* BARRA SUPERIOR (igual que tu web) */
-    header {
-      background-color: #00bfa6;
-      color: #fff;
-      padding: 14px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    header .logo span {
-      font-size: 22px;
-    }
-
-    header nav a {
-      margin-left: 24px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    header nav a:hover {
-      text-decoration: underline;
-    }
-
-    /* CONTENEDOR PRINCIPAL */
-    .auth-container {
-      display: flex;
-      min-height: calc(100vh - 70px);
-    }
-
-    /* LADO IZQUIERDO (imagen / mensaje) */
-    .auth-hero {
-      flex: 1;
-      <link rel="icon" href="img/logo.png.jpg" type="image/jpeg" />
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      display: none;
-    }
-
-    .auth-hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(220, 247, 244, 0.85), rgba(211, 232, 237, 0.85));
-      color: #fff;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .auth-hero-overlay h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .auth-hero-overlay p {
-      font-size: 15px;
-      max-width: 340px;
-      line-height: 1.5;
-    }
-
-    /* FORMULARIO */
-    .auth-form-wrapper {
-      flex: 1;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .auth-card {
-      width: 100%;
-      max-width: 420px;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      padding: 30px 26px 32px;
-      background: #fff;
-    }
-
-    .auth-title {
-      font-size: 22px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 8px;
-    }
-
-    .auth-subtitle {
-      font-size: 14px;
-      text-align: center;
-      margin-bottom: 18px;
-      color: #5a6a6c;
-    }
-
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    label {
-      font-size: 13px;
-      margin-bottom: 4px;
-      display: block;
-      color: #335052;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px 11px;
-      border-radius: 8px;
-      border: 1px solid #d4dee0;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #00bfa6;
-      box-shadow: 0 0 0 2px rgba(0,191,166,0.15);
-    }
-
-    .auth-btn {
-      width: 100%;
-      margin-top: 10px;
-      padding: 11px;
-      font-size: 15px;
-      font-weight: 600;
-      border-radius: 999px;
-      border: none;
-      background: #00bfa6;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .auth-btn:hover {
-      filter: brightness(0.95);
-    }
-
-    .link-row {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    .link-row a {
-      color: #00bfa6;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .social-buttons {
-      margin-top: 18px;
-    }
-
-    .social-btn {
-      width: 100%;
-      padding: 9px;
-      margin-top: 8px;
-      border-radius: 999px;
-      border: 1px solid #00bfa6;
-      background: #fff;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .divider {
-      text-align: center;
-      font-size: 12px;
-      color: #88989b;
-      margin-top: 10px;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      display: inline-block;
-      width: 30%;
-      height: 1px;
-      background: #d4dee0;
-      vertical-align: middle;
-      margin: 0 6px;
-    }
-
-    .small-note {
-      margin-top: 12px;
-      font-size: 11px;
-      text-align: center;
-      color: #88989b;
-      line-height: 1.4;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (min-width: 900px) {
-      .auth-hero {
-        display: block;
-      }
-      .auth-form-wrapper {
-        flex: 1;
-        padding: 60px 40px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <!-- aquí podrías poner tu logo colibrí -->
-      <span>StayProud</span>
+    <div class="row">
+      <div>
+        <label>Fecha de entrada</label>
+        <input id="checkin" placeholder="Selecciona en el calendario" readonly />
+      </div>
+      <div>
+        <label>Fecha de salida</label>
+        <input id="checkout" placeholder="Selecciona en el calendario" readonly />
+      </div>
     </div>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="nosotros.html">Nosotros</a>
-      <a href="alojamientos.html">Alojamientos</a>
-      <a href="reservas.html">Reservas</a>
-      <a href="contacto.html">Contáctanos</a>
-    </nav>
-  </header>
 
-  <main class="auth-container">
-    <!-- LADO IZQUIERDO -->
-    <section class="auth-hero">
-      <div class="auth-hero-overlay">
-        <h1>Bienvenido a la comunidad StayProud </h1>
-        <p>
-          Únete a una red global de viajeros LGBT+ y aliados. Regístrate para
-          descubrir alojamientos seguros, diversos y llenos de orgullo.
-        </p>
+    <div class="row">
+      <div>
+        <label>Tipo de habitación</label>
+        <select id="room">
+          <option value="60">Habitación por persona — 60 €/noche</option>
+          <option value="80">Habitación por pareja — 80 €/noche</option>
+          <option value="120">Alojamiento entero — 120 €/noche</option>
+        </select>
       </div>
-    </section>
-
-    <!-- FORMULARIOS -->
-    <section class="auth-form-wrapper">
-      <div class="auth-card">
-
-        <!-- LOGIN -->
-        <div id="loginForm">
-          <h2 class="auth-title">Inicia sesión</h2>
-          <p class="auth-subtitle">Accede a tu cuenta de huésped para reservar.</p>
-
-          <div class="form-group">
-            <label for="loginEmail">Correo electrónico</label>
-            <input type="email" id="loginEmail" placeholder="tucorreo@example.com" required>
-          </div>
-
-          <div class="form-group">
-            <label for="loginPassword">Contraseña</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" required>
-          </div>
-
-          <button class="auth-btn" onclick="handleLogin()">INICIAR SESIÓN</button>
-
-          <div class="link-row">
-            ¿No tienes cuenta?
-            <a onclick="showRegister()">Regístrate</a>
-          </div>
-
-          <div class="divider">O</div>
-
-          <div class="social-buttons">
-            <button class="social-btn">Continuar con Facebook</button>
-            <button class="social-btn">Continuar con Google</button>
-          </div>
-
-          <p class="small-note">
-            * Botones sociales de ejemplo. Para que funcionen de verdad habría que
-            conectarlos con un servicio como Firebase, Auth0, etc.
-          </p>
-        </div>
-
-        <!-- REGISTRO -->
-        <div id="registerForm" class="hidden">
-          <h2 class="auth-title">Crea tu cuenta</h2>
-          <p class="auth-subtitle">Regístrate como huésped para poder reservar.</p>
-
-          <div class="form-group">
-            <label for="regName">Nombre completo</label>
-            <input type="text" id="regName" placeholder="Tu nombre" required>
-          </div>
-
-          <div class="form-group">
-            <label for="regEmail">Correo electrónico</label>
-            <input type="email" id="regEmail" placeholder="tucorreo@example.com" required>
-          </div>
-
-          <div class="form-group">
-            <label for="regPassword">Contraseña</label>
-            <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required>
-          </div>
-
-          <button class="auth-btn" onclick="handleRegister()">CREAR CUENTA</button>
-
-          <div class="link-row">
-            ¿Ya tienes cuenta?
-            <a onclick="showLogin()">Inicia sesión</a>
-          </div>
-        </div>
+      <div>
+        <label>Huéspedes</label>
+        <select id="guests">
+          <option>1</option>
+          <option selected>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <script>
-    function showRegister() {
-      document.getElementById("loginForm").classList.add("hidden");
-      document.getElementById("registerForm").classList.remove("hidden");
+    <div class="sum">
+      <div><span>Noches</span><span id="nights">0</span></div>
+      <div><span>Precio por noche</span><span id="ppn">0 €</span></div>
+      <div><span>Valor por las noches reservadas</span><span id="sub">0 €</span></div>
+      <div class="total"><span>Total reserva</span><span id="total">0 €</span></div>
+    </div>
+
+    <button class="btn clear" id="clear">Borrar fechas</button>
+    <button class="btn pay" id="pay">Pago</button>
+
+    <div class="note">Las fechas se bloquean automáticamente SOLO cuando Stripe confirma el pago (webhook).</div>
+  </section>
+
+</div>
+
+<script>
+  const titleEl = document.getElementById("title");
+  const daysEl = document.getElementById("days");
+  const prev = document.getElementById("prev");
+  const next = document.getElementById("next");
+
+  const checkinEl = document.getElementById("checkin");
+  const checkoutEl = document.getElementById("checkout");
+  const roomEl = document.getElementById("room");
+  const guestsEl = document.getElementById("guests");
+
+  const nightsEl = document.getElementById("nights");
+  const ppnEl = document.getElementById("ppn");
+  const subEl = document.getElementById("sub");
+  const totalEl = document.getElementById("total");
+
+  const clearBtn = document.getElementById("clear");
+  const payBtn = document.getElementById("pay");
+
+  let view = new Date(); // mes visible
+  let occupied = new Set(); // fechas ocupadas del mes
+  let start = null; // YYYY-MM-DD
+  let end = null; // YYYY-MM-DD
+
+  const pad = n => String(n).padStart(2,"0");
+  const monthKey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}`;
+  const iso = (y,m,dd)=>`${y}-${pad(m)}-${pad(dd)}`;
+
+  function fmtHuman(isoDate){
+    if(!isoDate) return "";
+    const [y,m,d]=isoDate.split("-");
+    return `${d}/${m}/${y}`;
+  }
+
+  function nightsBetween(a,b){
+    const A = new Date(a+"T00:00:00");
+    const B = new Date(b+"T00:00:00");
+    return Math.ceil((B-A)/(1000*60*60*24));
+  }
+
+  async function fetchReserved(){
+    const mk = monthKey(view);
+    const r = await fetch(`/api/reserved?month=${mk}`);
+    const data = await r.json();
+    occupied = new Set(data.occupied || []);
+  }
+
+  function setTitle(){
+    titleEl.textContent = view.toLocaleDateString("es", {month:"long", year:"numeric"}).toUpperCase();
+  }
+
+  function draw(){
+    setTitle();
+    daysEl.innerHTML = "";
+
+    const y=view.getFullYear();
+    const m=view.getMonth()+1;
+    const first = new Date(y, m-1, 1);
+    const startDow = first.getDay(); // 0=Dom
+    const daysInMonth = new Date(y, m, 0).getDate();
+
+    // huecos antes
+    for(let i=0;i<startDow;i++){
+      const d=document.createElement("div");
+      d.className="day other";
+      d.textContent=" ";
+      daysEl.appendChild(d);
     }
 
-    function showLogin() {
-      document.getElementById("registerForm").classList.add("hidden");
-      document.getElementById("loginForm").classList.remove("hidden");
-    }
+    // días
+    for(let day=1; day<=daysInMonth; day++){
+      const key = iso(y,m,day);
+      const d=document.createElement("div");
 
-    //  Esto es un "login" sencillo solo para tu prototipo.
-    // Guarda el email en localStorage y redirige a reservas.html.
-    function handleLogin() {
-      const email = document.getElementById("loginEmail").value.trim();
-      if (!email) {
-        alert("Por favor escribe tu correo.");
-        return;
+      const isOcc = occupied.has(key);
+      d.className = "day " + (isOcc ? "reserved" : "free");
+      d.textContent = day;
+
+      if(!isOcc){
+        d.onclick = ()=> pick(key);
       }
-      localStorage.setItem("stayProudUser", email);
-      window.location.href = "reservas.html";
-    }
 
-    function handleRegister() {
-      const name = document.getElementById("regName").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const pass = document.getElementById("regPassword").value.trim();
-
-      if (!name || !email || pass.length < 6) {
-        alert("Revisa los datos. La contraseña debe tener al menos 6 caracteres.");
-        return;
+      if(start===key || end===key){
+        d.classList.add("selected");
       }
-      // Aquí podrías enviar los datos a tu backend o a un servicio externo.
-      localStorage.setItem("stayProudUser", email);
-      alert("Cuenta creada. ¡Bienvenido a StayProud! ");
-      window.location.href = "reservas.html";
+      daysEl.appendChild(d);
     }
-  </script>
+  }
+
+  function pick(key){
+    if(!start || end){
+      start = key; end = null;
+      checkinEl.value = fmtHuman(start);
+      checkoutEl.value = "";
+    }else{
+      if(key <= start) return;
+      // validar que no haya ocupadas en medio
+      // (recorremos noches desde start hasta key)
+      let cur = new Date(start+"T00:00:00");
+      const out = new Date(key+"T00:00:00");
+      while(cur < out){
+        const k = cur.toISOString().slice(0,10);
+        if(occupied.has(k)) {
+          alert("Hay fechas ocupadas dentro del rango. Elige otro rango.");
+          return;
+        }
+        cur.setDate(cur.getDate()+1);
+      }
+      end = key;
+      checkoutEl.value = fmtHuman(end);
+    }
+    calc();
+    draw();
+  }
+
+  function calc(){
+    if(!start || !end){
+      nightsEl.textContent = "0";
+      ppnEl.textContent = "0 €";
+      subEl.textContent = "0 €";
+      totalEl.textContent = "0 €";
+      return;
+    }
+    const n = nightsBetween(start, end);
+    const price = Number(roomEl.value);
+    nightsEl.textContent = String(n);
+    ppnEl.textContent = `${price} €`;
+    const total = n * price;
+    subEl.textContent = `${total} €`;
+    totalEl.textContent = `${total} €`;
+  }
+
+  clearBtn.onclick = ()=>{
+    start=null; end=null;
+    checkinEl.value=""; checkoutEl.value="";
+    calc();
+    draw();
+  };
+
+  payBtn.onclick = async ()=>{
+    if(!start || !end){
+      alert("Selecciona entrada y salida.");
+      return;
+    }
+    // crear sesión Stripe Checkout
+    const payload = {
+      checkin: start,
+      checkout: end,
+      roomPrice: Number(roomEl.value),
+      guests: Number(guestsEl.value)
+    };
+
+    payBtn.disabled = true;
+    payBtn.textContent = "Redirigiendo…";
+
+    const r = await fetch("/api/create-checkout-session", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await r.json();
+
+    if(!r.ok){
+      payBtn.disabled = false;
+      payBtn.textContent = "Pago";
+      alert(data.error || "Error creando pago");
+      // refrescar ocupadas por si alguien pagó antes
+      await fetchReserved();
+      draw();
+      return;
+    }
+
+    window.location.href = data.url;
+  };
+
+  prev.onclick = async ()=>{
+    view.setMonth(view.getMonth()-1);
+    await fetchReserved();
+    draw();
+  };
+  next.onclick = async ()=>{
+    view.setMonth(view.getMonth()+1);
+    await fetchReserved();
+    draw();
+  };
+
+  roomEl.onchange = calc;
+  guestsEl.onchange = calc;
+
+  (async function init(){
+    await fetchReserved();
+    draw();
+  })();
+</script>
 </body>
 </html>
