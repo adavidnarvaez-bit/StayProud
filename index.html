@@ -19,8 +19,10 @@
       color: #124045;
       height: 100vh;
       overflow: hidden;
+      overflow-x: hidden;
     }
 
+    /* BARRA SUPERIOR */
     header {
       background-color: #00bfa6;
       color: #fff;
@@ -42,19 +44,22 @@
       text-decoration: underline;
     }
 
+    /* CONTENEDOR PRINCIPAL (2 columnas) */
     .container {
       display: grid;
       grid-template-columns: 1fr 1fr;
       height: calc(100vh - 70px);
     }
 
+    /* PANEL IZQUIERDO */
     .left-panel {
-      background: white;
+      background-color: white;
+      color: #00bfa6;
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding: 60px;
-      color: #00bfa6;
+      text-align: left;
     }
 
     .left-panel img {
@@ -64,20 +69,23 @@
 
     .left-panel h1 {
       font-size: 32px;
+      font-weight: 700;
       margin-bottom: 18px;
     }
 
     .left-panel p {
-      max-width: 420px;
+      font-size: 16px;
       line-height: 1.5;
+      max-width: 420px;
       color: #124045;
     }
 
+    /* PANEL DERECHO — PEGADO ARRIBA */
     .right-panel {
-      background: #fff;
+      background: #ffffff;
       display: flex;
-      justify-content: center;
       align-items: flex-start;
+      justify-content: center;
       padding: 40px;
       padding-top: 0;
       overflow-y: auto;
@@ -90,10 +98,10 @@
       padding: 30px;
       border-radius: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      margin-top: 12px;
+      margin-top: 12px; /* aire limpio debajo de la barra */
     }
 
-    h2 {
+    .form-card h2 {
       text-align: center;
       font-size: 22px;
       margin-bottom: 10px;
@@ -110,6 +118,7 @@
       font-size: 13px;
       display: block;
       margin-bottom: 5px;
+      color: #335052;
     }
 
     input {
@@ -117,22 +126,22 @@
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #d4dee0;
-      margin-bottom: 15px;
       font-size: 14px;
+      margin-bottom: 15px;
+      outline: none;
     }
 
     input:focus {
       border-color: #00bfa6;
-      box-shadow: 0 0 0 2px rgba(0,191,166,0.2);
-      outline: none;
+      box-shadow: 0 0 0 2px rgba(0,191,166,0.20);
     }
 
     .button {
       width: 100%;
       padding: 10px;
+      border: none;
       background: #00bfa6;
       color: white;
-      border: none;
       border-radius: 999px;
       font-size: 16px;
       font-weight: 700;
@@ -140,11 +149,51 @@
       margin-bottom: 15px;
     }
 
+    .button:hover {
+      filter: brightness(0.95);
+    }
+
+    /* BOTONES SOCIALES */
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .social-btn {
+      width: 100%;
+      border: 1px solid #00bfa6;
+      border-radius: 999px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      color: #00bfa6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .social-btn:hover {
+      background: #00bfa6;
+      color: #fff;
+    }
+
     .divider {
       text-align: center;
-      margin: 10px 0;
       font-size: 13px;
       color: #88989b;
+      margin: 10px 0;
       position: relative;
     }
 
@@ -161,45 +210,25 @@
     .divider::before { left: 0; }
     .divider::after { right: 0; }
 
-    .social-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .social-btn {
-      border: 1px solid #00bfa6;
-      border-radius: 999px;
-      padding: 10px;
-      background: white;
-      color: #00bfa6;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .social-btn img {
-      width: 20px;
-      height: 20px;
-    }
-
     .hidden {
       display: none;
     }
 
     .switch {
       text-align: center;
-      margin-top: 15px;
       font-size: 14px;
+      margin-top: 15px;
     }
 
     .switch a {
       color: #00bfa6;
-      font-weight: 600;
       cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .switch a:hover {
+      text-decoration: underline;
     }
 
     @media (max-width: 900px) {
@@ -210,12 +239,25 @@
       .container {
         grid-template-columns: 1fr;
         height: auto;
+        overflow-y: auto;
       }
 
       .left-panel {
-        align-items: center;
         text-align: center;
+        align-items: center;
         padding: 40px 20px;
+      }
+
+      .right-panel {
+        padding: 20px;
+      }
+
+      header {
+        padding: 14px 20px;
+      }
+
+      header nav a {
+        margin-left: 14px;
       }
     }
   </style>
@@ -223,129 +265,198 @@
 
 <body>
 
-<header>
-  <div style="font-size:20px;font-weight:700;">StayProud</div>
-  <nav>
-    <a href="login.html">Inicio</a>
-    <a href="login.html">Alojamientos</a>
-    <a href="nosotros.html">Nosotros</a>
-    <a href="contacto.html">Contáctanos</a>
-  </nav>
-</header>
+  <header>
+    <div class="logo" style="font-size:20px; font-weight:700;">StayProud</div>
+    <nav>
+      <a href="login.html">Inicio</a>
+      <a href="login.html">Alojamientos</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="login.html">Contáctanos</a>
+    </nav>
+  </header>
 
-<div class="container">
+  <div class="container">
 
-  <div class="left-panel">
-    <img src="img/logo.png.jpg" alt="StayProud">
-    <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
-    <p>
-      En StayProud creemos que viajar es sentirse libre, auténtico y bienvenido.
-      Encuentra alojamientos donde el respeto y la diversidad son parte del hogar.
-    </p>
-  </div>
-
-  <div class="right-panel">
-    <div class="form-card">
-
-      <!-- LOGIN -->
-      <div id="loginForm">
-        <h2>Iniciar sesión</h2>
-        <p>Accede a tu cuenta de huésped</p>
-
-        <label>Correo electrónico</label>
-        <input type="email" id="loginEmail">
-
-        <label>Contraseña</label>
-        <input type="password" id="loginPassword">
-
-        <button class="button" onclick="handleLogin()">INICIAR SESIÓN</button>
-
-        <div class="divider">O</div>
-
-        <div class="social-buttons">
-          <button class="social-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg">Facebook</button>
-          <button class="social-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">Google</button>
-        </div>
-
-        <div class="switch">
-          ¿No tienes cuenta? <a onclick="showRegister()">Regístrate</a>
-        </div>
-      </div>
-
-      <!-- REGISTRO -->
-      <div id="registerForm" class="hidden">
-        <h2>Crear cuenta</h2>
-        <p>Regístrate como huésped</p>
-
-        <label>Nombre completo</label>
-        <input type="text" id="regName">
-
-        <label>Correo electrónico</label>
-        <input type="email" id="regEmail">
-
-        <label>Contraseña</label>
-        <input type="password" id="regPassword">
-
-        <button class="button" onclick="handleRegister()">CREAR CUENTA</button>
-
-        <div class="switch">
-          ¿Ya tienes cuenta? <a onclick="showLogin()">Iniciar sesión</a>
-        </div>
-      </div>
-
+    <!-- IZQUIERDA -->
+    <div class="left-panel">
+      <img class="hero-logo" src="img/logo.png.jpg" alt="StayProud logo grande" />
+      <h1>VIVE TU ORGULLO EN CADA DESTINO</h1>
+      <p>
+        En StayProud creemos que viajar es más que moverse, es sentirse libre,
+        auténtico y bienvenido. Encuentra alojamientos donde el respeto y la diversidad
+        son parte del hogar.
+      </p>
     </div>
+
+    <!-- DERECHA -->
+    <div class="right-panel">
+      <div class="form-card">
+
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <h2>Iniciar sesión</h2>
+          <p>Accede a tu cuenta de huésped para reservar.</p>
+
+          <label for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" placeholder="tucorreo@example.com">
+
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="••••••••">
+
+          <button class="button" onclick="handleLogin()">INICIAR SESIÓN</button>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn" type="button">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
+              Continuar con Facebook
+            </button>
+
+            <button class="social-btn" type="button">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+              Continuar con Google
+            </button>
+          </div>
+
+          <div class="switch">
+            ¿No tienes cuenta? <a onclick="showRegister()">Regístrate</a>
+          </div>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="registerForm" class="hidden">
+          <h2>Crear cuenta</h2>
+          <p>Regístrate como huésped para poder reservar.</p>
+
+          <label for="regName">Nombre completo</label>
+          <input type="text" id="regName" placeholder="Tu nombre">
+
+          <label for="regEmail">Correo electrónico</label>
+          <input type="email" id="regEmail" placeholder="tucorreo@example.com">
+
+          <label for="regPassword">Contraseña</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres">
+
+          <button class="button" onclick="handleRegister()">CREAR CUENTA</button>
+
+          <div class="divider">O</div>
+
+          <div class="social-buttons">
+            <button class="social-btn" type="button">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
+              Registrarse con Facebook
+            </button>
+
+            <button class="social-btn" type="button">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+              Registrarse con Google
+            </button>
+          </div>
+
+          <div class="switch">
+            ¿Ya tienes cuenta? <a onclick="showLogin()">Iniciar sesión</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
-</div>
 
-<script>
-  function getUsersFromStorage() {
-    return JSON.parse(localStorage.getItem("stayProudUsers")) || [];
-  }
+  <script>
+    // --- UTILIDADES PARA GUARDAR USUARIOS EN localStorage ---
 
-  function saveUsersToStorage(users) {
-    localStorage.setItem("stayProudUsers", JSON.stringify(users));
-  }
-
-  function showRegister() {
-    loginForm.classList.add("hidden");
-    registerForm.classList.remove("hidden");
-  }
-
-  function showLogin() {
-    registerForm.classList.add("hidden");
-    loginForm.classList.remove("hidden");
-  }
-
-  function handleLogin() {
-    const email = loginEmail.value.trim();
-    const pass = loginPassword.value.trim();
-
-    const users = getUsersFromStorage();
-    const user = users.find(u => u.email === email && u.password === pass);
-
-    if (!user) {
-      alert("Credenciales incorrectas");
-      return;
+    function getUsersFromStorage() {
+      const data = localStorage.getItem("stayProudUsers");
+      if (!data) return [];
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        console.error("Error leyendo usuarios", e);
+        return [];
+      }
     }
 
-    localStorage.setItem("stayProudUser", email);
-    window.location.href = "reservas.html";
-  }
+    function saveUsersToStorage(users) {
+      localStorage.setItem("stayProudUsers", JSON.stringify(users));
+    }
 
-  function handleRegister() {
-    const users = getUsersFromStorage();
+    // --- CAMBIO ENTRE LOGIN / REGISTRO ---
 
-    users.push({
-      name: regName.value.trim(),
-      email: regEmail.value.trim(),
-      password: regPassword.value.trim()
-    });
+    function showRegister() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("registerForm").classList.remove("hidden");
+    }
 
-    saveUsersToStorage(users);
-    localStorage.setItem("stayProudUser", regEmail.value.trim());
-    window.location.href = "menu.html";
-  }
-</script>
+    function showLogin() {
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    // --- INICIAR SESIÓN ---
+
+    function handleLogin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        alert("Por favor escribe tu correo y contraseña.");
+        return;
+      }
+
+      const users = getUsersFromStorage();
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (!user) {
+        alert("Correo o contraseña incorrectos, o el usuario no está registrado.");
+        return;
+      }
+
+      // Guardamos el usuario conectado
+      localStorage.setItem("stayProudUser", user.email);
+      window.location.href = "reservas.html";
+    }
+
+    // --- REGISTRO ---
+
+    function handleRegister() {
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPassword").value.trim();
+
+      if (!name || !email || pass.length < 6) {
+        alert("Completa todos los campos. La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+
+      const users = getUsersFromStorage();
+
+      // Verificar si ya existe ese correo
+      const existing = users.find(u => u.email === email);
+      if (existing) {
+        alert("Ya existe una cuenta con ese correo. Intenta iniciar sesión.");
+        showLogin();
+        return;
+      }
+
+      // Crear nuevo usuario
+      const newUser = {
+        name: name,
+        email: email,
+        password: pass // Demo: en producción se cifra/hashea
+      };
+
+      users.push(newUser);
+      saveUsersToStorage(users);
+
+      // Guardar usuario conectado
+      localStorage.setItem("stayProudUser", email);
+
+      alert("Cuenta creada y guardada. ¡Bienvenido a StayProud!");
+      window.location.href = "reservas.html";
+    }
+  </script>
 
 </body>
 </html>
